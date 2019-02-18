@@ -18,25 +18,25 @@
 		<table class="table table-hover table-striped">
 			<colgroup>
 				<col class="icon_width">
-				<col/>
-				<col/>
-				<col/>
+				<col class="col-lg-4">
+				<col class="col-lg-4">
+				<col class="col-lg-4">
 			</colgroup>
 			<thead>
 				<tr>
-					<th align="center"><?=$this->getTrans('place') ?></th>
-					<th align="center"><?=$this->getTrans('interpret') ?></th>
-					<th align="center"><?=$this->getTrans('songtitel') ?></th>
-					<th align="center"><?=$this->getTrans('vote') ?></th>
+					<th><?=$this->getTrans('place') ?></th>
+					<th><?=$this->getTrans('interpret') ?></th>
+					<th><?=$this->getTrans('songtitel') ?></th>
+					<th><?=$this->getTrans('vote') ?></th>
 				</tr>
 			</thead>
 			<tbody>
 				<?php foreach ($this->get('entries') as $entry): ?>
 				<tr>
-					<td align="center"><?=$platz ?></td>
-					<td align="center"><?=$this->escape($entry->getInterpret()) ?></td>
-					<td align="center"><?=$this->escape($entry->getSongTitel()) ?></td>
-					<td align="center"><?=$this->get('hoererchartsMapper')->getStars($entry->getVotes(), $this->get('config')) ?></td>
+					<td><?=$platz ?></td>
+					<td><?=$this->escape($entry->getInterpret()) ?></td>
+					<td><?=$this->escape($entry->getSongTitel()) ?></td>
+					<td><?=$this->get('hoererchartsMapper')->getStars($entry->getVotes(), $this->get('config')) ?></td>
 				</tr>
 				<?php
 				$platz++;
@@ -63,27 +63,26 @@
 			<table class="table table-hover table-striped">
 				<colgroup>
 					<col class="icon_width">
-					<col/>
-					<col/>
+					<col class="col-lg-6">
+					<col class="col-lg-6">
 				</colgroup>
 				<thead>
 					<tr>
-						<th align="center">&nbsp;</th>
-						<th align="center"><?=$this->getTrans('interpret') ?></th>
-						<th align="center"><?=$this->getTrans('songtitel') ?></th>
+						<th>&nbsp;</th>
+						<th><?=$this->getTrans('interpret') ?></th>
+						<th><?=$this->getTrans('songtitel') ?></th>
 					</tr>
 				</thead>
 				<tbody>
 					<?php foreach ($this->get('entries') as $entry): ?>
 					<tr>
-						<td align="center"><input type="radio" name="hoerercharts-d" value="<?=$entry->getId() ?>"></td>
-						<td align="center"><?=$this->escape($entry->getInterpret()) ?></td>
-						<td align="center"><?=$this->escape($entry->getSongTitel()) ?></td>
+						<td><input type="radio" name="hoerercharts-d" value="<?=$entry->getId() ?>"></td>
+						<td><?=$this->escape($entry->getInterpret()) ?></td>
+						<td><?=$this->escape($entry->getSongTitel()) ?></td>
 					</tr>
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-
 
 			<div class="form-group">
 				<div class="col-lg-offset-2 col-lg-8">

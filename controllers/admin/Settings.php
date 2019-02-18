@@ -50,7 +50,7 @@ class Settings extends \Ilch\Controller\Admin
     public function indexAction() 
     {
 		$hoererchartsMapper = new HoererChartsMapper();
-		
+
         $this->getLayout()->getAdminHmenu()
             ->add($this->getTranslator()->trans('hoerercharts'), ['controller' => 'index', 'action' => 'index'])
             ->add($this->getTranslator()->trans('settings'), ['action' => 'index']);

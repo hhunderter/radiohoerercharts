@@ -14,13 +14,14 @@ class HoererChartsUserVotes extends \Ilch\Model
      * @var int
      */
     protected $id;
+
 	/**
      * The User_Id.
      *
      * @var int
      */
     protected $user_id;
-	
+
 	/**
      * Gets the Id.
      *
@@ -42,7 +43,7 @@ class HoererChartsUserVotes extends \Ilch\Model
 
         return $this;
     }
-	
+
 	/**
      * Gets the User_Id.
      *

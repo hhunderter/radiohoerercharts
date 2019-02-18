@@ -42,7 +42,7 @@ class Index extends \Ilch\Controller\Admin
                 'url' => $this->getLayout()->getUrl(['controller' => 'settings', 'action' => 'index'])
             ]
         ];
-		
+
 		if ($this->getRequest()->getActionName() == 'treat') {
             $items[0][0]['active'] = true;
         } else {
@@ -63,7 +63,7 @@ class Index extends \Ilch\Controller\Admin
         $this->getLayout()->getAdminHmenu()
                 ->add($this->getTranslator()->trans('hoerercharts'), ['action' => 'index'])
                 ->add($this->getTranslator()->trans('manage'), ['action' => 'index']);
-				
+
 		$this->getView()->set('hoererchartsMapper', $hoererchartsMapper);
 		$this->getView()->set('config', array(	'showstars'=>$this->getConfig()->get('radio_hoerercharts_showstars'),
 												'Star1'=>$this->getConfig()->get('radio_hoerercharts_Star1'),
@@ -85,11 +85,11 @@ class Index extends \Ilch\Controller\Admin
 			$this->getView()->set('entries', $hoererchartsMapper->getEntries([]));
 		}
     }
-	
+
 	public function treatAction()
     {
 		$hoererchartsMapper = new HoererChartsMapper();
-		
+
 		if ($hoererchartsMapper->checkDB()){
 			if ($this->getRequest()->getParam('id')) {
 				$this->getLayout()->getAdminHmenu()
@@ -97,7 +97,7 @@ class Index extends \Ilch\Controller\Admin
 					->add($this->getTranslator()->trans('manage'), ['action' => 'index'])
 					->add($this->getTranslator()->trans('edit'), ['action' => 'treat']);
 
-				$this->getView()->set('entrie', $hoererchartsMapper->getEntriesById($this->getRequest()->getParam('id')));
+				$this->getView()->set('entrie', $hoererchartsMapper->getEntryById($this->getRequest()->getParam('id')));
 			}  else {
 				$this->getLayout()->getAdminHmenu()
 					->add($this->getTranslator()->trans('hoerercharts'), ['action' => 'index'])
@@ -136,13 +136,12 @@ class Index extends \Ilch\Controller\Admin
 			$this->redirect(['action' => 'index']);
 		}
     }
-	
+
 	public function delAction()
     {
 		$hoererchartsMapper = new HoererChartsMapper();
 		if ($hoererchartsMapper->checkDB()){
 			if ($this->getRequest()->isSecure()) {
-				
 				$hoererchartsMapper->delete($this->getRequest()->getParam('id'));
 
 				$this->addMessage('deleteSuccess');
@@ -150,12 +149,12 @@ class Index extends \Ilch\Controller\Admin
 		}
         $this->redirect(['action' => 'index']);
     }
-	
+
 	public function resetAction()
     {
 		$hoererchartsMapper = new HoererChartsMapper();
 		$hoererchartsuservotesMapper = new HoererChartsUserVotesMapper();
-		
+
 		if ($hoererchartsMapper->checkDB()){
 			if ($this->getRequest()->isSecure()) {
 				$hoererchartsMapper->reset();

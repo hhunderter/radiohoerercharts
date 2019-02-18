@@ -23,7 +23,7 @@ class HoererChartsUserVotes extends \Ilch\Mapper
             ->from('radio_hoerercharts_uservotes')
             ->where($where)
             ->order(['id' => 'DESC']);
-        
+
         if ($pagination !== null) {
             $select->limit($pagination->getLimit())
                 ->useFoundRows();
@@ -70,7 +70,14 @@ class HoererChartsUserVotes extends \Ilch\Mapper
         }
 		return true;
     }
-	public function save_user(EntriesModel $model)
+
+    /**
+     *
+     *
+     * @param EntriesModel $model
+     * @return bool
+     */
+    public function save_user(EntriesModel $model)
     {
         $fields = [
             'id' => $model->getId()
@@ -101,13 +108,20 @@ class HoererChartsUserVotes extends \Ilch\Mapper
             ->where(['id' => $id])
             ->execute();
     }
-	public function delete_user($user_id)
+
+    /**
+     * Delete user vote with specific id.
+     *
+     * @param $user_id
+     * @return \Ilch\Database\Mysql\Result|int
+     */
+    public function delete_user($user_id)
     {
         return $this->db()->delete('radio_hoerercharts_uservotes')
             ->where(['user_id' => $user_id])
             ->execute();
     }
-	
+
 	/**
      * Reset the Vote counts.
      *

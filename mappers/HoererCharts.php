@@ -57,21 +57,21 @@ class HoererCharts extends \Ilch\Mapper
 
         return $entry;
     }
-	
+
 	/**
-     * Gets the Entries by given ID.
+     * Gets the entry by given ID.
      *
-     * @param array $id
-     * @return EntriesModel[]
+     * @param int $id
+     * @return null|EntriesModel
      */
-	public function getEntriesById($id = '')
+	public function getEntryById($id)
     {
 		$entryRow = $this->db()->select('*')
             ->from('radio_hoerercharts')
             ->where(['id' => $id])
             ->execute()
             ->fetchAssoc();
-		
+
 		if (empty($entryRow)) {
             return null;
         }
@@ -84,7 +84,7 @@ class HoererCharts extends \Ilch\Mapper
 
         return $entryModel;
 	}
-	
+
 	/**
      * Gets the Entries by param.
      *
@@ -99,7 +99,7 @@ class HoererCharts extends \Ilch\Mapper
             ->from('radio_hoerercharts')
             ->where($where)
             ->order($orderBy);
-        
+
         if ($pagination !== null) {
             $select->limit($pagination->getLimit())
                 ->useFoundRows();
@@ -123,36 +123,36 @@ class HoererCharts extends \Ilch\Mapper
 
         return $entry;
 	}
-	
-	/**
+
+    /**
      * Updates Entrie with given id.
      *
-     * @param integer $id
-	 * @return boolean
+     * @param int $id
+     * @param int $votes_man
+     * @return boolean
      */
     public function update($id, $votes_man)
     {
 		if ($votes_man != -1){
-			$votes = (int)$votes_man;
-			$status_now = $votes;
+            $votes_now = (int)$votes_man;
 		}else{
 			$votes = (int) $this->db()->select('votes')
 							->from('radio_hoerercharts')
 							->where(['id' => $id])
 							->execute()
 							->fetchCell();
-							
+
 			$votes_now = $votes + 1;
 		}
 
-		$test = $this->db()->update('radio_hoerercharts')
+		$this->db()->update('radio_hoerercharts')
 			->values(['votes' => $votes_now])
 			->where(['id' => $id])
 			->execute();
-			
+
 		return true;
     }
-	
+
 	/**
      * Gets the hidden copyright text.
      *
@@ -187,7 +187,7 @@ class HoererCharts extends \Ilch\Mapper
                 ->values($fields)
                 ->execute();
         }
-		
+
 		return true;
     }
 
@@ -203,7 +203,7 @@ class HoererCharts extends \Ilch\Mapper
             ->where(['id' => $id])
             ->execute();
     }
-	
+
 	/**
      * Reset the Vote counts.
      *
@@ -211,10 +211,10 @@ class HoererCharts extends \Ilch\Mapper
      */
 	public function reset()
     {
-		$sql = '	UPDATE `[prefix]_radio_hoerercharts` SET votes=0;';
+		$sql = 'UPDATE `[prefix]_radio_hoerercharts` SET votes=0;';
 		return $this->db()->queryMulti($sql);
     }
-	
+
 	/**
      * Reset the Vote counts.
      *
@@ -223,7 +223,7 @@ class HoererCharts extends \Ilch\Mapper
 	 * @param boolean $showstars
 	 * @return boolean
      */
-	public function getStars($votes = 0, $config = '', $showstars = false)
+	public function getStars($votes = 0, $config = null, $showstars = false)
     {
 		if (is_array($config) and ($config['showstars'] or $showstars)){
 			if (empty($votes)) { $stars = '<span style="color:#CCCCCC; font-size:18px; font-weight:bold;">*****</span>'; }

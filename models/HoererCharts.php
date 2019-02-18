@@ -14,18 +14,21 @@ class HoererCharts extends \Ilch\Model
      * @var int
      */
     protected $id;
+
 	/**
      * The Interpret.
      *
      * @var string
      */
     protected $interpret;
+
 	/**
      * The Songtitel.
      *
      * @var string
      */
     protected $songtitel;
+
 	/**
      * The Votes.
      *
@@ -54,7 +57,7 @@ class HoererCharts extends \Ilch\Model
 
         return $this;
     }
-	
+
 	/**
      * Gets the Interpret.
      *
@@ -76,7 +79,7 @@ class HoererCharts extends \Ilch\Model
 
         return $this;
     }
-	
+
 	/**
      * Gets the SongTitel.
      *
@@ -98,7 +101,7 @@ class HoererCharts extends \Ilch\Model
 
         return $this;
     }
-	
+
 	/**
      * Gets the Votes.
      *
@@ -111,7 +114,7 @@ class HoererCharts extends \Ilch\Model
 	/**
      * Sets the Votes.
      *
-     * @param int $Votes
+     * @param int $votes
      * @return $this
      */
     public function setVotes($votes)

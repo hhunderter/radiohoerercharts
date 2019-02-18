@@ -31,22 +31,19 @@ class Index extends \Ilch\Controller\Frontend
 												'Star3'=>$this->getConfig()->get('radio_hoerercharts_Star3'),
 												'Star4'=>$this->getConfig()->get('radio_hoerercharts_Star4'),
 												'Star5'=>$this->getConfig()->get('radio_hoerercharts_Star5')));
-		
+
 		if ($hoererchartsMapper->checkDB()){
 			if (!$this->getUser() or ($this->getUser() and $hoererchartsuservotesMapper->getEntries(['user_id'=>$this->getUser()->getId()])) ){
 				$this->getView()->set('voted', true);
-				
 				$this->getView()->set('entries', $hoererchartsMapper->getEntriesBy([], ['votes' => 'DESC','id' => 'DESC']));
 			}else{
-				
 				if ($this->getRequest()->getPost('saveHoererCharts')) {
-
 					$validation_indb = Validation::create($this->getRequest()->getPost(), ['hoerercharts-d' => 'required|unique:radio_hoerercharts,id']);
 					$validation = Validation::create($this->getRequest()->getPost(), ['hoerercharts-d' => 'required|numeric']);
 
 					if ($validation->isValid() and !$validation_indb->isValid()) {
 						$hoererchartsMapper->update($this->getRequest()->getPost('hoerercharts-d'), -1);
-						
+
 						$model = new HoererChartsUserVotesModel();
 						$model->setUser_Id($this->getUser()->getId());
 						$hoererchartsuservotesMapper->save($model);
@@ -63,9 +60,8 @@ class Index extends \Ilch\Controller\Frontend
 						->withErrors($validation->getErrorBag())
 						->to(['action' => 'index']);
 				}
-				
+
 				$this->getView()->set('gettext', (!empty($this->getRequest()->getParam('copy'))?$hoererchartsMapper->gettext():''));
-				
 				$this->getView()->set('entries', $hoererchartsMapper->getEntries([]));
 			}
 		}
