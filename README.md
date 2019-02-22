@@ -1,6 +1,6 @@
 # radiohoerercharts
 
-Meinungsmodul für ilch 2
+Hörer charts Modul für ilch 2
 
 Dieses Modul gibt Ihren Mitgliedern die Möglichkeit, auf eine eigene Chart-Liste abzustimmen diese Sie selbst erstellen und verwalten können.
 
