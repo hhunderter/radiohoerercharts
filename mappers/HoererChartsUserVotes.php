@@ -40,6 +40,7 @@ class HoererChartsUserVotes extends \Ilch\Mapper
             $entryModel = new EntriesModel();
             $entryModel->setId($entries['id']);
             $entryModel->setUser_Id($entries['user_id']);
+			$entryModel->setSessionId($entries['session_id']);
             $entry[] = $entryModel;
         }
 
@@ -55,7 +56,8 @@ class HoererChartsUserVotes extends \Ilch\Mapper
     public function save(EntriesModel $model)
     {
         $fields = [
-            'user_id' => $model->getUser_Id()
+            'user_id' => $model->getUser_Id(),
+			'session_id' => $model->getSessionId()
         ];
 
         if ($model->getId()) {
@@ -83,7 +85,7 @@ class HoererChartsUserVotes extends \Ilch\Mapper
             'id' => $model->getId()
         ];
 
-        if ($model->getId()) {
+        if ($model->getUser_Id()) {
             $this->db()->update('radio_hoerercharts_uservotes')
                 ->values($fields)
                 ->where(['user_id' => $model->getUser_Id()])
@@ -110,7 +112,7 @@ class HoererChartsUserVotes extends \Ilch\Mapper
     }
 
     /**
-     * Delete user vote with specific id.
+     * Delete user vote with specific user_id.
      *
      * @param $user_id
      * @return \Ilch\Database\Mysql\Result|int
@@ -120,6 +122,53 @@ class HoererChartsUserVotes extends \Ilch\Mapper
         return $this->db()->delete('radio_hoerercharts_uservotes')
             ->where(['user_id' => $user_id])
             ->execute();
+    }
+	
+	/**
+     * Delete user vote with specific session_id.
+     *
+     * @param $session_id
+     * @return \Ilch\Database\Mysql\Result|int
+     */
+    public function delete_session($session_id)
+    {
+        return $this->db()->delete('radio_hoerercharts_uservotes')
+            ->where(['session_id' => $session_id])
+            ->execute();
+    }
+	
+	/**
+     * Delete user vote with specific session_id.
+     *
+     * @param $session_id
+     * @return \Ilch\Database\Mysql\Result|int
+     */
+    public function is_voted($User = null, $guestallow = false)
+    {
+		$User_Id = 0;
+		if ($User) $User_Id = $User->getId();
+		
+		$voteId = (int) $this->db()->select('id')
+            ->from('radio_hoerercharts_uservotes')
+            ->where(['user_id >' => 0, 'user_id' => $User_Id])
+            ->orWhere(['session_id' => session_id()])
+            ->execute()
+            ->fetchCell();
+			
+		if ($voteId){
+			$entryModel = new EntriesModel();
+			$entryModel->setId($voteId);
+			if ($User_Id) $entryModel->setUser_Id($User_Id);
+			$entryModel->setSessionId(session_id());
+			$this->save($entryModel);	
+			
+			return true;
+		}else{
+			if (!$User_Id and !$guestallow)
+				return true;
+			else
+				return false;
+		}
     }
 
 	/**

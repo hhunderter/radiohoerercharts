@@ -23,6 +23,8 @@ ie new artists may be added or older titles are hidden, etc.<br><br>
 	'addButton' => 'Send',
     'noentriesadmin' => 'No entries',
 	'reset' => 'Reset to default',
+	'guestallow' => 'Guest ON / OFF:',
+	'guestallowText' => 'Allow guests to vote? If you select "No", only User can vote.',
 	'showstars' => 'STARS ON / OFF:',
 	'showstarsText' => 'Votes as Star ads? If you select "No", the votes will be displayed as a number.',
 	

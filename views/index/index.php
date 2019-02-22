@@ -1,10 +1,13 @@
+<?php
+$hoererchartsconfig = $this->get('config');
+?>
 <h1>
     <?=$this->getTrans('hoerercharts').$this->get('gettext') ?>
 </h1>
 <div class="teams" id="hoerercharts-container">
 	<div class="col-lg-12" id="hoerercharts-form-container">
 	<?php if ($this->get('voted')): ?>
-		<?php if (!$this->getUser()): ?>
+		<?php if (!$this->getUser() and !$hoererchartsconfig['guestallow']): ?>
 		<?=$this->getTrans('nouser') ?>
 		<?php if ($this->get('regist_accept') == '1'): ?>
         <br><a href="<?=$this->getUrl(['module' => 'user', 'controller' => 'regist', 'action' => 'index']); ?>">--<?=$this->getTrans('register'); ?>--</a>
@@ -36,7 +39,7 @@
 					<td><?=$platz ?></td>
 					<td><?=$this->escape($entry->getInterpret()) ?></td>
 					<td><?=$this->escape($entry->getSongTitel()) ?></td>
-					<td><?=$this->get('hoererchartsMapper')->getStars($entry->getVotes(), $this->get('config')) ?></td>
+					<td><?=$this->get('hoererchartsMapper')->getStars($entry->getVotes(), $hoererchartsconfig) ?></td>
 				</tr>
 				<?php
 				$platz++;

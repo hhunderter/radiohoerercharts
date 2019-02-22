@@ -1,6 +1,22 @@
 <h1><?=$this->getTrans('menuSettings') ?></h1>
 <form class="form-horizontal" method="POST" action="">
     <?=$this->getTokenField() ?>
+	<h1><?=$this->getTrans('guestallow') ?></h1>
+	<div class="form-group <?=$this->validation()->hasError('guestallow') ? 'has-error' : '' ?>">
+        <label for="guestallow" class="col-lg-2 control-label">
+            <?=$this->getTrans('guestallowText') ?>:
+        </label>
+        <div class="col-lg-1">
+			<div class="flipswitch">
+				<input type="radio" class="flipswitch-input" id="guestallow-on" name="guestallow" value="1" <?php if ($this->get('guestallow') == '1') { echo 'checked="checked"'; } ?> />
+				<label for="guestallow-on" class="flipswitch-label flipswitch-label-on"><?=$this->getTrans('on') ?></label>
+				<input type="radio" class="flipswitch-input" id="guestallow-off" name="guestallow" value="0" <?php if ($this->get('guestallow') != '1') { echo 'checked="checked"'; } ?> />
+				<label for="guestallow-off" class="flipswitch-label flipswitch-label-off"><?=$this->getTrans('off') ?></label>
+				<span class="flipswitch-selection"></span>
+			</div>
+		</div>
+    </div>
+	
 	<h1><?=$this->getTrans('showstars') ?></h1>
 	<div class="form-group <?=$this->validation()->hasError('showstars') ? 'has-error' : '' ?>">
         <label for="showstars" class="col-lg-2 control-label">
@@ -16,7 +32,6 @@
 			</div>
 		</div>
     </div>
-	
     <h1><?=$this->getTrans('Star1') ?></h1>
     <div class="form-group <?=$this->validation()->hasError('Star1') ? 'has-error' : '' ?>">
         <label for="Star1" class="col-lg-2 control-label">

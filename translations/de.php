@@ -23,6 +23,8 @@ Wir, das gesamte Radio-Team, wünschen Ihnen viel Spaß und drücken die Daumen 
 	'addButton' => 'Absenden',
     'noentriesadmin' => 'keine Einträge',
 	'reset' => 'Zurücksetzen',
+	'guestallow' => 'Gäste EIN / AUSSCHALTEN:',
+	'guestallowText' => 'Gäste erlauben, abzustimmen? Wenn Sie "Nein" auswählen, können nur Benutzer abstimmen.',
 	'showstars' => 'STERNE EIN / AUSSCHALTEN:',
 	'showstarsText' => 'Stimmen als Stern-Anzeigen? Wenn Sie "Nein" wählen, werden die Stimmen als Zahl angezeigt.',
 	

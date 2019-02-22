@@ -58,6 +58,7 @@ class Settings extends \Ilch\Controller\Admin
 		if ($hoererchartsMapper->checkDB()){
 			if ($this->getRequest()->isPost()) {
 				$validation = Validation::create($this->getRequest()->getPost(), [
+					'guestallow'     => 'required|numeric|min:0|max:1',
 					'showstars'     => 'required|numeric|min:0|max:1',
 					'Star1'         => 'required|numeric|min:1',
 					'Star2'         => 'required|numeric|min:1',
@@ -67,7 +68,8 @@ class Settings extends \Ilch\Controller\Admin
 				]);
 
 				if ($validation->isValid()) {
-					$this->getConfig()->set('radio_hoerercharts_showstars', $this->getRequest()->getPost('showstars'))
+					$this->getConfig()->set('radio_hoerercharts_Guest_Allow', $this->getRequest()->getPost('guestallow'))
+						->set('radio_hoerercharts_showstars', $this->getRequest()->getPost('showstars'))
 						->set('radio_hoerercharts_Star1', $this->getRequest()->getPost('Star1'))
 						->set('radio_hoerercharts_Star2', $this->getRequest()->getPost('Star2'))
 						->set('radio_hoerercharts_Star3', $this->getRequest()->getPost('Star3'))
@@ -86,7 +88,8 @@ class Settings extends \Ilch\Controller\Admin
 					->to(['action' => 'index']);
 			}
 
-			$this->getView()->set('showstars', $this->getConfig()->get('radio_hoerercharts_showstars'))
+			$this->getView()->set('guestallow', $this->getConfig()->get('radio_hoerercharts_Guest_Allow'))
+				->set('showstars', $this->getConfig()->get('radio_hoerercharts_showstars'))
 				->set('Star1', $this->getConfig()->get('radio_hoerercharts_Star1'))
 				->set('Star2', $this->getConfig()->get('radio_hoerercharts_Star2'))
 				->set('Star3', $this->getConfig()->get('radio_hoerercharts_Star3'))

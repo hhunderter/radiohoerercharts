@@ -25,15 +25,17 @@ class Index extends \Ilch\Controller\Frontend
 
 		$this->getView()->set('regist_accept', $this->getConfig()->get('regist_accept'));
 		$this->getView()->set('hoererchartsMapper', $hoererchartsMapper);
-		$this->getView()->set('config', array(	'showstars'=>$this->getConfig()->get('radio_hoerercharts_showstars'),
-												'Star1'=>$this->getConfig()->get('radio_hoerercharts_Star1'),
-												'Star2'=>$this->getConfig()->get('radio_hoerercharts_Star2'),
-												'Star3'=>$this->getConfig()->get('radio_hoerercharts_Star3'),
-												'Star4'=>$this->getConfig()->get('radio_hoerercharts_Star4'),
-												'Star5'=>$this->getConfig()->get('radio_hoerercharts_Star5')));
+		$hoererchartsconfig = array(	'guestallow'=>$this->getConfig()->get('radio_hoerercharts_Guest_Allow'),
+										'showstars'=>$this->getConfig()->get('radio_hoerercharts_showstars'),
+										'Star1'=>$this->getConfig()->get('radio_hoerercharts_Star1'),
+										'Star2'=>$this->getConfig()->get('radio_hoerercharts_Star2'),
+										'Star3'=>$this->getConfig()->get('radio_hoerercharts_Star3'),
+										'Star4'=>$this->getConfig()->get('radio_hoerercharts_Star4'),
+										'Star5'=>$this->getConfig()->get('radio_hoerercharts_Star5'));
+		$this->getView()->set('config', $hoererchartsconfig);
 
 		if ($hoererchartsMapper->checkDB()){
-			if (!$this->getUser() or ($this->getUser() and $hoererchartsuservotesMapper->getEntries(['user_id'=>$this->getUser()->getId()])) ){
+			if ($hoererchartsuservotesMapper->is_voted($this->getUser(), $hoererchartsconfig['guestallow'])){
 				$this->getView()->set('voted', true);
 				$this->getView()->set('entries', $hoererchartsMapper->getEntriesBy([], ['votes' => 'DESC','id' => 'DESC']));
 			}else{
@@ -45,7 +47,8 @@ class Index extends \Ilch\Controller\Frontend
 						$hoererchartsMapper->update($this->getRequest()->getPost('hoerercharts-d'), -1);
 
 						$model = new HoererChartsUserVotesModel();
-						$model->setUser_Id($this->getUser()->getId());
+						if ($this->getUser()) $model->setUser_Id($this->getUser()->getId());
+						$model->setSessionId(session_id());
 						$hoererchartsuservotesMapper->save($model);
 
 						$this->redirect()

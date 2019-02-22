@@ -21,6 +21,13 @@ class HoererChartsUserVotes extends \Ilch\Model
      * @var int
      */
     protected $user_id;
+	
+	/**
+     * The Session_Id.
+     *
+     * @var string
+     */
+    protected $sessionId;
 
 	/**
      * Gets the Id.
@@ -64,5 +71,27 @@ class HoererChartsUserVotes extends \Ilch\Model
         $this->user_id = (int)$user_id;
 
         return $this;
+    }
+	
+	/**
+     * The php session id of the guest or user.
+     * Usefull to better identify a guest/user as there might be
+     * more than one guest/user with the same ip-adress.
+     *
+     * @return string
+     */
+    public function getSessionId()
+    {
+        return $this->sessionId;
+    }
+
+    /**
+     * Set the php session id of the guest or user.
+     *
+     * @param string $sessionId
+     */
+    public function setSessionId($sessionId)
+    {
+        $this->sessionId = $sessionId;
     }
 }

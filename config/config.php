@@ -10,9 +10,9 @@ class Config extends \Ilch\Config\Install
 {
     public $config = [
 		'key' => 'radiohoerercharts',
-        'version' => '1.0.1',
-        'icon_small' => 'fa-book',
-        'author' => 'SK-Webdesigns.de für ilch1 | Reilard, Dennis für ilch2',
+        'version' => '1.1.0',
+        'icon_small' => 'fa-list-ol',
+        'author' => 'Reilard, Dennis',
         'link' => '',
 		'official' => false,
         'languages' => [
@@ -32,6 +32,7 @@ class Config extends \Ilch\Config\Install
     public function install()
     {
 		$databaseConfig = new \Ilch\Config\Database($this->db());
+		$databaseConfig->set('radio_hoerercharts_Guest_Allow', '0');
         $databaseConfig->set('radio_hoerercharts_showstars', '1');
 		$databaseConfig->set('radio_hoerercharts_Star1', '1');
 		$databaseConfig->set('radio_hoerercharts_Star2', '2');
@@ -44,6 +45,7 @@ class Config extends \Ilch\Config\Install
 
     public function uninstall()
     {
+		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Guest_Allow'");
 		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_showstars'");
 		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Star1'");
 		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Star2'");
@@ -51,9 +53,8 @@ class Config extends \Ilch\Config\Install
 		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Star4'");
 		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Star5'");
 
-        $this->db()->queryMulti('
-								DROP TABLE IF EXISTS `[prefix]_radio_hoerercharts`;
-								DROP TABLE IF EXISTS `[prefix]_radio_hoerercharts_uservotes`;');
+        $this->db()->queryMulti('	DROP TABLE IF EXISTS `[prefix]_radio_hoerercharts`;
+									DROP TABLE IF EXISTS `[prefix]_radio_hoerercharts_uservotes`;');
     }
 
     public function getInstallSql()
@@ -69,6 +70,7 @@ class Config extends \Ilch\Config\Install
 				CREATE TABLE IF NOT EXISTS `[prefix]_radio_hoerercharts_uservotes` (
                   `id` INT(11) NOT NULL AUTO_INCREMENT,
                   `user_id` INT(11) NOT NULL,
+				  `session_id` VARCHAR(255) NOT NULL DEFAULT \'\',
                   PRIMARY KEY (`id`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;';
     }
@@ -79,11 +81,21 @@ class Config extends \Ilch\Config\Install
 			//Erste version erstellt Vorlage: https://www.ilch.de/downloads-show-1562.html
             case "1.0.0": //update zu 1.0.1
 				/*
+				Bugfixes
 				Version-Nr angepasst
 				PHPDoc überarbeitet
 				Zurücksetzen mit Sicherheitsabfrage
 				Englische übersetzung überarbeitet
 				*/
+			case "1.0.1": //update zu 1.1.0
+				/*
+				Bugfixes
+				Gäste können wenn gewünscht auch abstimmen
+				-session_id eingeführt
+				*/
+				$this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts_uservotes` ADD COLUMN `session_id` VARCHAR(255) NOT NULL DEFAULT \'\' AFTER `user_id`;');
+				$databaseConfig = new \Ilch\Config\Database($this->db());
+				$databaseConfig->set('radio_hoerercharts_Guest_Allow', '0');
         }
 		return 'Update function executed.';
     }
