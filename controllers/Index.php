@@ -63,10 +63,9 @@ class Index extends \Ilch\Controller\Frontend
 						->withErrors($validation->getErrorBag())
 						->to(['action' => 'index']);
 				}
-
-				$this->getView()->set('gettext', (!empty($this->getRequest()->getParam('copy'))?$hoererchartsMapper->gettext():''));
 				$this->getView()->set('entries', $hoererchartsMapper->getEntries([]));
 			}
+			$this->getView()->set('gettext', (!empty($this->getRequest()->getParam('copy'))?$hoererchartsMapper->gettext():''));
 		}
     }
 }
