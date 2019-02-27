@@ -25,17 +25,29 @@ class Index extends \Ilch\Controller\Frontend
 
 		$this->getView()->set('regist_accept', $this->getConfig()->get('regist_accept'));
 		$this->getView()->set('hoererchartsMapper', $hoererchartsMapper);
+		
+		$start_datetime = null;
+		if ($this->getConfig()->get('radio_hoerercharts_Start_Datetime')) $start_datetime = new \Ilch\Date($this->getConfig()->get('radio_hoerercharts_Start_Datetime'));
+		$end_datetime = null;
+		if ($this->getConfig()->get('radio_hoerercharts_End_Datetime')) $end_datetime = new \Ilch\Date($this->getConfig()->get('radio_hoerercharts_End_Datetime'));
+		$formatdatetime = 'd.m.Y H:i';
+		
 		$hoererchartsconfig = array(	'guestallow'=>$this->getConfig()->get('radio_hoerercharts_Guest_Allow'),
+										'start_datetime'=>$start_datetime,
+										'end_datetime'=>$end_datetime,
 										'showstars'=>$this->getConfig()->get('radio_hoerercharts_showstars'),
 										'Star1'=>$this->getConfig()->get('radio_hoerercharts_Star1'),
 										'Star2'=>$this->getConfig()->get('radio_hoerercharts_Star2'),
 										'Star3'=>$this->getConfig()->get('radio_hoerercharts_Star3'),
 										'Star4'=>$this->getConfig()->get('radio_hoerercharts_Star4'),
-										'Star5'=>$this->getConfig()->get('radio_hoerercharts_Star5'));
+										'Star5'=>$this->getConfig()->get('radio_hoerercharts_Star5'),
+										'Program_Name'=>(($this->getConfig()->get('radio_hoerercharts_Program_Name'))?$this->getConfig()->get('radio_hoerercharts_Program_Name'):$this->getTranslator()->trans('notset')));
+										
 		$this->getView()->set('config', $hoererchartsconfig);
 
+		$this->getView()->set('votedatetime', ((!$hoererchartsconfig['start_datetime'] and !$hoererchartsconfig['end_datetime'])?'':$this->getTranslator()->trans('votedatetime').(($hoererchartsconfig['start_datetime'] and $hoererchartsconfig['end_datetime'])?call_user_func_array([$this->getTranslator(), 'trans'], array('fromto', $hoererchartsconfig['start_datetime']->format($formatdatetime),$hoererchartsconfig['end_datetime']->format($formatdatetime))):(($hoererchartsconfig['start_datetime'])?$this->getTranslator()->trans('from').' '.$hoererchartsconfig['start_datetime']->format($formatdatetime):$this->getTranslator()->trans('to').' '.$hoererchartsconfig['end_datetime']->format($formatdatetime)))."<br><br>"));
 		if ($hoererchartsMapper->checkDB()){
-			if ($hoererchartsuservotesMapper->is_voted($this->getUser(), $hoererchartsconfig['guestallow'])){
+			if ($hoererchartsuservotesMapper->is_voted($this->getUser(), $hoererchartsconfig['guestallow']) or !$hoererchartsMapper->vote_allowed($hoererchartsconfig['start_datetime'], $hoererchartsconfig['end_datetime'])){
 				$this->getView()->set('voted', true);
 				$this->getView()->set('entries', $hoererchartsMapper->getEntriesBy([], ['votes' => 'DESC','id' => 'DESC']));
 			}else{
@@ -65,6 +77,7 @@ class Index extends \Ilch\Controller\Frontend
 				}
 				$this->getView()->set('entries', $hoererchartsMapper->getEntries([]));
 			}
+			
 			$this->getView()->set('gettext', (!empty($this->getRequest()->getParam('copy'))?$hoererchartsMapper->gettext():''));
 		}
     }

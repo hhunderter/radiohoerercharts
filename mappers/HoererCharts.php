@@ -239,4 +239,32 @@ class HoererCharts extends \Ilch\Mapper
 		return $stars;
     }
 	
+	/**
+     * Checks if voting is allowed.
+     *
+     * @param string $start_datetime
+	 * @param string $end_datetime
+     * @return boolean
+     */
+    public function vote_allowed($start_datetime = null, $end_datetime = null)
+    {
+		$datenow = new \Ilch\Date();
+		$datenow->modify('+1 hours');
+		if (!$start_datetime and !$end_datetime){
+			return true;
+		}else{
+			if ($start_datetime){
+				if (!$end_datetime){
+					return (($datenow->getTimestamp() >= $start_datetime->getTimestamp()) ? true : false);
+				}
+			}
+			if ($end_datetime){
+				if (!$start_datetime){
+					return (($datenow->getTimestamp() <= $end_datetime->getTimestamp()) ? true : false);
+				}
+			}
+			return (($datenow->getTimestamp() >= $start_datetime->getTimestamp() && $datenow->getTimestamp() <= $end_datetime->getTimestamp()) ? true : false);
+		}
+    }
+	
 }

@@ -114,8 +114,8 @@ class HoererChartsUserVotes extends \Ilch\Mapper
     /**
      * Delete user vote with specific user_id.
      *
-     * @param $user_id
-     * @return \Ilch\Database\Mysql\Result|int
+     * @param integer $user_id
+     * @return boolean
      */
     public function delete_user($user_id)
     {
@@ -127,8 +127,8 @@ class HoererChartsUserVotes extends \Ilch\Mapper
 	/**
      * Delete user vote with specific session_id.
      *
-     * @param $session_id
-     * @return \Ilch\Database\Mysql\Result|int
+     * @param string $session_id
+     * @return boolean
      */
     public function delete_session($session_id)
     {
@@ -138,10 +138,11 @@ class HoererChartsUserVotes extends \Ilch\Mapper
     }
 	
 	/**
-     * Delete user vote with specific session_id.
+     * Check if user has already voted or if guests can vote.
      *
-     * @param $session_id
-     * @return \Ilch\Database\Mysql\Result|int
+     * @param \Ilch\User $User
+	 * @param boolean $guestallow
+     * @return boolean
      */
     public function is_voted($User = null, $guestallow = false)
     {

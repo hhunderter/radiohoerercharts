@@ -1,12 +1,27 @@
 <h1><?=$this->getTrans('menuSettings') ?></h1>
 <form class="form-horizontal" method="POST" action="">
     <?=$this->getTokenField() ?>
+	<h1><?=$this->getTrans('Program_Name') ?></h1>
+    <div class="form-group <?=$this->validation()->hasError('Program_Name') ? 'has-error' : '' ?>">
+        <label for="Program_Name" class="col-lg-2 control-label">
+            <?=$this->getTrans('Program_NameText') ?>:
+        </label>
+        <div class="col-lg-4">
+            <input type="text"
+                   class="form-control"
+                   id="Program_Name"
+                   name="Program_Name"
+                   value="<?=$this->get('Program_Name') ?>"
+                   required />
+        </div>
+    </div>
+	
 	<h1><?=$this->getTrans('guestallow') ?></h1>
 	<div class="form-group <?=$this->validation()->hasError('guestallow') ? 'has-error' : '' ?>">
         <label for="guestallow" class="col-lg-2 control-label">
             <?=$this->getTrans('guestallowText') ?>:
         </label>
-        <div class="col-lg-1">
+        <div class="col-lg-4">
 			<div class="flipswitch">
 				<input type="radio" class="flipswitch-input" id="guestallow-on" name="guestallow" value="1" <?php if ($this->get('guestallow') == '1') { echo 'checked="checked"'; } ?> />
 				<label for="guestallow-on" class="flipswitch-label flipswitch-label-on"><?=$this->getTrans('on') ?></label>
@@ -22,7 +37,7 @@
         <label for="showstars" class="col-lg-2 control-label">
             <?=$this->getTrans('showstarsText') ?>:
         </label>
-        <div class="col-lg-1">
+        <div class="col-lg-4">
 			<div class="flipswitch">
 				<input type="radio" class="flipswitch-input" id="showstars-on" name="showstars" value="1" <?php if ($this->get('showstars') == '1') { echo 'checked="checked"'; } ?> />
 				<label for="showstars-on" class="flipswitch-label flipswitch-label-on"><?=$this->getTrans('on') ?></label>
@@ -37,7 +52,7 @@
         <label for="Star1" class="col-lg-2 control-label">
             <?=$this->getTrans('Star1Text') ?>:
         </label>
-        <div class="col-lg-1">
+        <div class="col-lg-4">
             <input type="number"
                    class="form-control"
                    id="Star1"
@@ -52,7 +67,7 @@
         <label for="Star2" class="col-lg-2 control-label">
             <?=$this->getTrans('Star2Text') ?>:
         </label>
-        <div class="col-lg-1">
+        <div class="col-lg-4">
             <input type="number"
                    class="form-control"
                    id="Star2"
@@ -67,7 +82,7 @@
         <label for="Star3" class="col-lg-2 control-label">
             <?=$this->getTrans('Star3Text') ?>:
         </label>
-        <div class="col-lg-1">
+        <div class="col-lg-4">
             <input type="number"
                    class="form-control"
                    id="Star3"
@@ -82,7 +97,7 @@
         <label for="Star4" class="col-lg-2 control-label">
             <?=$this->getTrans('Star4Text') ?>:
         </label>
-        <div class="col-lg-1">
+        <div class="col-lg-4">
             <input type="number"
                    class="form-control"
                    id="Star4"
@@ -97,7 +112,7 @@
         <label for="Star5" class="col-lg-2 control-label">
             <?=$this->getTrans('Star5Text') ?>:
         </label>
-        <div class="col-lg-1">
+        <div class="col-lg-4">
             <input type="number"
                    class="form-control"
                    id="Star5"

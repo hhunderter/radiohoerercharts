@@ -5,7 +5,7 @@
  */
 
 return [
-    'hoerercharts' => 'Radio Hörercharts',
+    'hoerercharts' => 'Hörercharts',
     'nouser' => 'Um die Hörercharts nutzen zu können, müssen Sie registriert sein.',
     'register' => 'Registrieren',
     'place' => 'Platz',
@@ -13,16 +13,32 @@ return [
     'songtitel' => 'Songtitel / Track',
     'vote' => 'Stimmen',
     'noentries' => 'Es wurden noch keine Titel oder Künstler eingegeben. Bitte versuchen Sie es später noch einmal, danke.',
-    'votetext' => '<h2>So funktioniert es:</h2>
-Jedes Community-Mitglied darf für seinen Lieblingstitel stimmen und am Ende der Woche wird es die Sendung "Hörercharts" geben.<br>
-In dieser Sendung wird von unten (Platz 20 zB) bis auf Platz 1 gespielt.<br>
+	'votetextuser' => 'Jedes Community-Mitglied',
+	'votetextguest' => 'Jeder',
+    'votetext' => '<h1>So funktioniert es:</h1>
+%s darf für seinen Lieblingstitel stimmen und an einem Bestimmten Tag (siehe Sende plan) wird es die Sendung "%s" geben.<br>
+In dieser Sendung wird von unten (z.B. Platz 20) bis auf Platz 1 gespielt.<br>
 Danach werden die Stimmen von Ihnen wieder gelöscht und die Chartliste aktualisiert, <br>
-dh es werden möglicherweise neue Interpreten hinzugefügt oder ältere Titel werden ausgeblendet usw.<br><br>
-Wir, das gesamte Radio-Team, wünschen Ihnen viel Spaß und drücken die Daumen für Ihren Track.',
+d.h. es werden möglicherweise neue Interpreten hinzugefügt oder ältere Titel werden ausgeblendet usw.',
+	'votetextvote' => '<br><br>Wir, das gesamte Radio-Team, wünschen Ihnen viel Spaß und drücken die Daumen für Ihren Track.',
+    'votedatetime' => '<b>Abstimmungszeitraum:</b> ',
+	'fromto' => 'vom %s bis zum %s',
+	'from' => 'ab dem',
+	'to' => 'bis zum',
     'voteerror' => 'Sie müssen einen Titel auswählen. :)',
 	'addButton' => 'Absenden',
     'noentriesadmin' => 'keine Einträge',
 	'reset' => 'Zurücksetzen',
+	'notset' => 'nicht festgelegt',
+	
+	'Program_Name' => 'Programmname',
+	'Program_NameText' => 'Programmname für die Hörercharts:',
+	
+	'start_datetime' => 'Startzeitpunkt',
+	'start_datetimeText' => 'Ab wann sollte die Abstimmung stattfinden? (Keine Einschränkung bei leerem Feld)',
+	'end_datetime' => 'Endzeitpunkt',
+	'end_datetimeText' => 'Bis wann sollte die Abstimmung stattfinden? (Keine Einschränkung bei leerem Feld)',
+	
 	'guestallow' => 'Gäste EIN / AUSSCHALTEN:',
 	'guestallowText' => 'Gäste erlauben, abzustimmen? Wenn Sie "Nein" auswählen, können nur Benutzer abstimmen.',
 	'showstars' => 'STERNE EIN / AUSSCHALTEN:',

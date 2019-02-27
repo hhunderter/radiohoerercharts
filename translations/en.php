@@ -5,7 +5,7 @@
  */
 
 return [
-    'hoerercharts' => 'Radio Listener Charts',
+    'hoerercharts' => 'Listener Charts',
     'nouser' => 'To use the listener charts you need to be registered.',
     'register' => 'Register',
     'place' => 'Place',
@@ -13,16 +13,32 @@ return [
     'songtitel' => 'Songtitel / Track',
     'vote' => 'Votes',
     'noentries' => 'No titles or artists have yet been entered. Please check back later, thank you.',
+	'votetextuser' => 'Each community member',
+	'votetextguest' => 'Everyone',
     'votetext' => '<h2>So It Works:</h2>
-Each community member is allowed to give "listener charts" for their favorite song and show.<br>
-This show plays from the bottom (played 20) to the first place.<br>
+%s can vote for their favorite song and on a specific day (see Broadcasting schedule) there will be the show "%s".<br>
+This show plays from the bottom (e.g. 20th place) to the first place.<br>
 After that, the votes will be deleted again and updates the chart list.<br>
-ie new artists may be added or older titles are hidden, etc.<br><br>
-	We, the entire Radio-Team wish you a lot of fun and keep your fingers crossed for your track.',
+i.e. new artists may be added or older titles are hidden, etc.',
+	'votetextvote' => '<br><br>We, the entire Radio-Team wish you a lot of fun and keep your fingers crossed for your track.',
+    'votedatetime' => 'Voting period:</h1> ',
+	'fromto' => 'from %s to %s',
+	'from' => 'from',
+	'to' => 'to',
     'voteerror' => 'You have to choose a title. :)',
 	'addButton' => 'Send',
     'noentriesadmin' => 'No entries',
 	'reset' => 'Reset to default',
+	'notset' => 'not set',
+	
+	'Program_Name' => 'Program name',
+	'Program_NameText' => 'Program name for the listener charts::',
+	
+	'start_datetime' => 'Start time',
+	'start_datetimeText' => 'When should the vote take place? (No restriction with empty field)',
+	'end_datetime' => 'End Time',
+	'end_datetimeText' => 'Until when the vote was to take place? (No restriction with empty field)',
+	
 	'guestallow' => 'Guest ON / OFF:',
 	'guestallowText' => 'Allow guests to vote? If you select "No", only User can vote.',
 	'showstars' => 'STARS ON / OFF:',

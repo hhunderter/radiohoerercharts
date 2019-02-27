@@ -6,6 +6,8 @@ $hoererchartsconfig = $this->get('config');
 </h1>
 <div class="teams" id="hoerercharts-container">
 	<div class="col-lg-12" id="hoerercharts-form-container">
+	<?=$this->getTrans('votetext', ((!$hoererchartsconfig['guestallow'])?$this->getTrans('votetextuser'):$this->getTrans('votetextguest')), $hoererchartsconfig['Program_Name']) ?>
+	<?=((!$this->getUser() and !$hoererchartsconfig['guestallow'])?'':$this->getTrans('votetextvote')) ?><br><br>
 	<?php if ($this->get('voted')): ?>
 		<?php if (!$this->getUser() and !$hoererchartsconfig['guestallow']): ?>
 		<?=$this->getTrans('nouser') ?>
@@ -14,6 +16,7 @@ $hoererchartsconfig = $this->get('config');
 		<?php endif; ?>
 		<br><br>
 		<?php endif; ?>
+		<?=$this->get('votedatetime') ?>
 		<?php if ($this->get('entries')): ?>
 		<?php
 		$platz = 1;
@@ -53,8 +56,7 @@ $hoererchartsconfig = $this->get('config');
 		</div>
 		<?php endif; ?>
 	<?php else: ?>
-		<?=$this->getTrans('votetext') ?>
-		<br><br>
+		<?=$this->get('votedatetime') ?>
 		<?php if ($this->validation()->hasError('hoerercharts-d')): ?>
 		<div class="alert alert-danger">
 		<?=$this->getTrans('voteerror') ?>
@@ -88,7 +90,7 @@ $hoererchartsconfig = $this->get('config');
 			</table>
 
 			<div class="form-group">
-				<div class="col-lg-offset-2 col-lg-8">
+				<div class="col-lg-8">
 					<?=$this->getSaveBar('addButton', 'HoererCharts') ?>
 				</div>
 			</div>

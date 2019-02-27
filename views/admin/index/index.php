@@ -1,4 +1,6 @@
 <h1><?=$this->getTrans('manage') ?></h1>
+<?=$this->get('votedatetime') ?> <a href="javascript:votedatetime()" title="Bearbeiten"><span class="fa fa-edit text-success"></span></a>
+<br><br>
 <?php if ($this->get('entries')): ?>
 <form class="form-horizontal" method="POST">
     <?=$this->getTokenField() ?>
@@ -47,3 +49,26 @@
 	<?=$this->getTrans('noentriesadmin') ?>
 </div>
 <?php endif; ?>
+<?=$this->getDialog('radiohoererchartsModal', $this->getTrans('settings'), '<iframe frameborder="0"></iframe>'); ?>
+<script>
+function votedatetime(){
+	$('#radiohoererchartsModal').modal('show');
+	var src = '<?=$this->getUrl(['controller' => 'settings', 'action' => 'votedatetime']) ?>';
+	var height = '650px';
+	var width = '100%';
+
+	$('#radiohoererchartsModal iframe').attr({'src': src,
+		'height': height,
+		'width': width});
+};
+$(".btn-primary").on("click", function () {
+  document.location.reload();
+  //document.location.href = document.location.href;
+});
+$("#radiohoererchartsModal").on("hide.bs.modal", function () {
+	document.location.reload();
+});
+function reload() {
+    setTimeout(function(){window.location.reload(1);}, 1000);
+};
+</script>

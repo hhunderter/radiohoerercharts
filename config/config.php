@@ -10,9 +10,9 @@ class Config extends \Ilch\Config\Install
 {
     public $config = [
 		'key' => 'radiohoerercharts',
-        'version' => '1.1.0',
+        'version' => '1.2.0',
         'icon_small' => 'fa-list-ol',
-        'author' => 'Reilard, Dennis',
+        'author' => 'Reilard, Dennis alias hhunderter ',
         'link' => '',
 		'official' => false,
         'languages' => [
@@ -33,6 +33,9 @@ class Config extends \Ilch\Config\Install
     {
 		$databaseConfig = new \Ilch\Config\Database($this->db());
 		$databaseConfig->set('radio_hoerercharts_Guest_Allow', '0');
+		$databaseConfig->set('radio_hoerercharts_Start_Datetime', '');
+		$databaseConfig->set('radio_hoerercharts_End_Datetime', '');
+		$databaseConfig->set('radio_hoerercharts_Program_Name', 'Hörercharts');
         $databaseConfig->set('radio_hoerercharts_showstars', '1');
 		$databaseConfig->set('radio_hoerercharts_Star1', '1');
 		$databaseConfig->set('radio_hoerercharts_Star2', '2');
@@ -46,6 +49,9 @@ class Config extends \Ilch\Config\Install
     public function uninstall()
     {
 		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Guest_Allow'");
+		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Start_Datetime'");
+		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_End_Datetime'");
+		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Program_Name'");
 		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_showstars'");
 		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Star1'");
 		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Star2'");
@@ -96,6 +102,25 @@ class Config extends \Ilch\Config\Install
 				$this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts_uservotes` ADD COLUMN `session_id` VARCHAR(255) NOT NULL DEFAULT \'\' AFTER `user_id`;');
 				$databaseConfig = new \Ilch\Config\Database($this->db());
 				$databaseConfig->set('radio_hoerercharts_Guest_Allow', '0');
+			case "1.1.0": //update zu 1.2.0
+				/*
+				Kleine verbesserungen
+				Icon geändert
+				wenn gewünscht kann ein Abstimmungszeitraum gewählt werden
+				Programmname kann geändert werden
+				*/
+				$databaseConfig = new \Ilch\Config\Database($this->db());
+				$databaseConfig->set('radio_hoerercharts_Start_Datetime', '');
+				$databaseConfig->set('radio_hoerercharts_End_Datetime', '');
+				$databaseConfig->set('radio_hoerercharts_Program_Name', 'Hörercharts');
+				$fields = [
+					'author' => 'Reilard, Dennis alias hhunderter ',
+					'icon_small' => 'fa-list-ol'
+				];
+				$this->db()->update('modules')
+                ->values($fields)
+                ->where(['key' => 'radiohoerercharts'])
+                ->execute();
         }
 		return 'Update function executed.';
     }
