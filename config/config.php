@@ -104,7 +104,7 @@ class Config extends \Ilch\Config\Install
 				$databaseConfig->set('radio_hoerercharts_Guest_Allow', '0');
 			case "1.1.0": //update zu 1.2.0
 				/*
-				Kleine verbesserungen
+				Kleine Verbesserungen
 				Icon geändert
 				wenn gewünscht kann ein Abstimmungszeitraum gewählt werden
 				Programmname kann geändert werden
