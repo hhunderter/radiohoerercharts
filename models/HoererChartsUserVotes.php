@@ -28,6 +28,13 @@ class HoererChartsUserVotes extends \Ilch\Model
      * @var string
      */
     protected $sessionId;
+	
+	/**
+     * The last_activity.
+     *
+     * @var string
+     */
+    protected $last_activity;
 
 	/**
      * Gets the Id.
@@ -92,6 +99,28 @@ class HoererChartsUserVotes extends \Ilch\Model
      */
     public function setSessionId($sessionId)
     {
-        $this->sessionId = $sessionId;
+        $this->sessionId = (string)$sessionId;
+    }
+	
+	/**
+     * Gets the last_activity.
+     *
+     * @return string
+     */
+    public function getLast_Activity()
+    {
+        return $this->last_activity;
+    }
+	/**
+     * Sets the last_activity.
+     *
+     * @param string $last_activity
+     * @return $this
+     */
+    public function setLast_Activity($last_activity)
+    {
+        $this->last_activity = (string)$last_activity;
+
+        return $this;
     }
 }

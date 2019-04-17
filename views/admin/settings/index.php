@@ -15,7 +15,21 @@
                    required />
         </div>
     </div>
-	
+	<h1><?=$this->getTrans('Allsecvote') ?></h1>
+    <div class="form-group <?=$this->validation()->hasError('allsecvote') ? 'has-error' : '' ?>">
+        <label for="allsecvote" class="col-lg-2 control-label">
+            <?=$this->getTrans('AllsecvoteText') ?>:
+        </label>
+        <div class="col-lg-4">
+            <input type="number"
+                   class="form-control"
+                   id="allsecvote"
+                   name="allsecvote"
+                   min="0"
+                   value="<?=$this->get('allsecvote') ?>"
+                   required />
+        </div>
+    </div>
 	<h1><?=$this->getTrans('guestallow') ?></h1>
 	<div class="form-group <?=$this->validation()->hasError('guestallow') ? 'has-error' : '' ?>">
         <label for="guestallow" class="col-lg-2 control-label">

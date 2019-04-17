@@ -10,7 +10,7 @@ class Config extends \Ilch\Config\Install
 {
     public $config = [
 		'key' => 'radiohoerercharts',
-        'version' => '1.2.0',
+        'version' => '1.3.0',
         'icon_small' => 'fa-list-ol',
         'author' => 'Reilard, Dennis alias hhunderter ',
         'link' => '',
@@ -67,9 +67,12 @@ class Config extends \Ilch\Config\Install
     {
         return 'CREATE TABLE IF NOT EXISTS `[prefix]_radio_hoerercharts` (
                   `id` INT(11) NOT NULL AUTO_INCREMENT,
+				  `setfree` TINYINT(1) NOT NULL DEFAULT \'1\',
                   `interpret` VARCHAR(255) NOT NULL,
 				  `songtitel` VARCHAR(255) NOT NULL,
                   `votes` INT UNSIGNED NOT NULL,
+				  `datecreate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				  `user_id` INT(11) NOT NULL,
                   PRIMARY KEY (`id`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;
 				
@@ -77,6 +80,16 @@ class Config extends \Ilch\Config\Install
                   `id` INT(11) NOT NULL AUTO_INCREMENT,
                   `user_id` INT(11) NOT NULL,
 				  `session_id` VARCHAR(255) NOT NULL DEFAULT \'\',
+				  `last_activity` DATETIME NOT NULL,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;
+				
+				CREATE TABLE IF NOT EXISTS `[prefix]_radio_hoerercharts_suggestion` (
+                  `id` INT(11) NOT NULL AUTO_INCREMENT,
+                  `interpret` VARCHAR(255) NOT NULL,
+				  `songtitel` VARCHAR(255) NOT NULL,
+				  `datecreate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				  `user_id` INT(11) NOT NULL,
                   PRIMARY KEY (`id`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;';
     }
@@ -106,7 +119,7 @@ class Config extends \Ilch\Config\Install
 				/*
 				Kleine Verbesserungen
 				Icon geändert
-				wenn gewünscht kann ein Abstimmungszeitraum gewählt werden
+				Wenn gewünscht kann ein Abstimmungszeitraum gewählt werden
 				Programmname kann geändert werden
 				*/
 				$databaseConfig = new \Ilch\Config\Database($this->db());
@@ -121,6 +134,28 @@ class Config extends \Ilch\Config\Install
                 ->values($fields)
                 ->where(['key' => 'radiohoerercharts'])
                 ->execute();
+			case "1.2.0": //update zu 1.3.0
+				/*
+				In der Chart-Liste können Einträge ein-/ausgeblendet werden
+				Wenn gewünscht können User/Gäste alle X Sekunden abstimmen
+				User/Gäste können, wenn gewünscht, vorschläge machen für die Chart-Liste    `user_id` INT(11) NOT NULL,
+				
+				*/
+				$this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts_uservotes` ADD COLUMN `last_activity` DATETIME NOT NULL  AFTER `session_id`;');
+				$this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts` ADD COLUMN `setfree` TINYINT(1) NOT NULL DEFAULT \'1\' AFTER `id`;');
+				$this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts` ADD COLUMN `datecreate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `votes`;');
+				$this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts` ADD COLUMN `user_id` INT(11) NOT NULL AFTER `datecreate`;');
+				$this->db()->query('CREATE TABLE IF NOT EXISTS `[prefix]_radio_hoerercharts_suggestion` (
+                  `id` INT(11) NOT NULL AUTO_INCREMENT,
+                  `interpret` VARCHAR(255) NOT NULL,
+				  `songtitel` VARCHAR(255) NOT NULL,
+				  `datecreate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				  `user_id` INT(11) NOT NULL,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;');
+				$databaseConfig = new \Ilch\Config\Database($this->db());
+				$databaseConfig->set('radio_hoerercharts_all_sec_vote', '86400'); // 24h
+				$databaseConfig->set('radio_hoerercharts_allow_suggestion', '1');
         }
 		return 'Update function executed.';
     }

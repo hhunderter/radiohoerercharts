@@ -3,6 +3,11 @@ $hoererchartsconfig = $this->get('config');
 ?>
 <h1>
     <?=$this->getTrans('hoerercharts').$this->get('gettext') ?>
+	<?php if ($hoererchartsconfig['allowsuggestion'] and ((!$this->getUser() and $hoererchartsconfig['guestallow']) or $this->getUser())): ?>
+	<div class="pull-right">
+        <a href="<?=$this->getUrl(['action' => 'treat']); ?>"><?=$this->getTrans('suggestionnew') ?></a>
+    </div>
+	<?php endif; ?>
 </h1>
 <div class="teams" id="hoerercharts-container">
 	<div class="col-lg-12" id="hoerercharts-form-container">
@@ -16,7 +21,7 @@ $hoererchartsconfig = $this->get('config');
 		<?php endif; ?>
 		<br><br>
 		<?php endif; ?>
-		<?=$this->get('votedatetime') ?>
+		<p class="<?=($this->get('vote_allowed')?'text-success':'text-danger') ?>"><?=$this->get('votedatetime') ?></p>
 		<?php if ($this->get('entries')): ?>
 		<?php
 		$platz = 1;
@@ -56,7 +61,7 @@ $hoererchartsconfig = $this->get('config');
 		</div>
 		<?php endif; ?>
 	<?php else: ?>
-		<?=$this->get('votedatetime') ?>
+		<p class="<?=($this->get('vote_allowed')?'text-success':'text-danger') ?>"><?=$this->get('votedatetime') ?></p>
 		<?php if ($this->validation()->hasError('hoerercharts-d')): ?>
 		<div class="alert alert-danger">
 		<?=$this->getTrans('voteerror') ?>

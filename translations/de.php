@@ -54,4 +54,16 @@ d.h. es werden möglicherweise neue Interpreten hinzugefügt oder ältere Titel 
 	'Star4Text' => 'Ab Wieviel Votes sollen 4 Sterne gegeben werden?',
 	'Star5' => 'Stern 5',
 	'Star5Text' => 'Ab Wieviel Votes sollen 5 Sterne gegeben werden?',
+	
+	'index' => 'Index',
+	'suggestion' => 'Vorschläge',
+	'suggestionnew' => 'Vorschlag machen...',
+	'setfree' => 'Anzeigen',
+	'Allsecvote' => 'Abstimmung Sperre',
+	'AllsecvoteText' => 'Gibt in Sekunden an, ab wann der Benutzer / Gast erneut abstimmen kann.<br>Wenn der Wert "0" ist, können Benutzer / Gäste nur einmal abstimmen.',
+	'datecreate' => 'Erstell Datum',
+	'new' => 'neu',
+	'enable' => 'Freischalten',
+	'user' => 'Username',
+	'guest' => 'Gast',
 ];

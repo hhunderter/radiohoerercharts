@@ -8,6 +8,7 @@ namespace Modules\RadioHoererCharts\Controllers\Admin;
 
 use Modules\RadioHoererCharts\Mappers\HoererCharts as HoererChartsMapper;
 use Modules\RadioHoererCharts\Models\HoererCharts as HoererChartsModel;
+use Modules\RadioHoererCharts\Mappers\HoererChartsSuggestion as HoererChartsSuggestionMapper;
 use Modules\RadioHoererCharts\Mappers\HoererChartsUserVotes as HoererChartsUserVotesMapper;
 use Modules\RadioHoererCharts\Models\HoererChartsUserVotes as HoererChartsUserVotesModel;
 use Ilch\Validation;
@@ -63,6 +64,7 @@ class Index extends \Ilch\Controller\Admin
     public function indexAction()
     {
 		$hoererchartsMapper = new HoererChartsMapper();
+		$hoererchartssuggestionMapper = new HoererChartsSuggestionMapper();
 
         $this->getLayout()->getAdminHmenu()
                 ->add($this->getTranslator()->trans('hoerercharts'), ['action' => 'index'])
@@ -77,6 +79,7 @@ class Index extends \Ilch\Controller\Admin
 		$formatdatetime = 'd.m.Y H:i';
 		
 		$hoererchartsconfig = array(	'start_datetime'=>$start_datetime,
+										'allowsuggestion'=>$this->getConfig()->get('radio_hoerercharts_allow_suggestion'),
 										'end_datetime'=>$end_datetime,
 										'showstars'=>$this->getConfig()->get('radio_hoerercharts_showstars'),
 										'Star1'=>$this->getConfig()->get('radio_hoerercharts_Star1'),
@@ -85,26 +88,53 @@ class Index extends \Ilch\Controller\Admin
 										'Star4'=>$this->getConfig()->get('radio_hoerercharts_Star4'),
 										'Star5'=>$this->getConfig()->get('radio_hoerercharts_Star5'));
 		$this->getView()->set('config', $hoererchartsconfig);
+		$this->getView()->set('suggestion', $this->getRequest()->getParam('suggestion'));
 												
 		$this->getView()->set('votedatetime', $this->getTranslator()->trans('votedatetime').((!$hoererchartsconfig['start_datetime'] and !$hoererchartsconfig['end_datetime'])?$this->getTranslator()->trans('notset'):(($hoererchartsconfig['start_datetime'] and $hoererchartsconfig['end_datetime'])?call_user_func_array([$this->getTranslator(), 'trans'], array('fromto', $hoererchartsconfig['start_datetime']->format($formatdatetime),$hoererchartsconfig['end_datetime']->format($formatdatetime))):(($hoererchartsconfig['start_datetime'])?$this->getTranslator()->trans('from').' '.$hoererchartsconfig['start_datetime']->format($formatdatetime):$this->getTranslator()->trans('to').' '.$hoererchartsconfig['end_datetime']->format($formatdatetime))).""));
 		if ($hoererchartsMapper->checkDB()){
 			if ($this->getRequest()->getPost('check_entries')) {
 				if ($this->getRequest()->getPost('action') == 'delete') {
 					foreach ($this->getRequest()->getPost('check_entries') as $entryId) {
-						$hoererchartsMapper->delete($entryId);
+						if ($this->getRequest()->getParam('suggestion')) $hoererchartssuggestionMapper->delete($entryId);
+						else $hoererchartsMapper->delete($entryId);
 					}
 					$this->addMessage('deleteSuccess');
+					$this->redirect(['action' => 'index']);
+				}elseif ($this->getRequest()->getPost('action') == 'setfree'){
+					foreach ($this->getRequest()->getPost('check_entries') as $entryId) {
+						$hoererchartsModel = $hoererchartssuggestionMapper->getEntryById($entryId);
+						$hoererchartssuggestionMapper->delete($entryId);
+						$hoererchartsModel->setId(null);
+						$hoererchartsModel->setSetFree(0);
+						$hoererchartsMapper->save($hoererchartsModel);
+					}
+					
+					$this->addMessage('updateSuccess');
 					$this->redirect(['action' => 'index']);
 				}
 			}
 
-			$this->getView()->set('entries', $hoererchartsMapper->getEntries([]));
+			if ($this->getRequest()->getParam('suggestion')) $this->getView()->set('entries', $hoererchartssuggestionMapper->getEntries([]));
+			else $this->getView()->set('entries', $hoererchartsMapper->getEntries([]));
 		}
+    }
+	
+	public function updateAction()
+    {
+        if ($this->getRequest()->isSecure()) {
+            $hoererchartsMapper = new HoererChartsMapper();
+            $hoererchartsMapper->update_setfree($this->getRequest()->getParam('id'),$this->getRequest()->getParam('status_man'));
+
+            $this->addMessage('saveSuccess');
+        }
+
+        $this->redirect(['action' => 'index']);
     }
 
 	public function treatAction()
     {
 		$hoererchartsMapper = new HoererChartsMapper();
+		$hoererchartssuggestionMapper = new HoererChartsSuggestionMapper();
 
 		if ($hoererchartsMapper->checkDB()){
 			if ($this->getRequest()->getParam('id')) {
@@ -112,9 +142,14 @@ class Index extends \Ilch\Controller\Admin
 					->add($this->getTranslator()->trans('hoerercharts'), ['action' => 'index'])
 					->add($this->getTranslator()->trans('manage'), ['action' => 'index'])
 					->add($this->getTranslator()->trans('edit'), ['action' => 'treat']);
-
-				$this->getView()->set('entrie', $hoererchartsMapper->getEntryById($this->getRequest()->getParam('id')));
+				
+				if ($this->getRequest()->getParam('suggestion')) $this->getView()->set('entrie', $hoererchartssuggestionMapper->getEntryById($this->getRequest()->getParam('id')));
+				else{
+					$hoererchartsModel = $hoererchartsMapper->getEntryById($this->getRequest()->getParam('id'));
+					$this->getView()->set('entrie', $hoererchartsModel);
+				}
 			}  else {
+				$hoererchartsModel = new HoererChartsModel();
 				$this->getLayout()->getAdminHmenu()
 					->add($this->getTranslator()->trans('hoerercharts'), ['action' => 'index'])
 					->add($this->getTranslator()->trans('manage'), ['action' => 'index'])
@@ -122,21 +157,26 @@ class Index extends \Ilch\Controller\Admin
 			}
 
 			if ($this->getRequest()->isPost()) {
-				$validation = Validation::create($this->getRequest()->getPost(), [
+				
+				$validation = Validation::create($this->getRequest()->getPost(), array_merge([
 					'interpret' => 'required',
 					'songtitel'    => 'required'
-				]);
+				],(($this->getRequest()->getParam('suggestion'))?[]:['setfree' => 'required|numeric|min:0|max:1'])));
 
 				if ($validation->isValid()) {
-					$hoererchartsModel = new HoererChartsModel();
 					if ($this->getRequest()->getParam('id')) {
 						$hoererchartsModel->setId($this->getRequest()->getParam('id'));
+					}else{
+						if ($this->getUser()) $hoererchartsModel->setUser_Id($this->getUser()->getId());
 					}
 
+					if (!$this->getRequest()->getParam('suggestion')) $hoererchartsModel->setSetFree($this->getRequest()->getPost('setfree'));
 					$hoererchartsModel->setInterpret($this->getRequest()->getPost('interpret'))
 						->setSongTitel($this->getRequest()->getPost('songtitel'))
 						->setVotes(0);
-					$hoererchartsMapper->save($hoererchartsModel);
+						
+					if ($this->getRequest()->getParam('suggestion')) $hoererchartssuggestionMapper->save($hoererchartsModel);
+					else $hoererchartsMapper->save($hoererchartsModel);
 
 					$this->redirect()
 						->withMessage('saveSuccess')
@@ -149,18 +189,51 @@ class Index extends \Ilch\Controller\Admin
 					->to(['action' => 'treat', 'id' => $this->getRequest()->getParam('id')]);
 			}
 		}else{
-			$this->redirect(['action' => 'index']);
+			$this->redirect(array_merge(['action' => 'index'],(($this->getRequest()->getParam('suggestion'))?['suggestion' => 'true']:[])));
 		}
     }
 
 	public function delAction()
     {
 		$hoererchartsMapper = new HoererChartsMapper();
+		$hoererchartssuggestionMapper = new HoererChartsSuggestionMapper();
 		if ($hoererchartsMapper->checkDB()){
 			if ($this->getRequest()->isSecure()) {
-				$hoererchartsMapper->delete($this->getRequest()->getParam('id'));
+				if ($this->getRequest()->getParam('suggestion')) $hoererchartssuggestionMapper->delete($this->getRequest()->getParam('id'));
+				else $hoererchartsMapper->delete($this->getRequest()->getParam('id'));
 
 				$this->addMessage('deleteSuccess');
+			}
+		}
+        $this->redirect(array_merge(['action' => 'index'],(($this->getRequest()->getParam('suggestion'))?['suggestion' => 'true']:[])));
+    }
+	
+	public function allowsuggestionAction()
+    {
+		$allowsuggestion = $this->getConfig()->get('radio_hoerercharts_allow_suggestion');
+		if ($allowsuggestion)
+			$this->getConfig()->set('radio_hoerercharts_allow_suggestion', 0);
+		else
+			$this->getConfig()->set('radio_hoerercharts_allow_suggestion', 1);
+		
+		$this->addMessage('updateSuccess');
+		
+        $this->redirect(['action' => 'index', 'suggestion' => 'true']);
+    }
+	
+	public function suggestionenableAction()
+    {
+		$hoererchartsMapper = new HoererChartsMapper();
+		$hoererchartssuggestionMapper = new HoererChartsSuggestionMapper();
+		if ($hoererchartsMapper->checkDB()){
+			if ($this->getRequest()->isSecure()) {
+				$hoererchartsModel = $hoererchartssuggestionMapper->getEntryById($this->getRequest()->getParam('id'));
+				$hoererchartssuggestionMapper->delete($this->getRequest()->getParam('id'));
+				$hoererchartsModel->setId(null);
+				$hoererchartsModel->setSetFree(0);
+				$hoererchartsMapper->save($hoererchartsModel);
+
+				$this->addMessage('updateSuccess');
 			}
 		}
         $this->redirect(['action' => 'index']);

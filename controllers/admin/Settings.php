@@ -53,6 +53,7 @@ class Settings extends \Ilch\Controller\Admin
 			if ($this->getRequest()->isPost()) {
 				$validation = Validation::create($this->getRequest()->getPost(), [
 					'Program_Name'     => 'required',
+					'allsecvote'     => 'required|numeric',
 					'guestallow'     => 'required|numeric|min:0|max:1',
 					'showstars'     => 'required|numeric|min:0|max:1',
 					'Star1'         => 'required|numeric|min:1',
@@ -64,6 +65,7 @@ class Settings extends \Ilch\Controller\Admin
 
 				if ($validation->isValid()) {
 					$this->getConfig()->set('radio_hoerercharts_Program_Name', $this->getRequest()->getPost('Program_Name'))
+						->set('radio_hoerercharts_all_sec_vote', $this->getRequest()->getPost('allsecvote'))
 						->set('radio_hoerercharts_Guest_Allow', $this->getRequest()->getPost('guestallow'))
 						->set('radio_hoerercharts_showstars', $this->getRequest()->getPost('showstars'))
 						->set('radio_hoerercharts_Star1', $this->getRequest()->getPost('Star1'))
@@ -85,6 +87,7 @@ class Settings extends \Ilch\Controller\Admin
 			}
 
 			$this->getView()->set('Program_Name', $this->getConfig()->get('radio_hoerercharts_Program_Name'))
+				->set('allsecvote', $this->getConfig()->get('radio_hoerercharts_all_sec_vote'))
 				->set('guestallow', $this->getConfig()->get('radio_hoerercharts_Guest_Allow'))
 				->set('showstars', $this->getConfig()->get('radio_hoerercharts_showstars'))
 				->set('Star1', $this->getConfig()->get('radio_hoerercharts_Star1'))

@@ -14,6 +14,13 @@ class HoererCharts extends \Ilch\Model
      * @var int
      */
     protected $id;
+	
+	/**
+     * The setfree.
+     *
+     * @var int
+     */
+    protected $setfree;
 
 	/**
      * The Interpret.
@@ -35,6 +42,20 @@ class HoererCharts extends \Ilch\Model
      * @var int
      */
     protected $votes;
+	
+	/**
+     * The DateCreate.
+     *
+     * @var string
+     */
+    protected $datecreate;
+	
+	/**
+     * The user_id.
+     *
+     * @var int
+     */
+    protected $user_id;
 
 	/**
      * Gets the Id.
@@ -54,6 +75,28 @@ class HoererCharts extends \Ilch\Model
     public function setId($id)
     {
         $this->id = (int)$id;
+
+        return $this;
+    }
+	
+	/**
+     * Gets the setfree.
+     *
+     * @return int
+     */
+    public function getSetFree()
+    {
+        return $this->setfree;
+    }
+	/**
+     * Sets the setfree.
+     *
+     * @param int $setfree
+     * @return $this
+     */
+    public function setSetFree($setfree)
+    {
+        $this->setfree = (int)$setfree;
 
         return $this;
     }
@@ -120,6 +163,50 @@ class HoererCharts extends \Ilch\Model
     public function setVotes($votes)
     {
         $this->votes = (int)$votes;
+
+        return $this;
+    }
+	
+	/**
+     * Gets the datecreate.
+     *
+     * @return String
+     */
+    public function getDateCreate()
+    {
+        return $this->datecreate;
+    }
+	/**
+     * Sets the datecreate.
+     *
+     * @param String $datecreate
+     * @return $this
+     */
+    public function setDateCreate($datecreate)
+    {
+        $this->datecreate = (string)$datecreate;
+
+        return $this;
+    }
+	
+	/**
+     * Gets the user_id.
+     *
+     * @return int
+     */
+    public function getUser_Id()
+    {
+        return $this->user_id;
+    }
+	/**
+     * Sets the user_id.
+     *
+     * @param int $user_id
+     * @return $this
+     */
+    public function setUser_Id($user_id)
+    {
+        $this->user_id = (int)$user_id;
 
         return $this;
     }

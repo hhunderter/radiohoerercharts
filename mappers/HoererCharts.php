@@ -32,7 +32,7 @@ class HoererCharts extends \Ilch\Mapper
         $select = $this->db()->select('*')
             ->from('radio_hoerercharts')
             ->where($where)
-            ->order(['id' => 'DESC']);
+            ->order(['setfree' => 'DESC', 'id' => 'DESC']);
         
         if ($pagination !== null) {
             $select->limit($pagination->getLimit())
@@ -49,9 +49,12 @@ class HoererCharts extends \Ilch\Mapper
         foreach ($entryArray as $entries) {
             $entryModel = new EntriesModel();
             $entryModel->setId($entries['id']);
+			$entryModel->setSetFree($entries['setfree']);
             $entryModel->setInterpret($entries['interpret']);
             $entryModel->setSongTitel($entries['songtitel']);
             $entryModel->setVotes($entries['votes']);
+			$entryModel->setDateCreate($entries['datecreate']);
+			$entryModel->setUser_Id($entries['user_id']);
             $entry[] = $entryModel;
         }
 
@@ -78,9 +81,12 @@ class HoererCharts extends \Ilch\Mapper
 
 		$entryModel = new EntriesModel();
 		$entryModel->setId($entryRow['id'])
+			->setSetFree($entryRow['setfree'])
 			->setInterpret($entryRow['interpret'])
 			->setSongTitel($entryRow['songtitel'])
-			->setVotes($entryRow['votes']);
+			->setVotes($entryRow['votes'])
+			->setDateCreate($entryRow['datecreate'])
+			->setUser_Id($entryRow['user_id']);;
 
         return $entryModel;
 	}
@@ -115,14 +121,45 @@ class HoererCharts extends \Ilch\Mapper
         foreach ($entryArray as $entries) {
             $entryModel = new EntriesModel();
             $entryModel->setId($entries['id']);
+			$entryModel->setSetFree($entries['setfree']);
             $entryModel->setInterpret($entries['interpret']);
             $entryModel->setSongTitel($entries['songtitel']);
             $entryModel->setVotes($entries['votes']);
+			$entryModel->setDateCreate($entries['datecreate']);
+			$entryModel->setUser_Id($entries['user_id']);
             $entry[] = $entryModel;
-        }
-
+		}
         return $entry;
 	}
+	
+	/**
+     * Updates Entrie setfree with given id.
+     *
+     * @param int $id
+     * @param int $setfree_man
+     * @return boolean
+     */
+    public function update_setfree($id, $setfree_man)
+    {
+		if ($setfree_man != -1){
+            $setfree_now = (int)$setfree_man;
+		}else{
+			$setfree = (int) $this->db()->select('setfree')
+							->from('radio_hoerercharts')
+							->where(['id' => $id])
+							->execute()
+							->fetchCell();
+
+			if ($setfree == 1) $setfree_now = 0;
+			else  $setfree_now = 1;
+		}
+		$test = $this->db()->update('radio_hoerercharts')
+			->values(['setfree' => $setfree_now])
+			->where(['id' => $id])
+			->execute();
+
+		return true;
+    }
 
     /**
      * Updates Entrie with given id.
@@ -172,9 +209,12 @@ class HoererCharts extends \Ilch\Mapper
     public function save(EntriesModel $model)
     {
         $fields = [
+			'setfree' => $model->getSetFree(),
             'interpret' => $model->getInterpret(),
             'songtitel' => $model->getSongTitel(),
-            'votes' => $model->getVotes()
+            'votes' => $model->getVotes(),
+            'datecreate' => $model->getDateCreate(),
+            'user_id' => $model->getUser_Id()
         ];
 
         if ($model->getId()) {
@@ -221,7 +261,7 @@ class HoererCharts extends \Ilch\Mapper
      * @param integer $votes
 	 * @param array $config
 	 * @param boolean $showstars
-	 * @return boolean
+	 * @return string
      */
 	public function getStars($votes = 0, $config = null, $showstars = false)
     {
@@ -248,8 +288,10 @@ class HoererCharts extends \Ilch\Mapper
      */
     public function vote_allowed($start_datetime = null, $end_datetime = null)
     {
-		$datenow = new \Ilch\Date();
-		$datenow->modify('+1 hours');
+		$date = new \Ilch\Date();
+		
+		$datenow = new \Ilch\Date($date->format("Y-m-d H:i:s",true));
+		
 		if (!$start_datetime and !$end_datetime){
 			return true;
 		}else{
@@ -263,6 +305,7 @@ class HoererCharts extends \Ilch\Mapper
 					return (($datenow->getTimestamp() <= $end_datetime->getTimestamp()) ? true : false);
 				}
 			}
+			//var_dump($datenow,$start_datetime,$end_datetime);
 			return (($datenow->getTimestamp() >= $start_datetime->getTimestamp() && $datenow->getTimestamp() <= $end_datetime->getTimestamp()) ? true : false);
 		}
     }
