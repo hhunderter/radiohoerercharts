@@ -42,6 +42,8 @@ class Config extends \Ilch\Config\Install
 		$databaseConfig->set('radio_hoerercharts_Star3', '3');
 		$databaseConfig->set('radio_hoerercharts_Star4', '4');
 		$databaseConfig->set('radio_hoerercharts_Star5', '5');
+        $databaseConfig->set('radio_hoerercharts_all_sec_vote', '86400'); // 24h
+        $databaseConfig->set('radio_hoerercharts_allow_suggestion', '1');
 
         $this->db()->queryMulti($this->getInstallSql());
     }
@@ -58,9 +60,12 @@ class Config extends \Ilch\Config\Install
 		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Star3'");
 		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Star4'");
 		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Star5'");
+		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_all_sec_vote'");
+		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_allow_suggestion'");
 
         $this->db()->queryMulti('	DROP TABLE IF EXISTS `[prefix]_radio_hoerercharts`;
-									DROP TABLE IF EXISTS `[prefix]_radio_hoerercharts_uservotes`;');
+									DROP TABLE IF EXISTS `[prefix]_radio_hoerercharts_uservotes`;
+                                    DROP TABLE IF EXISTS `[prefix]_radio_hoerercharts_suggestion`;');
     }
 
     public function getInstallSql()
