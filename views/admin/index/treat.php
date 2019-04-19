@@ -2,24 +2,24 @@
 <h1><?=($entrie != '') ? $this->getTrans('edit') : $this->getTrans('add') ?></h1>
 <form role="form" class="form-horizontal" method="POST">
     <?=$this->getTokenField() ?>
-	<div class="form-group">
-		<div class="col-lg-2 control-label">
+    <div class="form-group">
+        <div class="col-lg-2 control-label">
             <?=$this->getTrans('datecreate') ?>
         </div>
         <div class="col-lg-4">
             <?php
-			if($entrie != ''){
-				$datenow = new \Ilch\Date($entrie->getDateCreate());
-				echo $datenow->format('d.m.Y H:i');
-			}else{
-				echo $this->getTrans('new');
-			}
-			?>
+            if($entrie != ''){
+                $datenow = new \Ilch\Date($entrie->getDateCreate());
+                echo $datenow->format('d.m.Y H:i');
+            }else{
+                echo $this->getTrans('new');
+            }
+            ?>
         </div>
     </div>
-	<?php if (!$this->getRequest()->getParam('suggestion')) : ?>
-	<div class="form-group <?=$this->validation()->hasError('setfree') ? 'has-error' : '' ?>">
-		<div class="col-lg-2 control-label">
+    <?php if (!$this->getRequest()->getParam('suggestion')) : ?>
+    <div class="form-group <?=$this->validation()->hasError('setfree') ? 'has-error' : '' ?>">
+        <div class="col-lg-2 control-label">
             <?=$this->getTrans('setfree') ?>
         </div>
         <div class="col-lg-4">
@@ -40,7 +40,7 @@
             </div>
         </div>
     </div>
-	<?php endif; ?>
+    <?php endif; ?>
     <div class="form-group <?=$this->validation()->hasError('interpret') ? 'has-error' : '' ?>">
         <label for="interpret" class="col-lg-2 control-label">
             <?=$this->getTrans('interpret') ?>
@@ -53,7 +53,7 @@
                    value="<?php if ($entrie != '') { echo $this->escape($entrie->getInterpret()); } ?>" />
         </div>
     </div>
-	<div class="form-group <?=$this->validation()->hasError('songtitel') ? 'has-error' : '' ?>">
+    <div class="form-group <?=$this->validation()->hasError('songtitel') ? 'has-error' : '' ?>">
         <label for="songtitel" class="col-lg-2 control-label">
             <?=$this->getTrans('songtitel') ?>
         </label>

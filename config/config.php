@@ -9,12 +9,12 @@ namespace Modules\RadioHoererCharts\Config;
 class Config extends \Ilch\Config\Install
 {
     public $config = [
-		'key' => 'radiohoerercharts',
+        'key' => 'radiohoerercharts',
         'version' => '1.3.0',
         'icon_small' => 'fa-list-ol',
         'author' => 'Reilard, Dennis alias hhunderter ',
         'link' => '',
-		'official' => false,
+        'official' => false,
         'languages' => [
             'de_DE' => [
                 'name' => 'Radio Hörer Charts',
@@ -26,22 +26,22 @@ class Config extends \Ilch\Config\Install
             ],
         ],
         'ilchCore' => '2.1.20',
-		'phpVersion' => '5.6',
+        'phpVersion' => '5.6',
     ];
 
     public function install()
     {
-		$databaseConfig = new \Ilch\Config\Database($this->db());
-		$databaseConfig->set('radio_hoerercharts_Guest_Allow', '0');
-		$databaseConfig->set('radio_hoerercharts_Start_Datetime', '');
-		$databaseConfig->set('radio_hoerercharts_End_Datetime', '');
-		$databaseConfig->set('radio_hoerercharts_Program_Name', 'Hörercharts');
+        $databaseConfig = new \Ilch\Config\Database($this->db());
+        $databaseConfig->set('radio_hoerercharts_Guest_Allow', '0');
+        $databaseConfig->set('radio_hoerercharts_Start_Datetime', '');
+        $databaseConfig->set('radio_hoerercharts_End_Datetime', '');
+        $databaseConfig->set('radio_hoerercharts_Program_Name', 'Hörercharts');
         $databaseConfig->set('radio_hoerercharts_showstars', '1');
-		$databaseConfig->set('radio_hoerercharts_Star1', '1');
-		$databaseConfig->set('radio_hoerercharts_Star2', '2');
-		$databaseConfig->set('radio_hoerercharts_Star3', '3');
-		$databaseConfig->set('radio_hoerercharts_Star4', '4');
-		$databaseConfig->set('radio_hoerercharts_Star5', '5');
+        $databaseConfig->set('radio_hoerercharts_Star1', '1');
+        $databaseConfig->set('radio_hoerercharts_Star2', '2');
+        $databaseConfig->set('radio_hoerercharts_Star3', '3');
+        $databaseConfig->set('radio_hoerercharts_Star4', '4');
+        $databaseConfig->set('radio_hoerercharts_Star5', '5');
         $databaseConfig->set('radio_hoerercharts_all_sec_vote', '86400'); // 24h
         $databaseConfig->set('radio_hoerercharts_allow_suggestion', '1');
 
@@ -50,21 +50,21 @@ class Config extends \Ilch\Config\Install
 
     public function uninstall()
     {
-		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Guest_Allow'");
-		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Start_Datetime'");
-		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_End_Datetime'");
-		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Program_Name'");
-		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_showstars'");
-		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Star1'");
-		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Star2'");
-		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Star3'");
-		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Star4'");
-		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Star5'");
-		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_all_sec_vote'");
-		$this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_allow_suggestion'");
+        $this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Guest_Allow'");
+        $this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Start_Datetime'");
+        $this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_End_Datetime'");
+        $this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Program_Name'");
+        $this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_showstars'");
+        $this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Star1'");
+        $this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Star2'");
+        $this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Star3'");
+        $this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Star4'");
+        $this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_Star5'");
+        $this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_all_sec_vote'");
+        $this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_allow_suggestion'");
 
-        $this->db()->queryMulti('	DROP TABLE IF EXISTS `[prefix]_radio_hoerercharts`;
-									DROP TABLE IF EXISTS `[prefix]_radio_hoerercharts_uservotes`;
+        $this->db()->queryMulti('   DROP TABLE IF EXISTS `[prefix]_radio_hoerercharts`;
+                                    DROP TABLE IF EXISTS `[prefix]_radio_hoerercharts_uservotes`;
                                     DROP TABLE IF EXISTS `[prefix]_radio_hoerercharts_suggestion`;');
     }
 
@@ -72,29 +72,29 @@ class Config extends \Ilch\Config\Install
     {
         return 'CREATE TABLE IF NOT EXISTS `[prefix]_radio_hoerercharts` (
                   `id` INT(11) NOT NULL AUTO_INCREMENT,
-				  `setfree` TINYINT(1) NOT NULL DEFAULT \'1\',
+                  `setfree` TINYINT(1) NOT NULL DEFAULT \'1\',
                   `interpret` VARCHAR(255) NOT NULL,
-				  `songtitel` VARCHAR(255) NOT NULL,
+                  `songtitel` VARCHAR(255) NOT NULL,
                   `votes` INT UNSIGNED NOT NULL,
-				  `datecreate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				  `user_id` INT(11) NOT NULL,
+                  `datecreate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                  `user_id` INT(11) NOT NULL,
                   PRIMARY KEY (`id`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;
-				
-				CREATE TABLE IF NOT EXISTS `[prefix]_radio_hoerercharts_uservotes` (
+                
+                CREATE TABLE IF NOT EXISTS `[prefix]_radio_hoerercharts_uservotes` (
                   `id` INT(11) NOT NULL AUTO_INCREMENT,
                   `user_id` INT(11) NOT NULL,
-				  `session_id` VARCHAR(255) NOT NULL DEFAULT \'\',
-				  `last_activity` DATETIME NOT NULL,
+                  `session_id` VARCHAR(255) NOT NULL DEFAULT \'\',
+                  `last_activity` DATETIME NOT NULL,
                   PRIMARY KEY (`id`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;
-				
-				CREATE TABLE IF NOT EXISTS `[prefix]_radio_hoerercharts_suggestion` (
+                
+                CREATE TABLE IF NOT EXISTS `[prefix]_radio_hoerercharts_suggestion` (
                   `id` INT(11) NOT NULL AUTO_INCREMENT,
                   `interpret` VARCHAR(255) NOT NULL,
-				  `songtitel` VARCHAR(255) NOT NULL,
-				  `datecreate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				  `user_id` INT(11) NOT NULL,
+                  `songtitel` VARCHAR(255) NOT NULL,
+                  `datecreate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                  `user_id` INT(11) NOT NULL,
                   PRIMARY KEY (`id`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;';
     }
@@ -102,67 +102,71 @@ class Config extends \Ilch\Config\Install
     public function getUpdate($installedVersion)
     {
         switch ($installedVersion) {
-			//Erste version erstellt Vorlage: https://www.ilch.de/downloads-show-1562.html
+            //Erste version erstellt Vorlage: https://www.ilch.de/downloads-show-1562.html
             case "1.0.0": //update zu 1.0.1
-				/*
-				Bugfixes
-				Version-Nr angepasst
-				PHPDoc überarbeitet
-				Zurücksetzen mit Sicherheitsabfrage
-				Englische übersetzung überarbeitet
-				*/
-			case "1.0.1": //update zu 1.1.0
-				/*
-				Bugfixes
-				Gäste können wenn gewünscht auch abstimmen
-				-session_id eingeführt
-				*/
-				$this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts_uservotes` ADD COLUMN `session_id` VARCHAR(255) NOT NULL DEFAULT \'\' AFTER `user_id`;');
-				$databaseConfig = new \Ilch\Config\Database($this->db());
-				$databaseConfig->set('radio_hoerercharts_Guest_Allow', '0');
-			case "1.1.0": //update zu 1.2.0
-				/*
-				Kleine Verbesserungen
-				Icon geändert
-				Wenn gewünscht kann ein Abstimmungszeitraum gewählt werden
-				Programmname kann geändert werden
-				*/
-				$databaseConfig = new \Ilch\Config\Database($this->db());
-				$databaseConfig->set('radio_hoerercharts_Start_Datetime', '');
-				$databaseConfig->set('radio_hoerercharts_End_Datetime', '');
-				$databaseConfig->set('radio_hoerercharts_Program_Name', 'Hörercharts');
-				$fields = [
-					'author' => 'Reilard, Dennis alias hhunderter ',
-					'icon_small' => 'fa-list-ol'
-				];
-				$this->db()->update('modules')
+                /*
+                Bugfixes
+                Version-Nr angepasst
+                PHPDoc überarbeitet
+                Zurücksetzen mit Sicherheitsabfrage
+                Englische übersetzung überarbeitet
+                */
+            case "1.0.1": //update zu 1.1.0
+                /*
+                Bugfixes
+                Gäste können wenn gewünscht auch abstimmen
+                -session_id eingeführt
+                */
+                $this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts_uservotes` ADD COLUMN `session_id` VARCHAR(255) NOT NULL DEFAULT \'\' AFTER `user_id`;');
+                $databaseConfig = new \Ilch\Config\Database($this->db());
+                $databaseConfig->set('radio_hoerercharts_Guest_Allow', '0');
+            case "1.1.0": //update zu 1.2.0
+                /*
+                Kleine Verbesserungen
+                Icon geändert
+                Wenn gewünscht kann ein Abstimmungszeitraum gewählt werden
+                Programmname kann geändert werden
+                */
+                $databaseConfig = new \Ilch\Config\Database($this->db());
+                $databaseConfig->set('radio_hoerercharts_Start_Datetime', '');
+                $databaseConfig->set('radio_hoerercharts_End_Datetime', '');
+                $databaseConfig->set('radio_hoerercharts_Program_Name', 'Hörercharts');
+                $fields = [
+                    'author' => 'Reilard, Dennis alias hhunderter ',
+                    'icon_small' => 'fa-list-ol'
+                ];
+                $this->db()->update('modules')
                 ->values($fields)
                 ->where(['key' => 'radiohoerercharts'])
                 ->execute();
-			case "1.2.0": //update zu 1.3.0
-				/*
-				In der Chart-Liste können Einträge ein-/ausgeblendet werden
-				Wenn gewünscht können User/Gäste alle X Sekunden abstimmen
-				User/Gäste können, wenn gewünscht, vorschläge machen für die Chart-Liste    `user_id` INT(11) NOT NULL,
-				
-				*/
-				$this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts_uservotes` ADD COLUMN `last_activity` DATETIME NOT NULL  AFTER `session_id`;');
-				$this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts` ADD COLUMN `setfree` TINYINT(1) NOT NULL DEFAULT \'1\' AFTER `id`;');
-				$this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts` ADD COLUMN `datecreate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `votes`;');
-				$this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts` ADD COLUMN `user_id` INT(11) NOT NULL AFTER `datecreate`;');
-				$this->db()->query('CREATE TABLE IF NOT EXISTS `[prefix]_radio_hoerercharts_suggestion` (
+            case "1.2.0": //update zu 1.3.0
+                /*
+                In der Chart-Liste können Einträge ein-/ausgeblendet werden
+                Wenn gewünscht können User/Gäste alle X Sekunden abstimmen
+                User/Gäste können, wenn gewünscht, vorschläge machen für die Chart-Liste    `user_id` INT(11) NOT NULL,
+                
+                */
+                $this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts_uservotes` ADD COLUMN `last_activity` DATETIME NOT NULL  AFTER `session_id`;');
+                $this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts` ADD COLUMN `setfree` TINYINT(1) NOT NULL DEFAULT \'1\' AFTER `id`;');
+                $this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts` ADD COLUMN `datecreate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `votes`;');
+                $this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts` ADD COLUMN `user_id` INT(11) NOT NULL AFTER `datecreate`;');
+                $this->db()->query('CREATE TABLE IF NOT EXISTS `[prefix]_radio_hoerercharts_suggestion` (
                   `id` INT(11) NOT NULL AUTO_INCREMENT,
                   `interpret` VARCHAR(255) NOT NULL,
-				  `songtitel` VARCHAR(255) NOT NULL,
-				  `datecreate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				  `user_id` INT(11) NOT NULL,
+                  `songtitel` VARCHAR(255) NOT NULL,
+                  `datecreate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                  `user_id` INT(11) NOT NULL,
                   PRIMARY KEY (`id`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;');
-				$databaseConfig = new \Ilch\Config\Database($this->db());
-				$databaseConfig->set('radio_hoerercharts_all_sec_vote', '86400'); // 24h
-				$databaseConfig->set('radio_hoerercharts_allow_suggestion', '1');
+                $databaseConfig = new \Ilch\Config\Database($this->db());
+                $databaseConfig->set('radio_hoerercharts_all_sec_vote', '86400'); // 24h
+                $databaseConfig->set('radio_hoerercharts_allow_suggestion', '1');
+            case "1.3.0": //update zu 1.3.1
+                /*
+                Kleine Fixes...
+                */
         }
-		return 'Update function executed.';
+        return 'Update function executed.';
     }
 }
 

@@ -8,35 +8,35 @@ namespace Modules\RadioHoererCharts\Models;
 
 class HoererChartsUserVotes extends \Ilch\Model
 {
-	/**
+    /**
      * The Id.
      *
      * @var int
      */
     protected $id;
 
-	/**
+    /**
      * The User_Id.
      *
      * @var int
      */
     protected $user_id;
-	
-	/**
+    
+    /**
      * The Session_Id.
      *
      * @var string
      */
     protected $sessionId;
-	
-	/**
+    
+    /**
      * The last_activity.
      *
      * @var string
      */
     protected $last_activity;
 
-	/**
+    /**
      * Gets the Id.
      *
      * @return int
@@ -45,7 +45,7 @@ class HoererChartsUserVotes extends \Ilch\Model
     {
         return $this->id;
     }
-	/**
+    /**
      * Sets the Id.
      *
      * @param int $id
@@ -53,12 +53,12 @@ class HoererChartsUserVotes extends \Ilch\Model
      */
     public function setId($id)
     {
-        $this->id = (int)$id;
+        $this->id = (int) $id;
 
         return $this;
     }
 
-	/**
+    /**
      * Gets the User_Id.
      *
      * @return int
@@ -67,7 +67,7 @@ class HoererChartsUserVotes extends \Ilch\Model
     {
         return $this->user_id;
     }
-	/**
+    /**
      * Sets the User_Id.
      *
      * @param int $user_id
@@ -75,12 +75,12 @@ class HoererChartsUserVotes extends \Ilch\Model
      */
     public function setUser_Id($user_id)
     {
-        $this->user_id = (int)$user_id;
+        $this->user_id = (int) $user_id;
 
         return $this;
     }
-	
-	/**
+    
+    /**
      * The php session id of the guest or user.
      * Usefull to better identify a guest/user as there might be
      * more than one guest/user with the same ip-adress.
@@ -99,10 +99,10 @@ class HoererChartsUserVotes extends \Ilch\Model
      */
     public function setSessionId($sessionId)
     {
-        $this->sessionId = (string)$sessionId;
+        $this->sessionId = (string) $sessionId;
     }
-	
-	/**
+    
+    /**
      * Gets the last_activity.
      *
      * @return string
@@ -111,7 +111,7 @@ class HoererChartsUserVotes extends \Ilch\Model
     {
         return $this->last_activity;
     }
-	/**
+    /**
      * Sets the last_activity.
      *
      * @param string $last_activity
@@ -119,7 +119,7 @@ class HoererChartsUserVotes extends \Ilch\Model
      */
     public function setLast_Activity($last_activity)
     {
-        $this->last_activity = (string)$last_activity;
+        $this->last_activity = (string) $last_activity;
 
         return $this;
     }

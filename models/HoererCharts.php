@@ -8,56 +8,56 @@ namespace Modules\RadioHoererCharts\Models;
 
 class HoererCharts extends \Ilch\Model
 {
-	/**
+    /**
      * The Id.
      *
      * @var int
      */
     protected $id;
-	
-	/**
+    
+    /**
      * The setfree.
      *
      * @var int
      */
     protected $setfree;
 
-	/**
+    /**
      * The Interpret.
      *
      * @var string
      */
     protected $interpret;
 
-	/**
+    /**
      * The Songtitel.
      *
      * @var string
      */
     protected $songtitel;
 
-	/**
+    /**
      * The Votes.
      *
      * @var int
      */
     protected $votes;
-	
-	/**
+    
+    /**
      * The DateCreate.
      *
      * @var string
      */
     protected $datecreate;
-	
-	/**
+    
+    /**
      * The user_id.
      *
      * @var int
      */
     protected $user_id;
 
-	/**
+    /**
      * Gets the Id.
      *
      * @return int
@@ -66,7 +66,7 @@ class HoererCharts extends \Ilch\Model
     {
         return $this->id;
     }
-	/**
+    /**
      * Sets the Id.
      *
      * @param int $id
@@ -74,12 +74,12 @@ class HoererCharts extends \Ilch\Model
      */
     public function setId($id)
     {
-        $this->id = (int)$id;
+        $this->id = (int) $id;
 
         return $this;
     }
-	
-	/**
+    
+    /**
      * Gets the setfree.
      *
      * @return int
@@ -88,7 +88,7 @@ class HoererCharts extends \Ilch\Model
     {
         return $this->setfree;
     }
-	/**
+    /**
      * Sets the setfree.
      *
      * @param int $setfree
@@ -96,12 +96,12 @@ class HoererCharts extends \Ilch\Model
      */
     public function setSetFree($setfree)
     {
-        $this->setfree = (int)$setfree;
+        $this->setfree = (int) $setfree;
 
         return $this;
     }
 
-	/**
+    /**
      * Gets the Interpret.
      *
      * @return string
@@ -110,7 +110,7 @@ class HoererCharts extends \Ilch\Model
     {
         return $this->interpret;
     }
-	/**
+    /**
      * Sets the Interpret.
      *
      * @param String $interpret
@@ -118,12 +118,12 @@ class HoererCharts extends \Ilch\Model
      */
     public function setInterpret($interpret)
     {
-        $this->interpret = $interpret;
+        $this->interpret = (string) $interpret;
 
         return $this;
     }
 
-	/**
+    /**
      * Gets the SongTitel.
      *
      * @return string
@@ -132,7 +132,7 @@ class HoererCharts extends \Ilch\Model
     {
         return $this->songtitel;
     }
-	/**
+    /**
      * Sets the SongTitel.
      *
      * @param String $songtitel
@@ -140,12 +140,12 @@ class HoererCharts extends \Ilch\Model
      */
     public function setSongTitel($songtitel)
     {
-        $this->songtitel = (string)$songtitel;
+        $this->songtitel = (string) $songtitel;
 
         return $this;
     }
 
-	/**
+    /**
      * Gets the Votes.
      *
      * @return int
@@ -154,7 +154,7 @@ class HoererCharts extends \Ilch\Model
     {
         return $this->votes;
     }
-	/**
+    /**
      * Sets the Votes.
      *
      * @param int $votes
@@ -162,12 +162,12 @@ class HoererCharts extends \Ilch\Model
      */
     public function setVotes($votes)
     {
-        $this->votes = (int)$votes;
+        $this->votes = (int) $votes;
 
         return $this;
     }
-	
-	/**
+    
+    /**
      * Gets the datecreate.
      *
      * @return String
@@ -176,7 +176,7 @@ class HoererCharts extends \Ilch\Model
     {
         return $this->datecreate;
     }
-	/**
+    /**
      * Sets the datecreate.
      *
      * @param String $datecreate
@@ -184,12 +184,12 @@ class HoererCharts extends \Ilch\Model
      */
     public function setDateCreate($datecreate)
     {
-        $this->datecreate = (string)$datecreate;
+        $this->datecreate = (string) $datecreate;
 
         return $this;
     }
-	
-	/**
+    
+    /**
      * Gets the user_id.
      *
      * @return int
@@ -198,7 +198,7 @@ class HoererCharts extends \Ilch\Model
     {
         return $this->user_id;
     }
-	/**
+    /**
      * Sets the user_id.
      *
      * @param int $user_id
@@ -206,7 +206,7 @@ class HoererCharts extends \Ilch\Model
      */
     public function setUser_Id($user_id)
     {
-        $this->user_id = (int)$user_id;
+        $this->user_id = (int) $user_id;
 
         return $this;
     }

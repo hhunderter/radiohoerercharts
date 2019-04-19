@@ -10,16 +10,16 @@ use Modules\RadioHoererCharts\Models\HoererCharts as EntriesModel;
 
 class HoererChartsSuggestion extends \Ilch\Mapper
 {
-	/**
+    /**
      * returns if the module is installed.
      *
      * @return boolean
      */
-	public function checkDB()
+    public function checkDB()
     {
-		return $this->db()->ifTableExists('[prefix]_radio_hoerercharts_suggestion');
-	}
-	
+        return $this->db()->ifTableExists('[prefix]_radio_hoerercharts_suggestion');
+    }
+    
     /**
      * Gets the Entries.
      *
@@ -51,53 +51,53 @@ class HoererChartsSuggestion extends \Ilch\Mapper
             $entryModel->setId($entries['id']);
             $entryModel->setInterpret($entries['interpret']);
             $entryModel->setSongTitel($entries['songtitel']);
-			$entryModel->setDateCreate($entries['datecreate']);
-			$entryModel->setUser_Id($entries['user_id']);
+            $entryModel->setDateCreate($entries['datecreate']);
+            $entryModel->setUser_Id($entries['user_id']);
             $entry[] = $entryModel;
         }
 
         return $entry;
     }
 
-	/**
+    /**
      * Gets the entry by given ID.
      *
      * @param int $id
      * @return null|EntriesModel
      */
-	public function getEntryById($id)
+    public function getEntryById($id)
     {
-		$entryRow = $this->db()->select('*')
+        $entryRow = $this->db()->select('*')
             ->from('radio_hoerercharts_suggestion')
             ->where(['id' => $id])
             ->execute()
             ->fetchAssoc();
 
-		if (empty($entryRow)) {
+        if (empty($entryRow)) {
             return null;
         }
 
-		$entryModel = new EntriesModel();
-		$entryModel->setId($entryRow['id'])
-			->setInterpret($entryRow['interpret'])
-			->setSongTitel($entryRow['songtitel'])
-			->setDateCreate($entryRow['datecreate'])
-			->setUser_Id($entryRow['user_id']);
+        $entryModel = new EntriesModel();
+        $entryModel->setId($entryRow['id'])
+            ->setInterpret($entryRow['interpret'])
+            ->setSongTitel($entryRow['songtitel'])
+            ->setDateCreate($entryRow['datecreate'])
+            ->setUser_Id($entryRow['user_id']);
 
         return $entryModel;
-	}
+    }
 
-	/**
+    /**
      * Gets the Entries by param.
      *
      * @param array $where
-	 * @param array $orderBy
+     * @param array $orderBy
      * @param \Ilch\Pagination|null $pagination
      * @return EntriesModel[]|array
      */
-	public function getEntriesBy($where = [], $orderBy = ['id' => 'DESC'], $pagination = null)
+    public function getEntriesBy($where = [], $orderBy = ['id' => 'DESC'], $pagination = null)
     {
-		$select = $this->db()->select('*')
+        $select = $this->db()->select('*')
             ->from('radio_hoerercharts_suggestion')
             ->where($where)
             ->order($orderBy);
@@ -119,26 +119,27 @@ class HoererChartsSuggestion extends \Ilch\Mapper
             $entryModel->setId($entries['id']);
             $entryModel->setInterpret($entries['interpret']);
             $entryModel->setSongTitel($entries['songtitel']);
-			$entryModel->setDateCreate($entries['datecreate']);
-			$entryModel->setUser_Id($entries['user_id']);
+            $entryModel->setDateCreate($entries['datecreate']);
+            $entryModel->setUser_Id($entries['user_id']);
             $entry[] = $entryModel;
-		}
+        }
         return $entry;
-	}
+    }
 
     /**
      * Inserts or updates entry.
      *
      * @param EntriesModel $model
-	 * @return boolean
+     * @return boolean
      */
     public function save(EntriesModel $model)
     {
         $fields = [
-            'interpret' => $model->getInterpret(),
-            'songtitel' => $model->getSongTitel(),
-            'datecreate' => $model->getDateCreate(),
-            'user_id' => $model->getUser_Id()
+            'interpret'     => $model->getInterpret(),
+            'songtitel'     => $model->getSongTitel(),
+            'datecreate'    => $model->getDateCreate(),
+            'user_id'       => $model->getUser_Id()
+                            
         ];
 
         if ($model->getId()) {
@@ -152,14 +153,14 @@ class HoererChartsSuggestion extends \Ilch\Mapper
                 ->execute();
         }
 
-		return true;
+        return true;
     }
 
     /**
      * Deletes the entry.
      *
      * @param integer $id
-	 * @return boolean
+     * @return boolean
      */
     public function delete($id)
     {
@@ -167,5 +168,5 @@ class HoererChartsSuggestion extends \Ilch\Mapper
             ->where(['id' => $id])
             ->execute();
     }
-	
+    
 }

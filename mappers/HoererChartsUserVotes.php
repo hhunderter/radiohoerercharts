@@ -40,53 +40,54 @@ class HoererChartsUserVotes extends \Ilch\Mapper
             $entryModel = new EntriesModel();
             $entryModel->setId($entries['id']);
             $entryModel->setUser_Id($entries['user_id']);
-			$entryModel->setSessionId($entries['session_id']);
-			$entryModel->setLast_Activity($entries['last_activity']);
+            $entryModel->setSessionId($entries['session_id']);
+            $entryModel->setLast_Activity($entries['last_activity']);
             $entry[] = $entryModel;
         }
 
         return $entry;
     }
-	
-	/**
+    
+    /**
      * Gets the entry by given ID.
      *
      * @param int $id
      * @return null|EntriesModel
      */
-	public function getEntryById($id)
+    public function getEntryById($id)
     {
-		$entryRow = $this->db()->select('*')
+        $entryRow = $this->db()->select('*')
             ->from('radio_hoerercharts_uservotes')
             ->where(['id' => $id])
             ->execute()
             ->fetchAssoc();
 
-		if (empty($entryRow)) {
+        if (empty($entryRow)) {
             return null;
         }
 
-		$entryModel = new EntriesModel();
-		$entryModel->setId($entryRow['id']);
-		$entryModel->setUser_Id($entryRow['user_id']);
-		$entryModel->setSessionId($entryRow['session_id']);
-		$entryModel->setLast_Activity($entryRow['last_activity']);
+        $entryModel = new EntriesModel();
+        $entryModel->setId($entryRow['id']);
+        $entryModel->setUser_Id($entryRow['user_id']);
+        $entryModel->setSessionId($entryRow['session_id']);
+        $entryModel->setLast_Activity($entryRow['last_activity']);
 
         return $entryModel;
-	}
+    }
 
     /**
      * Inserts or updates entry.
      *
      * @param EntriesModel $model
-	 * @return boolean
+     * @return boolean
      */
     public function save(EntriesModel $model)
     {
         $fields = [
-            'user_id' => $model->getUser_Id(),
-			'session_id' => $model->getSessionId(),
-			'last_activity' => $model->getLast_Activity()
+            'user_id'       => $model->getUser_Id(),
+            'session_id'    => $model->getSessionId(),
+            'last_activity' => $model->getLast_Activity()
+                            
         ];
 
         if ($model->getId()) {
@@ -99,7 +100,7 @@ class HoererChartsUserVotes extends \Ilch\Mapper
                 ->values($fields)
                 ->execute();
         }
-		return true;
+        return true;
     }
 
     /**
@@ -124,14 +125,14 @@ class HoererChartsUserVotes extends \Ilch\Mapper
                 ->values($fields)
                 ->execute();
         }
-		return true;
+        return true;
     }
 
     /**
      * Deletes the entry.
      *
      * @param integer $id
-	 * @return boolean
+     * @return boolean
      */
     public function delete($id)
     {
@@ -152,8 +153,8 @@ class HoererChartsUserVotes extends \Ilch\Mapper
             ->where(['user_id' => $user_id])
             ->execute();
     }
-	
-	/**
+    
+    /**
      * Delete user vote with specific session_id.
      *
      * @param string $session_id
@@ -165,19 +166,19 @@ class HoererChartsUserVotes extends \Ilch\Mapper
             ->where(['session_id' => $session_id])
             ->execute();
     }
-	
-	/**
+    
+    /**
      * Gets the entry by given ID.
      *
      * @param int $id
      * @return null|EntriesModel
      */
-	public function getEntryByUserSession($User = null)
+    public function getEntryByUserSession($User = null)
     {
-		$User_Id = 0;
-		if ($User) $User_Id = $User->getId();
-		
-		$voteId = (int) $this->db()->select('id')
+        $User_Id = 0;
+        if ($User) $User_Id = $User->getId();
+        
+        $voteId = (int) $this->db()->select('id')
             ->from('radio_hoerercharts_uservotes')
             ->where(['session_id' => session_id()])
             ->orWhere(['user_id >' => 0, 'user_id' => $User_Id])
@@ -185,67 +186,67 @@ class HoererChartsUserVotes extends \Ilch\Mapper
             ->fetchCell();
 
         return $voteId;
-	}
-	
-	/**
+    }
+    
+    /**
      * Check if user has already voted or if guests can vote.
      *
      * @param \Ilch\User $User
-	 * @param boolean $guestallow
+     * @param boolean $guestallow
      * @return boolean
      */
     public function is_voted($User = null, $guestallow = false, $timediff = 30)
     {
-		$date = new \Ilch\Date();
-		
-		$datenow = new \Ilch\Date($date->format("Y-m-d H:i:s",true));
-		//$datenow->modify('+1 hours');
-		
-		$User_Id = 0;
-		if ($User) $User_Id = $User->getId();
-		
-		$voteId = $this->getEntryByUserSession($User);
-			
-		if ($voteId){
-			$returnvalue = true;
-			$entryModel = $this->getEntryById($voteId);
-			
-			if (!empty($entryModel->getLast_Activity())) $dateentry = new \Ilch\Date($entryModel->getLast_Activity());
-			else $dateentry = clone $datenow;
-			
-			if ($timediff > 0){
-				
-				$dateentryclone = clone $dateentry;
-				$dateentryclone->modify('+'.$timediff.' seconds');
-				
-				if ($dateentryclone->getTimestamp() < $datenow->getTimestamp()){
-					$returnvalue = false;
-					//$dateentry = $datenow;
-				}
-			}
-			
-			$entryModel->setLast_Activity($dateentry);
-			if ($User_Id) $entryModel->setUser_Id($User_Id);
-			$entryModel->setSessionId(session_id());
-			$this->save($entryModel);	
-			
-			return $returnvalue;
-		}else{
-			if (!$User_Id and !$guestallow)
-				return true;
-			else
-				return false;
-		}
+        $date = new \Ilch\Date();
+        
+        $datenow = new \Ilch\Date($date->format("Y-m-d H:i:s",true));
+        //$datenow->modify('+1 hours');
+        
+        $User_Id = 0;
+        if ($User) $User_Id = $User->getId();
+        
+        $voteId = $this->getEntryByUserSession($User);
+            
+        if ($voteId){
+            $returnvalue = true;
+            $entryModel = $this->getEntryById($voteId);
+            
+            if (!empty($entryModel->getLast_Activity())) $dateentry = new \Ilch\Date($entryModel->getLast_Activity());
+            else $dateentry = clone $datenow;
+            
+            if ($timediff > 0){
+                
+                $dateentryclone = clone $dateentry;
+                $dateentryclone->modify('+'.$timediff.' seconds');
+                
+                if ($dateentryclone->getTimestamp() < $datenow->getTimestamp()){
+                    $returnvalue = false;
+                    //$dateentry = $datenow;
+                }
+            }
+            
+            $entryModel->setLast_Activity($dateentry);
+            if ($User_Id) $entryModel->setUser_Id($User_Id);
+            $entryModel->setSessionId(session_id());
+            $this->save($entryModel);    
+            
+            return $returnvalue;
+        }else{
+            if (!$User_Id and !$guestallow)
+                return true;
+            else
+                return false;
+        }
     }
 
-	/**
+    /**
      * Reset the Vote counts.
      *
-	 * @return boolean
+     * @return boolean
      */
-	public function reset()
+    public function reset()
     {
-		$this->db()->truncate('[prefix]_radio_hoerercharts_uservotes');
-		return $this->db()->queryMulti('ALTER TABLE `[prefix]_radio_hoerercharts_uservotes` auto_increment = 1;');
+        $this->db()->truncate('[prefix]_radio_hoerercharts_uservotes');
+        return $this->db()->queryMulti('ALTER TABLE `[prefix]_radio_hoerercharts_uservotes` auto_increment = 1;');
     }
 }
