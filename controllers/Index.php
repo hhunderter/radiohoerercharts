@@ -134,7 +134,7 @@ class Index extends \Ilch\Controller\Frontend
 
                         $this->redirect()
                             ->withMessage('saveSuccess')
-                            ->2to(['action' => 'index']);
+                            ->to(['action' => 'index']);
                     }
                     $this->addMessage($validation->getErrorBag()->getErrorMessages(), 'danger', true);
                     $this->redirect()

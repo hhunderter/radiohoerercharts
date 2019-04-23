@@ -10,7 +10,7 @@ class Config extends \Ilch\Config\Install
 {
     public $config = [
         'key' => 'radiohoerercharts',
-        'version' => '1.3.0',
+        'version' => '1.3.1',
         'icon_small' => 'fa-list-ol',
         'author' => 'Reilard, Dennis alias hhunderter ',
         'link' => '',
@@ -63,7 +63,7 @@ class Config extends \Ilch\Config\Install
         $this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_all_sec_vote'");
         $this->db()->queryMulti("DELETE FROM `[prefix]_config` WHERE `key` = 'radio_hoerercharts_allow_suggestion'");
 
-        $this->db()->queryMulti('   DROP TABLE IF EXISTS `[prefix]_radio_hoerercharts`;
+        $this->db()->queryMulti('    DROP TABLE IF EXISTS `[prefix]_radio_hoerercharts`;
                                     DROP TABLE IF EXISTS `[prefix]_radio_hoerercharts_uservotes`;
                                     DROP TABLE IF EXISTS `[prefix]_radio_hoerercharts_suggestion`;');
     }
@@ -143,8 +143,7 @@ class Config extends \Ilch\Config\Install
                 /*
                 In der Chart-Liste können Einträge ein-/ausgeblendet werden
                 Wenn gewünscht können User/Gäste alle X Sekunden abstimmen
-                User/Gäste können, wenn gewünscht, vorschläge machen für die Chart-Liste    `user_id` INT(11) NOT NULL,
-                
+                User/Gäste können, wenn gewünscht, vorschläge machen für die Chart-Liste
                 */
                 $this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts_uservotes` ADD COLUMN `last_activity` DATETIME NOT NULL  AFTER `session_id`;');
                 $this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts` ADD COLUMN `setfree` TINYINT(1) NOT NULL DEFAULT \'1\' AFTER `id`;');
@@ -163,7 +162,8 @@ class Config extends \Ilch\Config\Install
                 $databaseConfig->set('radio_hoerercharts_allow_suggestion', '1');
             case "1.3.0": //update zu 1.3.1
                 /*
-                Kleine Fixes...
+                fix indentation
+                bugfix
                 */
         }
         return 'Update function executed.';
