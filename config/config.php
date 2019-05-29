@@ -10,7 +10,7 @@ class Config extends \Ilch\Config\Install
 {
     public $config = [
         'key' => 'radiohoerercharts',
-        'version' => '1.3.1',
+        'version' => '1.3.2',
         'icon_small' => 'fa-list-ol',
         'author' => 'Reilard, Dennis alias hhunderter ',
         'link' => '',
@@ -76,7 +76,7 @@ class Config extends \Ilch\Config\Install
                   `interpret` VARCHAR(255) NOT NULL,
                   `songtitel` VARCHAR(255) NOT NULL,
                   `votes` INT UNSIGNED NOT NULL,
-                  `datecreate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                  `datecreate` DATETIME NOT NULL,
                   `user_id` INT(11) NOT NULL,
                   PRIMARY KEY (`id`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;
@@ -93,7 +93,7 @@ class Config extends \Ilch\Config\Install
                   `id` INT(11) NOT NULL AUTO_INCREMENT,
                   `interpret` VARCHAR(255) NOT NULL,
                   `songtitel` VARCHAR(255) NOT NULL,
-                  `datecreate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                  `datecreate` DATETIME NOT NULL,
                   `user_id` INT(11) NOT NULL,
                   PRIMARY KEY (`id`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;';
@@ -147,13 +147,15 @@ class Config extends \Ilch\Config\Install
                 */
                 $this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts_uservotes` ADD COLUMN `last_activity` DATETIME NOT NULL  AFTER `session_id`;');
                 $this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts` ADD COLUMN `setfree` TINYINT(1) NOT NULL DEFAULT \'1\' AFTER `id`;');
-                $this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts` ADD COLUMN `datecreate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `votes`;');
+                $this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts` ADD COLUMN `datecreate` DATETIME NOT NULL AFTER `votes`;');
+                $datecreate = new \Ilch\Date();
+                $this->db()->query('UPDATE `[prefix]_radio_hoerercharts` SET `datecreate` = "'.$datecreate.'"');
                 $this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts` ADD COLUMN `user_id` INT(11) NOT NULL AFTER `datecreate`;');
                 $this->db()->query('CREATE TABLE IF NOT EXISTS `[prefix]_radio_hoerercharts_suggestion` (
                   `id` INT(11) NOT NULL AUTO_INCREMENT,
                   `interpret` VARCHAR(255) NOT NULL,
                   `songtitel` VARCHAR(255) NOT NULL,
-                  `datecreate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                  `datecreate` DATETIME NOT NULL,
                   `user_id` INT(11) NOT NULL,
                   PRIMARY KEY (`id`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;');
@@ -163,8 +165,14 @@ class Config extends \Ilch\Config\Install
             case "1.3.0": //update zu 1.3.1
                 /*
                 fix indentation
-                bugfix
+                bugfix of redirect in Frontent
                 */
+            case "1.3.1": //update zu 1.3.2
+                /*
+                bugfix of DEFAULT value datecreate CURRENT_TIMESTAMP / now()
+                */
+                $this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts_suggestion` CHANGE `datecreate` `datecreate` DATETIME NOT NULL;');
+                $this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts` CHANGE `datecreate` `datecreate` DATETIME NOT NULL;');
         }
         return 'Update function executed.';
     }
