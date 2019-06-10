@@ -33,7 +33,7 @@
             <a href="<?=$this->getUrl(['action' => 'index']) ?>"><?=$this->getTrans('index') ?></a>
         </li>
         <li class="<?=($this->get('suggestion')?'active':'') ?>">
-            <a href="<?=$this->getUrl(['action' => 'index', 'suggestion' => 'true']) ?>"><?=$this->getTrans('suggestion') ?></a>
+            <a href="<?=$this->getUrl(['action' => 'index', 'suggestion' => 'true']) ?>"><?=$this->getTrans('suggestion') ?> <span class="badge"><?=$this->get('badgeSuggestion') ?></span></a>
         </li>
     </ul>
 </div>

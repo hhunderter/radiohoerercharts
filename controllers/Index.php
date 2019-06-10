@@ -6,6 +6,7 @@
 
 namespace Modules\RadioHoererCharts\Controllers;
 
+use Modules\User\Mappers\User as UserMapper;
 use Modules\RadioHoererCharts\Mappers\HoererCharts as HoererChartsMapper;
 use Modules\RadioHoererCharts\Models\HoererCharts as HoererChartsModel;
 use Modules\RadioHoererCharts\Mappers\HoererChartsSuggestion as HoererChartsSuggestionMapper;
@@ -19,6 +20,7 @@ class Index extends \Ilch\Controller\Frontend
     {
         $hoererchartsMapper = new HoererChartsMapper();
         $hoererchartsuservotesMapper = new HoererChartsUserVotesMapper();
+        $userMapper = new UserMapper;
 
         $this->getLayout()->getTitle()
             ->add($this->getTranslator()->trans('hoerercharts'));
@@ -47,6 +49,7 @@ class Index extends \Ilch\Controller\Frontend
                                     'Star5'=>$this->getConfig()->get('radio_hoerercharts_Star5'),
                                     'Program_Name'=>(($this->getConfig()->get('radio_hoerercharts_Program_Name'))?$this->getConfig()->get('radio_hoerercharts_Program_Name'):$this->getTranslator()->trans('notset')));
         $this->getView()->set('config', $hoererchartsconfig);
+        $this->getView()->set('userMapper', $userMapper);
 
         $this->getView()->set('votedatetime', ((!$hoererchartsconfig['start_datetime'] and !$hoererchartsconfig['end_datetime'])?'':$this->getTranslator()->trans('votedatetime').(($hoererchartsconfig['start_datetime'] and $hoererchartsconfig['end_datetime'])?call_user_func_array([$this->getTranslator(), 'trans'], array('fromto', $hoererchartsconfig['start_datetime']->format($formatdatetime),$hoererchartsconfig['end_datetime']->format($formatdatetime))):(($hoererchartsconfig['start_datetime'])?$this->getTranslator()->trans('from').' '.$hoererchartsconfig['start_datetime']->format($formatdatetime):$this->getTranslator()->trans('to').' '.$hoererchartsconfig['end_datetime']->format($formatdatetime)))."<br><br>"));
         if ($hoererchartsMapper->checkDB()){

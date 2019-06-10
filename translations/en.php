@@ -66,4 +66,7 @@ i.e. new artists may be added or older titles are hidden, etc.',
     'enable' => 'Freischalten',
     'user' => 'Username',
     'guest' => 'Gast',
+    
+    'registered_by' => 'Registered by',
+    'suggestionenable' => 'Suggestion enable',
 ];

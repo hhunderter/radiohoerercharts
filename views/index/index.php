@@ -1,5 +1,6 @@
 <?php
 $hoererchartsconfig = $this->get('config');
+$userMapper = $this->get('userMapper');
 ?>
 <h1>
     <?=$this->getTrans('hoerercharts').$this->get('gettext') ?>
@@ -31,7 +32,8 @@ $hoererchartsconfig = $this->get('config');
                 <col class="icon_width">
                 <col class="col-lg-4">
                 <col class="col-lg-4">
-                <col class="col-lg-4">
+                <col class="col-lg-3">
+                <col class="icon_width">
             </colgroup>
             <thead>
                 <tr>
@@ -39,6 +41,7 @@ $hoererchartsconfig = $this->get('config');
                     <th><?=$this->getTrans('interpret') ?></th>
                     <th><?=$this->getTrans('songtitel') ?></th>
                     <th><?=$this->getTrans('vote') ?></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -48,6 +51,8 @@ $hoererchartsconfig = $this->get('config');
                     <td><?=$this->escape($entry->getInterpret()) ?></td>
                     <td><?=$this->escape($entry->getSongTitel()) ?></td>
                     <td><?=$this->get('hoererchartsMapper')->getStars($entry->getVotes(), $hoererchartsconfig) ?></td>
+                    <?php $User = $userMapper->getUserById($entry->getUser_Id()); ?>
+                    <td><span class="fa fa-info-circle text-info" data-toggle="tooltip" data-placement="left" title="<?=$this->getTrans('registered_by') ?>: <?=(!$User?$this->getTrans('guest'):$this->escape($User->getName())) ?>"></span></td>
                 </tr>
                 <?php
                 $platz++;
@@ -74,13 +79,15 @@ $hoererchartsconfig = $this->get('config');
                 <colgroup>
                     <col class="icon_width">
                     <col class="col-lg-6">
-                    <col class="col-lg-6">
+                    <col class="col-lg-5">
+                    <col class="icon_width">
                 </colgroup>
                 <thead>
                     <tr>
                         <th>&nbsp;</th>
                         <th><?=$this->getTrans('interpret') ?></th>
                         <th><?=$this->getTrans('songtitel') ?></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -89,6 +96,8 @@ $hoererchartsconfig = $this->get('config');
                         <td><input type="radio" name="hoerercharts-d" value="<?=$entry->getId() ?>"></td>
                         <td><?=$this->escape($entry->getInterpret()) ?></td>
                         <td><?=$this->escape($entry->getSongTitel()) ?></td>
+                        <?php $User = $userMapper->getUserById($entry->getUser_Id()); ?>
+                        <td><span class="fa fa-info-circle text-info" data-toggle="tooltip" data-placement="left" title="<?=$this->getTrans('registered_by') ?>: <?=(!$User?$this->getTrans('guest'):$this->escape($User->getName())) ?>"></span></td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -108,3 +117,6 @@ $hoererchartsconfig = $this->get('config');
     <?php endif; ?>
     </div>
 </div>
+<script>
+    $('[data-toggle="tooltip"]').tooltip()
+</script>

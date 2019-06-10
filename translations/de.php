@@ -66,4 +66,7 @@ d.h. es werden möglicherweise neue Interpreten hinzugefügt oder ältere Titel 
     'enable' => 'Freischalten',
     'user' => 'Username',
     'guest' => 'Gast',
+    
+    'registered_by' => 'Eingetragen von',
+    'suggestionenable' => 'Vorschlag aktivieren',
 ];

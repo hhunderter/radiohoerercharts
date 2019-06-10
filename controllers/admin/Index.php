@@ -113,9 +113,11 @@ class Index extends \Ilch\Controller\Admin
                     $this->redirect(['action' => 'index']);
                 }
             }
+            $suggestionentries = $hoererchartssuggestionMapper->getEntries([]);
 
-            if ($this->getRequest()->getParam('suggestion')) $this->getView()->set('entries', $hoererchartssuggestionMapper->getEntries([]));
+            if ($this->getRequest()->getParam('suggestion')) $this->getView()->set('entries', $suggestionentries);
             else $this->getView()->set('entries', $hoererchartsMapper->getEntries([]));
+            $this->getView()->set('badgeSuggestion', count($suggestionentries));
         }
     }
     
@@ -253,5 +255,7 @@ class Index extends \Ilch\Controller\Admin
                 $this->redirect(['action' => 'index']);
             }
         }
+        
+        $this->getView()->set('entries', $hoererchartsuservotesMapper->getEntries([]));
     }
 }
