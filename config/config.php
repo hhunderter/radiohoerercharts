@@ -10,7 +10,7 @@ class Config extends \Ilch\Config\Install
 {
     public $config = [
         'key' => 'radiohoerercharts',
-        'version' => '1.4.0',
+        'version' => '1.4.1',
         'icon_small' => 'fa-list-ol',
         'author' => 'Reilard, Dennis alias hhunderter ',
         'link' => '',
@@ -173,6 +173,17 @@ class Config extends \Ilch\Config\Install
                 */
                 $this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts_suggestion` CHANGE `datecreate` `datecreate` DATETIME NOT NULL;');
                 $this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts` CHANGE `datecreate` `datecreate` DATETIME NOT NULL;');
+            case "1.3.2": //update zu 1.4.0
+                /*
+                shows the Voted entries
+                shows the users / guests who submitted the entry
+                small fixes
+                */
+            case "1.4.0": //update zu 1.4.1
+                /*
+                bugfix of SQL-Statement is_voted
+                */
+            case "1.4.1": //update zu ?
         }
         return 'Update function executed.';
     }

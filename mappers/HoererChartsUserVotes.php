@@ -180,8 +180,9 @@ class HoererChartsUserVotes extends \Ilch\Mapper
         
         $voteId = (int) $this->db()->select('id')
             ->from('radio_hoerercharts_uservotes')
-            ->where(['session_id' => session_id()])
-            ->orWhere(['user_id >' => 0, 'user_id' => $User_Id])
+            ->andWhere(['user_id >' => 0, 'user_id' => $User_Id])
+            ->orWhere(['user_id' => 0, 'user_id' => $User_Id])
+            ->andWhere(['session_id' => session_id()])
             ->execute()
             ->fetchCell();
 
