@@ -25,7 +25,7 @@
                    value="<?php if ($this->getRequest()->getPost('songtitel') != '') { echo $this->escape($this->getRequest()->getPost('songtitel')); } ?>" />
         </div>
     </div>
-    
+
     <?php if ($this->get('captchaNeeded')) : ?>
         <div class="form-group <?=$this->validation()->hasError('captcha') ? 'has-error' : '' ?>">
             <label class="col-lg-2 control-label">

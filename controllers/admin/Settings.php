@@ -97,11 +97,11 @@ class Settings extends \Ilch\Controller\Admin
                 ->set('Star5', $this->getConfig()->get('radio_hoerercharts_Star5'));
         }
     }
-    
+
     public function votedatetimeAction() 
     {
         $hoererchartsMapper = new HoererChartsMapper();
-        
+
         $this->getLayout()->setFile('modules/admin/layouts/iframe');
         $this->getLayout()->getAdminHmenu()
             ->add($this->getTranslator()->trans('hoerercharts'), ['controller' => 'index', 'action' => 'index'])
@@ -118,7 +118,7 @@ class Settings extends \Ilch\Controller\Admin
                 ->withMessage('saveSuccess')
                 ->to(['action' => 'votedatetime']);
             }
-            
+
             $start_datetime = null;
             if ($this->getConfig()->get('radio_hoerercharts_Start_Datetime')) $start_datetime = new \Ilch\Date($this->getConfig()->get('radio_hoerercharts_Start_Datetime'));
             $end_datetime = null;

@@ -30,20 +30,20 @@ d.h. es werden möglicherweise neue Interpreten hinzugefügt oder ältere Titel 
     'noentriesadmin' => 'keine Einträge',
     'reset' => 'Zurücksetzen',
     'notset' => 'nicht festgelegt',
-    
+
     'Program_Name' => 'Programmname',
     'Program_NameText' => 'Programmname für die Hörercharts:',
-    
+
     'start_datetime' => 'Startzeitpunkt',
     'start_datetimeText' => 'Ab wann sollte die Abstimmung stattfinden? (Keine Einschränkung bei leerem Feld)',
     'end_datetime' => 'Endzeitpunkt',
     'end_datetimeText' => 'Bis wann sollte die Abstimmung stattfinden? (Keine Einschränkung bei leerem Feld)',
-    
+
     'guestallow' => 'Gäste EIN / AUSSCHALTEN:',
     'guestallowText' => 'Gäste erlauben, abzustimmen? Wenn Sie "Nein" auswählen, können nur Benutzer abstimmen.',
     'showstars' => 'STERNE EIN / AUSSCHALTEN:',
     'showstarsText' => 'Stimmen als Stern-Anzeigen? Wenn Sie "Nein" wählen, werden die Stimmen als Zahl angezeigt.',
-    
+
     'Star1' => 'Stern 1',
     'Star1Text' => 'Ab Wieviel Votes soll ein Stern gegeben werden?',
     'Star2' => 'Stern 2',
@@ -54,7 +54,7 @@ d.h. es werden möglicherweise neue Interpreten hinzugefügt oder ältere Titel 
     'Star4Text' => 'Ab Wieviel Votes sollen 4 Sterne gegeben werden?',
     'Star5' => 'Stern 5',
     'Star5Text' => 'Ab Wieviel Votes sollen 5 Sterne gegeben werden?',
-    
+
     'index' => 'Index',
     'suggestion' => 'Vorschläge',
     'suggestionnew' => 'Vorschlag machen...',
@@ -66,7 +66,7 @@ d.h. es werden möglicherweise neue Interpreten hinzugefügt oder ältere Titel 
     'enable' => 'Freischalten',
     'user' => 'Username',
     'guest' => 'Gast',
-    
+
     'registered_by' => 'Eingetragen von',
     'suggestionenable' => 'Vorschlag aktivieren',
 ];

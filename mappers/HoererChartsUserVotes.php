@@ -47,7 +47,7 @@ class HoererChartsUserVotes extends \Ilch\Mapper
 
         return $entry;
     }
-    
+
     /**
      * Gets the entry by given ID.
      *
@@ -177,14 +177,27 @@ class HoererChartsUserVotes extends \Ilch\Mapper
     {
         $User_Id = 0;
         if ($User) $User_Id = $User->getId();
-        
+
+        $oldsession = session_id();
+        if (isset($_COOKIE['RadioHoererCharts_is_voted'])){
+            $oldsession = $_COOKIE['RadioHoererCharts_is_voted'];
+            if ($oldsession != session_id()){
+                setcookie('RadioHoererCharts_is_voted', session_id(), strtotime( '+1 days' ), '/', $_SERVER['SERVER_NAME'], (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off'), true);
+            }
+        }
+
         $voteId = (int) $this->db()->select('id')
             ->from('radio_hoerercharts_uservotes')
-            ->andWhere(['user_id >' => 0, 'user_id' => $User_Id])
-            ->orWhere(['user_id' => 0, 'user_id' => $User_Id])
-            ->andWhere(['session_id' => session_id()])
+            ->Where(['session_id' => $oldsession])
             ->execute()
             ->fetchCell();
+        if (!$voteId and $User_Id > 0){
+            $voteId = (int) $this->db()->select('id')
+            ->from('radio_hoerercharts_uservotes')
+            ->Where(['user_id >' => 0, 'user_id' => $User_Id])
+            ->execute()
+            ->fetchCell();
+        }
 
         return $voteId;
     }
@@ -199,38 +212,37 @@ class HoererChartsUserVotes extends \Ilch\Mapper
     public function is_voted($User = null, $guestallow = false, $timediff = 30)
     {
         $date = new \Ilch\Date();
-        
+
         $datenow = new \Ilch\Date($date->format("Y-m-d H:i:s",true));
         //$datenow->modify('+1 hours');
-        
+
         $User_Id = 0;
         if ($User) $User_Id = $User->getId();
-        
+
         $voteId = $this->getEntryByUserSession($User);
-            
-        if ($voteId){
+
+        if ($voteId > 0){
+
             $returnvalue = true;
             $entryModel = $this->getEntryById($voteId);
-            
+
             if (!empty($entryModel->getLast_Activity())) $dateentry = new \Ilch\Date($entryModel->getLast_Activity());
             else $dateentry = clone $datenow;
-            
+
             if ($timediff > 0){
-                
+
                 $dateentryclone = clone $dateentry;
                 $dateentryclone->modify('+'.$timediff.' seconds');
-                
+
                 if ($dateentryclone->getTimestamp() < $datenow->getTimestamp()){
                     $returnvalue = false;
-                    //$dateentry = $datenow;
                 }
             }
-            
+
             $entryModel->setLast_Activity($dateentry);
             if ($User_Id) $entryModel->setUser_Id($User_Id);
             $entryModel->setSessionId(session_id());
-            $this->save($entryModel);    
-            
+            $this->save($entryModel);  
             return $returnvalue;
         }else{
             if (!$User_Id and !$guestallow)

@@ -29,13 +29,13 @@ class Index extends \Ilch\Controller\Frontend
 
         $this->getView()->set('regist_accept', $this->getConfig()->get('regist_accept'));
         $this->getView()->set('hoererchartsMapper', $hoererchartsMapper);
-        
+
         $start_datetime = null;
         if ($this->getConfig()->get('radio_hoerercharts_Start_Datetime')) $start_datetime = new \Ilch\Date($this->getConfig()->get('radio_hoerercharts_Start_Datetime'));
         $end_datetime = null;
         if ($this->getConfig()->get('radio_hoerercharts_End_Datetime')) $end_datetime = new \Ilch\Date($this->getConfig()->get('radio_hoerercharts_End_Datetime'));
         $formatdatetime = 'd.m.Y H:i';
-        
+
         $hoererchartsconfig = array('allsecvote'=>$this->getConfig()->get('radio_hoerercharts_all_sec_vote'),
                                     'guestallow'=>$this->getConfig()->get('radio_hoerercharts_Guest_Allow'),
                                     'start_datetime'=>$start_datetime,
@@ -55,7 +55,7 @@ class Index extends \Ilch\Controller\Frontend
         if ($hoererchartsMapper->checkDB()){
             $vote_allowed = $hoererchartsMapper->vote_allowed($hoererchartsconfig['start_datetime'], $hoererchartsconfig['end_datetime']);
             $this->getView()->set('vote_allowed', $vote_allowed);
-            
+
             if ($hoererchartsuservotesMapper->is_voted($this->getUser(), $hoererchartsconfig['guestallow'], $hoererchartsconfig['allsecvote']) or !$vote_allowed){
                 $this->getView()->set('voted', true);
                 $this->getView()->set('entries', $hoererchartsMapper->getEntriesBy(['setfree' => 1], ['votes' => 'DESC','id' => 'DESC']));
@@ -68,15 +68,17 @@ class Index extends \Ilch\Controller\Frontend
                         $hoererchartsMapper->update($this->getRequest()->getPost('hoerercharts-d'), -1);
 
                         $voteId = $hoererchartsuservotesMapper->getEntryByUserSession($this->getUser());
-                        
+
                         $datenow = new \Ilch\Date();
-                        
+
                         $model = new HoererChartsUserVotesModel();
                         if ($voteId) $model->setId($voteId);
                         if ($this->getUser()) $model->setUser_Id($this->getUser()->getId());
                         $model->setSessionId(session_id());
                         $model->setLast_Activity($datenow->format("Y-m-d H:i:s",true));
                         $hoererchartsuservotesMapper->save($model);
+
+                        setcookie('RadioHoererCharts_is_voted', session_id(), strtotime( '+1 days' ), '/', $_SERVER['SERVER_NAME'], (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off'), true);
 
                         $this->redirect()
                             ->withMessage('saveSuccess')
@@ -92,7 +94,7 @@ class Index extends \Ilch\Controller\Frontend
                 }
                 $this->getView()->set('entries', $hoererchartsMapper->getEntries(['setfree' => 1]));
             }
-            
+
             $this->getView()->set('gettext', (!empty($this->getRequest()->getParam('copy'))?$hoererchartsMapper->gettext():''));
         }
     }
@@ -102,9 +104,9 @@ class Index extends \Ilch\Controller\Frontend
         $hoererchartsconfig = array('guestallow'=>$this->getConfig()->get('radio_hoerercharts_Guest_Allow'),
                                     'allowsuggestion'=>$this->getConfig()->get('radio_hoerercharts_allow_suggestion')
                                     );
-        
+
         if ($hoererchartsconfig['allowsuggestion'] and ((!$this->getUser() and $hoererchartsconfig['guestallow']) or $this->getUser())){
-        
+
             $hoererchartssuggestionMapper = new HoererChartsSuggestionMapper();
             $captchaNeeded = captchaNeeded();
 
@@ -114,11 +116,11 @@ class Index extends \Ilch\Controller\Frontend
                 $this->getLayout()->getHmenu()
                     ->add($this->getTranslator()->trans('hoerercharts'), ['action' => 'index'])
                     ->add($this->getTranslator()->trans('add'), ['action' => 'treat']);
-                    
+
                 $this->getView()->set('captchaNeeded', $captchaNeeded);
-                    
+
                 if ($this->getRequest()->isPost()) {
-                    
+
                     $validation = Validation::create($this->getRequest()->getPost(), array_merge([
                         'interpret'     => 'required',
                         'songtitel'     => 'required'
@@ -126,13 +128,13 @@ class Index extends \Ilch\Controller\Frontend
 
                     if ($validation->isValid()) {
                         $hoererchartsModel = new HoererChartsModel();
-                        
+
                         if ($this->getUser()) $hoererchartsModel->setUser_Id($this->getUser()->getId());
 
                         $hoererchartsModel->setInterpret($this->getRequest()->getPost('interpret'))
                             ->setSongTitel($this->getRequest()->getPost('songtitel'))
                             ->setVotes(0);
-                            
+
                         $hoererchartssuggestionMapper->save($hoererchartsModel);
 
                         $this->redirect()

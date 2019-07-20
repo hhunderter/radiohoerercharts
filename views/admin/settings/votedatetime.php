@@ -17,7 +17,7 @@
             </span>
         </div>
     </div>
-    
+
     <h1><?=$this->getTrans('end_datetime') ?></h1>
     <div class="form-group <?=$this->validation()->hasError('end_datetime') ? 'has-error' : '' ?>">
         <label for="end_datetime" class="col-lg-2 control-label">
@@ -34,7 +34,7 @@
             </span>
         </div>
     </div>
-    
+
     <?=$this->getSaveBar('edit') ?>
 </form>
 <script src="<?=$this->getStaticUrl('js/datetimepicker/js/bootstrap-datetimepicker.min.js') ?>" charset="UTF-8"></script>

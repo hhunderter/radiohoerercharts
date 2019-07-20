@@ -14,7 +14,7 @@ class HoererCharts extends \Ilch\Model
      * @var int
      */
     protected $id;
-    
+
     /**
      * The setfree.
      *
@@ -42,14 +42,14 @@ class HoererCharts extends \Ilch\Model
      * @var int
      */
     protected $votes;
-    
+
     /**
      * The DateCreate.
      *
      * @var string
      */
     protected $datecreate;
-    
+
     /**
      * The user_id.
      *
@@ -166,7 +166,7 @@ class HoererCharts extends \Ilch\Model
 
         return $this;
     }
-    
+
     /**
      * Gets the datecreate.
      *

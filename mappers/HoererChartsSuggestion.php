@@ -19,7 +19,7 @@ class HoererChartsSuggestion extends \Ilch\Mapper
     {
         return $this->db()->ifTableExists('[prefix]_radio_hoerercharts_suggestion');
     }
-    
+
     /**
      * Gets the Entries.
      *
@@ -33,7 +33,7 @@ class HoererChartsSuggestion extends \Ilch\Mapper
             ->from('radio_hoerercharts_suggestion')
             ->where($where)
             ->order(['id' => 'DESC']);
-        
+
         if ($pagination !== null) {
             $select->limit($pagination->getLimit())
                 ->useFoundRows();

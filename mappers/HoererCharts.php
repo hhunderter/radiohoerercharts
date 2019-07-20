@@ -19,7 +19,7 @@ class HoererCharts extends \Ilch\Mapper
     {
         return $this->db()->ifTableExists('[prefix]_radio_hoerercharts');
     }
-    
+
     /**
      * Gets the Entries.
      *
@@ -33,7 +33,7 @@ class HoererCharts extends \Ilch\Mapper
             ->from('radio_hoerercharts')
             ->where($where)
             ->order(['setfree' => 'DESC', 'id' => 'DESC']);
-        
+
         if ($pagination !== null) {
             $select->limit($pagination->getLimit())
                 ->useFoundRows();
@@ -279,7 +279,7 @@ class HoererCharts extends \Ilch\Mapper
         }
         return $stars;
     }
-    
+
     /**
      * Checks if voting is allowed.
      *
@@ -290,9 +290,9 @@ class HoererCharts extends \Ilch\Mapper
     public function vote_allowed($start_datetime = null, $end_datetime = null)
     {
         $date = new \Ilch\Date();
-        
+
         $datenow = new \Ilch\Date($date->format("Y-m-d H:i:s",true));
-        
+
         if (!$start_datetime and !$end_datetime){
             return true;
         }else{
@@ -306,9 +306,8 @@ class HoererCharts extends \Ilch\Mapper
                     return (($datenow->getTimestamp() <= $end_datetime->getTimestamp()) ? true : false);
                 }
             }
-            //var_dump($datenow,$start_datetime,$end_datetime);
             return (($datenow->getTimestamp() >= $start_datetime->getTimestamp() && $datenow->getTimestamp() <= $end_datetime->getTimestamp()) ? true : false);
         }
     }
-    
+
 }

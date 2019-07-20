@@ -21,14 +21,14 @@ class HoererChartsUserVotes extends \Ilch\Model
      * @var int
      */
     protected $user_id;
-    
+
     /**
      * The Session_Id.
      *
      * @var string
      */
     protected $sessionId;
-    
+
     /**
      * The last_activity.
      *
@@ -79,7 +79,7 @@ class HoererChartsUserVotes extends \Ilch\Model
 
         return $this;
     }
-    
+
     /**
      * The php session id of the guest or user.
      * Usefull to better identify a guest/user as there might be
@@ -101,7 +101,7 @@ class HoererChartsUserVotes extends \Ilch\Model
     {
         $this->sessionId = (string) $sessionId;
     }
-    
+
     /**
      * Gets the last_activity.
      *

@@ -45,7 +45,7 @@
             </div>
         </div>
     </div>
-    
+
     <h1><?=$this->getTrans('showstars') ?></h1>
     <div class="form-group <?=$this->validation()->hasError('showstars') ? 'has-error' : '' ?>">
         <label for="showstars" class="col-lg-2 control-label">

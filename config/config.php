@@ -10,7 +10,7 @@ class Config extends \Ilch\Config\Install
 {
     public $config = [
         'key' => 'radiohoerercharts',
-        'version' => '1.4.1',
+        'version' => '1.4.2',
         'icon_small' => 'fa-list-ol',
         'author' => 'Reilard, Dennis alias hhunderter ',
         'link' => '',
@@ -183,7 +183,12 @@ class Config extends \Ilch\Config\Install
                 /*
                 bugfix of SQL-Statement is_voted
                 */
-            case "1.4.1": //update zu ?
+            case "1.4.1": //update zu 1.4.2
+                /*
+                bugfix of SQL-Statement is_voted
+                Some Beauty fixes
+                */
+            case "1.4.2": //update zu ?
         }
         return 'Update function executed.';
     }

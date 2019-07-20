@@ -30,20 +30,20 @@ i.e. new artists may be added or older titles are hidden, etc.',
     'noentriesadmin' => 'No entries',
     'reset' => 'Reset to default',
     'notset' => 'not set',
-    
+
     'Program_Name' => 'Program name',
     'Program_NameText' => 'Program name for the listener charts::',
-    
+
     'start_datetime' => 'Start time',
     'start_datetimeText' => 'When should the vote take place? (No restriction with empty field)',
     'end_datetime' => 'End Time',
     'end_datetimeText' => 'Until when the vote was to take place? (No restriction with empty field)',
-    
+
     'guestallow' => 'Guest ON / OFF:',
     'guestallowText' => 'Allow guests to vote? If you select "No", only User can vote.',
     'showstars' => 'STARS ON / OFF:',
     'showstarsText' => 'Votes as Star ads? If you select "No", the votes will be displayed as a number.',
-    
+
     'Star1' => 'Star 1',
     'Star1Text' => 'From How many votes should a star be given?',
     'Star2' => 'Star 2',
@@ -54,7 +54,7 @@ i.e. new artists may be added or older titles are hidden, etc.',
     'Star4Text' => 'From How many votes should be given 4 stars?',
     'Star5' => 'Star 5',
     'Star5Text' => 'From How many votes should be given 5 stars?',
-    
+
     'index' => 'Index',
     'suggestion' => 'Suggestions',
     'suggestionnew' => 'Make a suggestion ...',
@@ -66,7 +66,7 @@ i.e. new artists may be added or older titles are hidden, etc.',
     'enable' => 'Freischalten',
     'user' => 'Username',
     'guest' => 'Gast',
-    
+
     'registered_by' => 'Registered by',
     'suggestionenable' => 'Suggestion enable',
 ];
