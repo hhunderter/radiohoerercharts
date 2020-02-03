@@ -14,6 +14,7 @@ class HoererChartsSuggestion extends \Ilch\Mapper
      * returns if the module is installed.
      *
      * @return boolean
+     * @throws \Ilch\Database\Exception
      */
     public function checkDB()
     {

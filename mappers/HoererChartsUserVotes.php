@@ -166,12 +166,12 @@ class HoererChartsUserVotes extends \Ilch\Mapper
             ->where(['session_id' => $session_id])
             ->execute();
     }
-    
+
     /**
      * Gets the entry by given ID.
      *
-     * @param int $id
-     * @return null|EntriesModel
+     * @param \Modules\User\Models\User $User
+     * @return integer
      */
     public function getEntryByUserSession($User = null)
     {
@@ -205,8 +205,9 @@ class HoererChartsUserVotes extends \Ilch\Mapper
     /**
      * Check if user has already voted or if guests can vote.
      *
-     * @param \Ilch\User $User
+     * @param \Modules\User\Models\User $User
      * @param boolean $guestallow
+     * @param integer $timediff
      * @return boolean
      */
     public function is_voted($User = null, $guestallow = false, $timediff = 30)
@@ -256,6 +257,7 @@ class HoererChartsUserVotes extends \Ilch\Mapper
      * Reset the Vote counts.
      *
      * @return boolean
+     * @throws \Ilch\Database\Exception
      */
     public function reset()
     {

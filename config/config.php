@@ -10,7 +10,7 @@ class Config extends \Ilch\Config\Install
 {
     public $config = [
         'key' => 'radiohoerercharts',
-        'version' => '1.4.2',
+        'version' => '1.4.3',
         'icon_small' => 'fa-list-ol',
         'author' => 'Reilard, Dennis alias hhunderter ',
         'link' => '',
@@ -186,6 +186,10 @@ class Config extends \Ilch\Config\Install
             case "1.4.1": //update zu 1.4.2
                 /*
                 bugfix of SQL-Statement is_voted
+                Some Beauty fixes
+                */
+            case "1.4.2": //update zu 1.4.3
+                /*
                 Some Beauty fixes
                 */
             case "1.4.2": //update zu ?

@@ -14,6 +14,7 @@ class HoererCharts extends \Ilch\Mapper
      * returns if the module is installed.
      *
      * @return boolean
+     * @throws \Ilch\Database\Exception
      */
     public function checkDB()
     {
@@ -252,8 +253,9 @@ class HoererCharts extends \Ilch\Mapper
      */
     public function reset()
     {
-        $sql = 'UPDATE `[prefix]_radio_hoerercharts` SET votes=0;';
-        return $this->db()->queryMulti($sql);
+        return $this->db()->update('radio_hoerercharts')
+                    ->values(['votes' => 0])
+                    ->execute();
     }
 
     /**
@@ -283,8 +285,8 @@ class HoererCharts extends \Ilch\Mapper
     /**
      * Checks if voting is allowed.
      *
-     * @param string $start_datetime
-     * @param string $end_datetime
+     * @param null|\Ilch\Date $start_datetime
+     * @param null|\Ilch\Date $end_datetime
      * @return boolean
      */
     public function vote_allowed($start_datetime = null, $end_datetime = null)
