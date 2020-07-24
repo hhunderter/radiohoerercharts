@@ -49,7 +49,7 @@ class Settings extends \Ilch\Controller\Admin
             ->add($this->getTranslator()->trans('hoerercharts'), ['controller' => 'index', 'action' => 'index'])
             ->add($this->getTranslator()->trans('settings'), ['action' => 'index']);
 
-        if ($hoererchartsMapper->checkDB()){
+        if ($hoererchartsMapper->checkDB()) {
             if ($this->getRequest()->isPost()) {
                 $validation = Validation::create($this->getRequest()->getPost(), [
                     'Program_Name'  => 'required',
@@ -107,7 +107,7 @@ class Settings extends \Ilch\Controller\Admin
             ->add($this->getTranslator()->trans('hoerercharts'), ['controller' => 'index', 'action' => 'index'])
             ->add($this->getTranslator()->trans('settings'), ['action' => 'votedatetime']);
 
-        if ($hoererchartsMapper->checkDB()){
+        if ($hoererchartsMapper->checkDB()) {
             if ($this->getRequest()->isPost()) {
                 if (trim($this->getRequest()->getPost('start_datetime'))) $this->getConfig()->set('radio_hoerercharts_Start_Datetime', new \Ilch\Date($this->getRequest()->getPost('start_datetime')));
                 else $this->getConfig()->set('radio_hoerercharts_Start_Datetime', '');

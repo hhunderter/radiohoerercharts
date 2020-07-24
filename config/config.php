@@ -10,7 +10,7 @@ class Config extends \Ilch\Config\Install
 {
     public $config = [
         'key' => 'radiohoerercharts',
-        'version' => '1.4.3',
+        'version' => '1.4.4',
         'icon_small' => 'fa-list-ol',
         'author' => 'Reilard, Dennis alias hhunderter ',
         'link' => '',
@@ -148,7 +148,8 @@ class Config extends \Ilch\Config\Install
                 $this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts_uservotes` ADD COLUMN `last_activity` DATETIME NOT NULL  AFTER `session_id`;');
                 $this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts` ADD COLUMN `setfree` TINYINT(1) NOT NULL DEFAULT \'1\' AFTER `id`;');
                 $this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts` ADD COLUMN `datecreate` DATETIME NOT NULL AFTER `votes`;');
-                $datecreate = new \Ilch\Date();
+                $date = new \Ilch\Date();
+                $datecreate = new \Ilch\Date($date->format("Y-m-d H:i:s",true));
                 $this->db()->query('UPDATE `[prefix]_radio_hoerercharts` SET `datecreate` = "'.$datecreate.'"');
                 $this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts` ADD COLUMN `user_id` INT(11) NOT NULL AFTER `datecreate`;');
                 $this->db()->query('CREATE TABLE IF NOT EXISTS `[prefix]_radio_hoerercharts_suggestion` (
@@ -192,7 +193,16 @@ class Config extends \Ilch\Config\Install
                 /*
                 Some Beauty fixes
                 */
-            case "1.4.2": //update zu ?
+            case "1.4.3": //update zu 1.4.4
+                /*
+                Some Beauty code fixes
+                Fix Date bug on create
+                */
+                $date = new \Ilch\Date();
+                $datecreate = new \Ilch\Date($date->format("Y-m-d H:i:s",true));
+                $this->db()->query('UPDATE `[prefix]_radio_hoerercharts` SET `datecreate` = "'.$datecreate.'" WHERE `datecreate` = "0000-00-00 00:00:00"');
+            case "1.4.4": //update zu ?
+
         }
         return 'Update function executed.';
     }

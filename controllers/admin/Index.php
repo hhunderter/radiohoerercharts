@@ -50,7 +50,7 @@ class Index extends \Ilch\Controller\Admin
             } else {
                 $items[0]['active'] = true;
             }
-        }else{
+        } else {
             $items[1]['active'] = true;
         }
 
@@ -91,7 +91,7 @@ class Index extends \Ilch\Controller\Admin
         $this->getView()->set('suggestion', $this->getRequest()->getParam('suggestion'));
 
         $this->getView()->set('votedatetime', $this->getTranslator()->trans('votedatetime').((!$hoererchartsconfig['start_datetime'] and !$hoererchartsconfig['end_datetime'])?$this->getTranslator()->trans('notset'):(($hoererchartsconfig['start_datetime'] and $hoererchartsconfig['end_datetime'])?call_user_func_array([$this->getTranslator(), 'trans'], array('fromto', $hoererchartsconfig['start_datetime']->format($formatdatetime),$hoererchartsconfig['end_datetime']->format($formatdatetime))):(($hoererchartsconfig['start_datetime'])?$this->getTranslator()->trans('from').' '.$hoererchartsconfig['start_datetime']->format($formatdatetime):$this->getTranslator()->trans('to').' '.$hoererchartsconfig['end_datetime']->format($formatdatetime))).""));
-        if ($hoererchartsMapper->checkDB()){
+        if ($hoererchartsMapper->checkDB()) {
             if ($this->getRequest()->getPost('check_entries')) {
                 if ($this->getRequest()->getPost('action') == 'delete') {
                     foreach ($this->getRequest()->getPost('check_entries') as $entryId) {
@@ -100,7 +100,7 @@ class Index extends \Ilch\Controller\Admin
                     }
                     $this->addMessage('deleteSuccess');
                     $this->redirect(['action' => 'index']);
-                }elseif ($this->getRequest()->getPost('action') == 'setfree'){
+                } elseif ($this->getRequest()->getPost('action') == 'setfree') {
                     foreach ($this->getRequest()->getPost('check_entries') as $entryId) {
                         $hoererchartsModel = $hoererchartssuggestionMapper->getEntryById($entryId);
                         $hoererchartssuggestionMapper->delete($entryId);
@@ -138,15 +138,17 @@ class Index extends \Ilch\Controller\Admin
         $hoererchartsMapper = new HoererChartsMapper();
         $hoererchartssuggestionMapper = new HoererChartsSuggestionMapper();
 
-        if ($hoererchartsMapper->checkDB()){
+        if ($hoererchartsMapper->checkDB()) {
             if ($this->getRequest()->getParam('id')) {
                 $this->getLayout()->getAdminHmenu()
                     ->add($this->getTranslator()->trans('hoerercharts'), ['action' => 'index'])
                     ->add($this->getTranslator()->trans('manage'), ['action' => 'index'])
                     ->add($this->getTranslator()->trans('edit'), ['action' => 'treat']);
 
-                if ($this->getRequest()->getParam('suggestion')) $this->getView()->set('entrie', $hoererchartssuggestionMapper->getEntryById($this->getRequest()->getParam('id')));
-                else{
+                if ($this->getRequest()->getParam('suggestion')) {
+                    $hoererchartsModel = new HoererChartsModel();
+                    $this->getView()->set('entrie', $hoererchartssuggestionMapper->getEntryById($this->getRequest()->getParam('id')));
+                } else {
                     $hoererchartsModel = $hoererchartsMapper->getEntryById($this->getRequest()->getParam('id'));
                     $this->getView()->set('entrie', $hoererchartsModel);
                 }
@@ -166,10 +168,14 @@ class Index extends \Ilch\Controller\Admin
                 ],(($this->getRequest()->getParam('suggestion'))?[]:['setfree' => 'required|numeric|min:0|max:1'])));
 
                 if ($validation->isValid()) {
+                    $date = new \Ilch\Date();
+                    $datenow = new \Ilch\Date($date->format("Y-m-d H:i:s",true));
+                    
                     if ($this->getRequest()->getParam('id')) {
                         $hoererchartsModel->setId($this->getRequest()->getParam('id'));
-                    }else{
+                    } else {
                         if ($this->getUser()) $hoererchartsModel->setUser_Id($this->getUser()->getId());
+                        $hoererchartsModel->setDateCreate($datenow);
                     }
 
                     if (!$this->getRequest()->getParam('suggestion')) $hoererchartsModel->setSetFree($this->getRequest()->getPost('setfree'));
@@ -182,15 +188,15 @@ class Index extends \Ilch\Controller\Admin
 
                     $this->redirect()
                         ->withMessage('saveSuccess')
-                        ->to(['action' => 'index']);
+                        ->to(array_merge(['action' => 'index'],(($this->getRequest()->getParam('suggestion'))?['suggestion' => 'true']:[])));
                 }
                 $this->addMessage($validation->getErrorBag()->getErrorMessages(), 'danger', true);
                 $this->redirect()
                     ->withInput()
                     ->withErrors($validation->getErrorBag())
-                    ->to(['action' => 'treat', 'id' => $this->getRequest()->getParam('id')]);
+                    ->to(array_merge(['action' => 'treat', 'id' => $this->getRequest()->getParam('id')],(($this->getRequest()->getParam('suggestion'))?['suggestion' => 'true']:[])));
             }
-        }else{
+        } else {
             $this->redirect(array_merge(['action' => 'index'],(($this->getRequest()->getParam('suggestion'))?['suggestion' => 'true']:[])));
         }
     }
@@ -227,7 +233,7 @@ class Index extends \Ilch\Controller\Admin
     {
         $hoererchartsMapper = new HoererChartsMapper();
         $hoererchartssuggestionMapper = new HoererChartsSuggestionMapper();
-        if ($hoererchartsMapper->checkDB()){
+        if ($hoererchartsMapper->checkDB()) {
             if ($this->getRequest()->isSecure()) {
                 $hoererchartsModel = $hoererchartssuggestionMapper->getEntryById($this->getRequest()->getParam('id'));
                 $hoererchartssuggestionMapper->delete($this->getRequest()->getParam('id'));
@@ -246,7 +252,7 @@ class Index extends \Ilch\Controller\Admin
         $hoererchartsMapper = new HoererChartsMapper();
         $hoererchartsuservotesMapper = new HoererChartsUserVotesMapper();
 
-        if ($hoererchartsMapper->checkDB()){
+        if ($hoererchartsMapper->checkDB()) {
             if ($this->getRequest()->isSecure()) {
                 $hoererchartsMapper->reset();
                 $hoererchartsuservotesMapper->reset();
