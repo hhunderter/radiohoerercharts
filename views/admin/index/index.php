@@ -54,17 +54,48 @@
                 <col>
                 <col>
             </colgroup>
+            <?php
+                $urladd = array('order' => $this->get('sort_order') == 'ASC'  ? 'desc' : 'asc');
+                if ($this->get('suggestion')) $urladd['suggestion'] = 'true';
+            ?>
             <thead>
                 <tr>
                     <th><?=$this->getCheckAllCheckbox('check_entries') ?></th>
                     <th></th>
                     <th></th>
                     <th></th>
-                    <th><?=$this->getTrans('interpret') ?></th>
-                    <th><?=$this->getTrans('songtitel') ?></th>
-                    <?php if (!$this->get('suggestion')): ?><th><?=$this->getTrans('vote') ?></th><?php endif; ?>
-                    <th><?=$this->getTrans('datecreate') ?></th>
-                    <th><?=$this->getTrans('user') ?></th>
+                    <th>
+                        <a href="<?=$this->getUrl(array_merge(['column' => 'interpret'], $urladd)) ?>" title="<?=$this->getTrans('interpret') ?>">
+                        <?=$this->getTrans('interpret') ?>
+                        <i class="fa fa-sort<?php echo $this->get('sort_column') == 'interpret' ? '-' . str_replace(array('ASC','DESC'), array('up','down'), $this->get('sort_order')) : ''; ?>"></i>
+                        </a>
+                    </th>
+                    <th>
+                        <a href="<?=$this->getUrl(array_merge(['column' => 'songtitel'], $urladd)) ?>" title="<?=$this->getTrans('songtitel') ?>">
+                        <?=$this->getTrans('songtitel') ?>
+                        <i class="fa fa-sort<?php echo $this->get('sort_column') == 'songtitel' ? '-' . str_replace(array('ASC','DESC'), array('up','down'), $this->get('sort_order')) : ''; ?>"></i>
+                        </a>
+                    </th>
+                    <?php if (!$this->get('suggestion')): ?>
+                    <th>
+                        <a href="<?=$this->getUrl(array_merge(['column' => 'votes'], $urladd)) ?>" title="<?=$this->getTrans('vote') ?>">
+                        <?=$this->getTrans('vote') ?>
+                        <i class="fa fa-sort<?php echo $this->get('sort_column') == 'votes' ? '-' . str_replace(array('ASC','DESC'), array('up','down'), $this->get('sort_order')) : ''; ?>"></i>
+                        </a>
+                    </th>
+                    <?php endif; ?>
+                    <th>
+                        <a href="<?=$this->getUrl(array_merge(['column' => 'datecreate'], $urladd)) ?>" title="<?=$this->getTrans('datecreate') ?>">
+                        <?=$this->getTrans('datecreate') ?>
+                        <i class="fa fa-sort<?php echo $this->get('sort_column') == 'datecreate' ? '-' . str_replace(array('ASC','DESC'), array('up','down'), $this->get('sort_order')) : ''; ?>"></i>
+                        </a>
+                    </th>
+                    <th>
+                        <a href="<?=$this->getUrl(array_merge(['column' => 'user'], $urladd)) ?>" title="<?=$this->getTrans('user') ?>">
+                        <?=$this->getTrans('user') ?>
+                        <i class="fa fa-sort<?php echo $this->get('sort_column') == 'user' ? '-' . str_replace(array('ASC','DESC'), array('up','down'), $this->get('sort_order')) : ''; ?>"></i>
+                        </a>
+                    </th>
                 </tr>
             </thead>
             <?php foreach ($this->get('entries') as $entry): ?>

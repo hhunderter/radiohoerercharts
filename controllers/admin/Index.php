@@ -113,11 +113,21 @@ class Index extends \Ilch\Controller\Admin
                     $this->redirect(['action' => 'index']);
                 }
             }
-            $suggestionentries = $hoererchartssuggestionMapper->getEntries([]);
+
+            $columns = array('datecreate', 'user_id', 'songtitel', 'interpret');
+            if (!$this->getRequest()->getParam('suggestion')) $columns[] = 'votes';
+            $column = $this->getRequest()->getParam('column') && in_array($this->getRequest()->getParam('column'), $columns) ? $this->getRequest()->getParam('column') : $columns[0];
+            $sort_order = $this->getRequest()->getParam('order') && strtolower($this->getRequest()->getParam('order')) == 'asc' ? 'ASC' : 'DESC';
+            
+            if ($column === 'votes') $suggestionentries = $hoererchartssuggestionMapper->getEntriesby([], [$columns[0] => $sort_order]);
+            else $suggestionentries = $hoererchartssuggestionMapper->getEntriesby([], [$column => $sort_order]);
+            $chartsentries = $hoererchartsMapper->getEntriesby([], [$column => $sort_order]);
 
             if ($this->getRequest()->getParam('suggestion')) $this->getView()->set('entries', $suggestionentries);
-            else $this->getView()->set('entries', $hoererchartsMapper->getEntries([]));
-            $this->getView()->set('badgeSuggestion', count($suggestionentries));
+            else $this->getView()->set('entries', $chartsentries);
+            $this->getView()->set('badgeSuggestion', count($suggestionentries))
+                            ->set('sort_column', $column)
+                            ->set('sort_order', $sort_order);
         }
     }
 
