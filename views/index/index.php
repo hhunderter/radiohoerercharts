@@ -29,7 +29,7 @@ $userMapper = $this->get('userMapper');
         ?>
         <table class="table table-hover table-striped">
             <colgroup>
-                <col class="icon_width">
+                <?php if ($this->get('show_sortedlist')): ?><col class="icon_width"><?php endif; ?>
                 <col class="col-lg-4">
                 <col class="col-lg-4">
                 <col class="col-lg-3">
@@ -37,7 +37,7 @@ $userMapper = $this->get('userMapper');
             </colgroup>
             <thead>
                 <tr>
-                    <th><?=$this->getTrans('place') ?></th>
+                    <?php if ($this->get('show_sortedlist')): ?><th><?=$this->getTrans('place') ?></th><?php endif; ?>
                     <th><?=$this->getTrans('interpret') ?></th>
                     <th><?=$this->getTrans('songtitel') ?></th>
                     <th><?=$this->getTrans('vote') ?></th>
@@ -47,12 +47,12 @@ $userMapper = $this->get('userMapper');
             <tbody>
                 <?php foreach ($this->get('entries') as $entry): ?>
                 <tr>
-                    <td><?=$platz ?></td>
+                    <?php if ($this->get('show_sortedlist')): ?><td><?=$platz ?></td><?php endif; ?>
                     <td><?=$this->escape($entry->getInterpret()) ?></td>
                     <td><?=$this->escape($entry->getSongTitel()) ?></td>
                     <td><?=$this->get('hoererchartsMapper')->getStars($entry->getVotes(), $hoererchartsconfig) ?></td>
                     <?php $User = $userMapper->getUserById($entry->getUser_Id()); ?>
-                    <td><span class="fa fa-info-circle text-info" data-toggle="tooltip" data-placement="left" title="<?=$this->getTrans('registered_by') ?>: <?=(!$User?$this->getTrans('guest'):$this->escape($User->getName())) ?>"></span></td>
+                    <td><span class="fas fa-info-circle text-info" data-toggle="tooltip" data-placement="left" title="<?=$this->getTrans('registered_by') ?>: <?=(!$User?$this->getTrans('guest'):$this->escape($User->getName())) ?>"></span></td>
                 </tr>
                 <?php
                 $platz++;
@@ -97,7 +97,7 @@ $userMapper = $this->get('userMapper');
                         <td><?=$this->escape($entry->getInterpret()) ?></td>
                         <td><?=$this->escape($entry->getSongTitel()) ?></td>
                         <?php $User = $userMapper->getUserById($entry->getUser_Id()); ?>
-                        <td><span class="fa fa-info-circle text-info" data-toggle="tooltip" data-placement="left" title="<?=$this->getTrans('registered_by') ?>: <?=(!$User?$this->getTrans('guest'):$this->escape($User->getName())) ?>"></span></td>
+                        <td><span class="fas fa-info-circle text-info" data-toggle="tooltip" data-placement="left" title="<?=$this->getTrans('registered_by') ?>: <?=(!$User?$this->getTrans('guest'):$this->escape($User->getName())) ?>"></span></td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>

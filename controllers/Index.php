@@ -36,7 +36,8 @@ class Index extends \Ilch\Controller\Frontend
         if ($this->getConfig()->get('radio_hoerercharts_End_Datetime')) $end_datetime = new \Ilch\Date($this->getConfig()->get('radio_hoerercharts_End_Datetime'));
         $formatdatetime = 'd.m.Y H:i';
 
-        $hoererchartsconfig = array('allsecvote'=>$this->getConfig()->get('radio_hoerercharts_all_sec_vote'),
+        $hoererchartsconfig = array('program_secduration'=>$this->getConfig()->get('radio_hoerercharts_Program_sec_duration'),
+                                    'allsecvote'=>$this->getConfig()->get('radio_hoerercharts_all_sec_vote'),
                                     'guestallow'=>$this->getConfig()->get('radio_hoerercharts_Guest_Allow'),
                                     'start_datetime'=>$start_datetime,
                                     'allowsuggestion'=>$this->getConfig()->get('radio_hoerercharts_allow_suggestion'),
@@ -55,10 +56,14 @@ class Index extends \Ilch\Controller\Frontend
         if ($hoererchartsMapper->checkDB()) {
             $vote_allowed = $hoererchartsMapper->vote_allowed($hoererchartsconfig['start_datetime'], $hoererchartsconfig['end_datetime']);
             $this->getView()->set('vote_allowed', $vote_allowed);
+            $show_sortedlist = $hoererchartsMapper->is_showsortedlist($hoererchartsconfig['end_datetime'], $hoererchartsconfig['program_secduration']);
+            $this->getView()->set('show_sortedlist', $show_sortedlist);
 
             if ($hoererchartsuservotesMapper->is_voted($this->getUser(), $hoererchartsconfig['guestallow'], $hoererchartsconfig['allsecvote']) or !$vote_allowed) {
                 $this->getView()->set('voted', true);
-                $this->getView()->set('entries', $hoererchartsMapper->getEntriesBy(['setfree' => 1], ['votes' => 'DESC','id' => 'DESC']));
+                
+                if ($show_sortedlist) $this->getView()->set('entries', $hoererchartsMapper->getEntriesBy(['setfree' => 1], ['votes' => 'DESC','id' => 'DESC']));
+                else $this->getView()->set('entries', $hoererchartsMapper->getEntriesBy(['setfree' => 1], ['datecreate' => 'ASC','id' => 'DESC']));
             } else {
                 if ($this->getRequest()->getPost('saveHoererCharts')) {
                     $validation_indb = Validation::create($this->getRequest()->getPost(), ['hoerercharts-d' => 'required|unique:radio_hoerercharts,id']);

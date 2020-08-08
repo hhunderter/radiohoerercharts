@@ -13,7 +13,7 @@
                    name="start_datetime"
                    value="<?=$this->get('start_datetime') ?>" />
             <span class="input-group-addon">
-                <span class="fa fa-calendar"></span>
+                <span class="fas fa-calendar"></span>
             </span>
         </div>
     </div>
@@ -30,7 +30,7 @@
                    name="end_datetime"
                    value="<?=$this->get('end_datetime') ?>" />
             <span class="input-group-addon">
-                <span class="fa fa-calendar"></span>
+                <span class="fas fa-calendar"></span>
             </span>
         </div>
     </div>

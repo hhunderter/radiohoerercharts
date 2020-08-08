@@ -4,7 +4,7 @@
 <?php if (!$this->get('suggestion')): ?>
 
     <div class="col-lg-6">
-        <?=$this->get('votedatetime') ?> <a href="javascript:votedatetime()" title="<?=$this->getTrans('edit') ?>"><span class="fa fa-edit text-success"></span></a>
+        <?=$this->get('votedatetime') ?> <a href="javascript:votedatetime()" title="<?=$this->getTrans('edit') ?>"><span class="fas fa-edit text-success"></span></a>
     </div>
 <?php else: ?>
     <div class="col-lg-6">
@@ -67,33 +67,33 @@
                     <th>
                         <a href="<?=$this->getUrl(array_merge(['column' => 'interpret'], $urladd)) ?>" title="<?=$this->getTrans('interpret') ?>">
                         <?=$this->getTrans('interpret') ?>
-                        <i class="fa fa-sort<?php echo $this->get('sort_column') == 'interpret' ? '-' . str_replace(array('ASC','DESC'), array('up','down'), $this->get('sort_order')) : ''; ?>"></i>
+                        <i class="fas fa-sort<?php echo $this->get('sort_column') == 'interpret' ? '-' . str_replace(array('ASC','DESC'), array('up','down'), $this->get('sort_order')) : ''; ?>"></i>
                         </a>
                     </th>
                     <th>
                         <a href="<?=$this->getUrl(array_merge(['column' => 'songtitel'], $urladd)) ?>" title="<?=$this->getTrans('songtitel') ?>">
                         <?=$this->getTrans('songtitel') ?>
-                        <i class="fa fa-sort<?php echo $this->get('sort_column') == 'songtitel' ? '-' . str_replace(array('ASC','DESC'), array('up','down'), $this->get('sort_order')) : ''; ?>"></i>
+                        <i class="fas fa-sort<?php echo $this->get('sort_column') == 'songtitel' ? '-' . str_replace(array('ASC','DESC'), array('up','down'), $this->get('sort_order')) : ''; ?>"></i>
                         </a>
                     </th>
                     <?php if (!$this->get('suggestion')): ?>
                     <th>
                         <a href="<?=$this->getUrl(array_merge(['column' => 'votes'], $urladd)) ?>" title="<?=$this->getTrans('vote') ?>">
                         <?=$this->getTrans('vote') ?>
-                        <i class="fa fa-sort<?php echo $this->get('sort_column') == 'votes' ? '-' . str_replace(array('ASC','DESC'), array('up','down'), $this->get('sort_order')) : ''; ?>"></i>
+                        <i class="fas fa-sort<?php echo $this->get('sort_column') == 'votes' ? '-' . str_replace(array('ASC','DESC'), array('up','down'), $this->get('sort_order')) : ''; ?>"></i>
                         </a>
                     </th>
                     <?php endif; ?>
                     <th>
                         <a href="<?=$this->getUrl(array_merge(['column' => 'datecreate'], $urladd)) ?>" title="<?=$this->getTrans('datecreate') ?>">
                         <?=$this->getTrans('datecreate') ?>
-                        <i class="fa fa-sort<?php echo $this->get('sort_column') == 'datecreate' ? '-' . str_replace(array('ASC','DESC'), array('up','down'), $this->get('sort_order')) : ''; ?>"></i>
+                        <i class="fas fa-sort<?php echo $this->get('sort_column') == 'datecreate' ? '-' . str_replace(array('ASC','DESC'), array('up','down'), $this->get('sort_order')) : ''; ?>"></i>
                         </a>
                     </th>
                     <th>
                         <a href="<?=$this->getUrl(array_merge(['column' => 'user'], $urladd)) ?>" title="<?=$this->getTrans('user') ?>">
                         <?=$this->getTrans('user') ?>
-                        <i class="fa fa-sort<?php echo $this->get('sort_column') == 'user' ? '-' . str_replace(array('ASC','DESC'), array('up','down'), $this->get('sort_order')) : ''; ?>"></i>
+                        <i class="fas fa-sort<?php echo $this->get('sort_column') == 'user' ? '-' . str_replace(array('ASC','DESC'), array('up','down'), $this->get('sort_order')) : ''; ?>"></i>
                         </a>
                     </th>
                 </tr>
@@ -108,16 +108,16 @@
                         <?php if (!$this->get('suggestion')): ?>
                             <?php if ($entry->getSetFree() == 1): ?>
                                 <a href="<?=$this->getUrl(['action' => 'update', 'id' => $entry->getId(), 'status_man' => -1], null, true) ?>">
-                                    <span class="fa fa-check-square-o text-info"></span>
+                                    <span class="fas fa-check-square text-info"></span>
                                 </a>
                             <?php else: ?>
                                 <a href="<?=$this->getUrl(['action' => 'update', 'id' => $entry->getId(), 'status_man' => -1], null, true) ?>">
-                                    <span class="fa fa-square-o text-info"></span>
+                                    <span class="fas fa-square text-info"></span>
                                 </a>
                             <?php endif; ?>
                         <?php else: ?>
                             <a href="<?=$this->getUrl(['action' => 'suggestionenable', 'id' => $entry->getId()], null, true) ?>">
-                                <span class="fa fa-reply text-info"></span>
+                                <span class="fas fa-reply text-info"></span>
                             </a>
                         <?php endif; ?>
                         </td>

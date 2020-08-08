@@ -312,4 +312,24 @@ class HoererCharts extends \Ilch\Mapper
         }
     }
 
+    /**
+     * Checks if Time to show the Filal list.
+     *
+     * @param null|\Ilch\Date $end_datetime
+     * @param null|integer $program_secduration
+     * @return boolean
+     */
+    public function is_showsortedlist($end_datetime = null, $program_secduration = null)
+    {
+        $date = new \Ilch\Date();
+
+        $datenow = new \Ilch\Date($date->format("Y-m-d H:i:s",true));
+
+        if ((!$end_datetime and !$program_secduration) or $program_secduration <= 0){
+            return true;
+        }else{
+            return (($datenow->getTimestamp() >= ($end_datetime->getTimestamp()+$program_secduration)) ? true : false);
+        }
+    }
+
 }

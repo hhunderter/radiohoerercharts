@@ -61,6 +61,8 @@ d.h. es werden möglicherweise neue Interpreten hinzugefügt oder ältere Titel 
     'setfree' => 'Anzeigen',
     'Allsecvote' => 'Abstimmung Sperre',
     'AllsecvoteText' => 'Gibt in Sekunden an, ab wann der Benutzer / Gast erneut abstimmen kann.<br>Wenn der Wert "0" ist, können Benutzer / Gäste nur einmal abstimmen.',
+    'Program_secduration' => 'Zusätzliche Endzeit',
+    'Program_secdurationText' => '(Sendezeit)<br>Gibt in Sekunden die zusätzliche Zeit nach dem Ende an, um die sortierte Liste anzuzeigen.',
     'datecreate' => 'Erstell Datum',
     'new' => 'neu',
     'enable' => 'Freischalten',

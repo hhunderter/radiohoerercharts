@@ -30,6 +30,21 @@
                    required />
         </div>
     </div>
+    <h1><?=$this->getTrans('Program_secduration') ?></h1>
+    <div class="form-group <?=$this->validation()->hasError('program_secduration') ? 'has-error' : '' ?>">
+        <label for="program_secduration" class="col-lg-2 control-label">
+            <?=$this->getTrans('Program_secdurationText') ?>:
+        </label>
+        <div class="col-lg-4">
+            <input type="number"
+                   class="form-control"
+                   id="program_secduration"
+                   name="program_secduration"
+                   min="0"
+                   value="<?=$this->get('program_secduration') ?>"
+                   required />
+        </div>
+    </div>
     <h1><?=$this->getTrans('guestallow') ?></h1>
     <div class="form-group <?=$this->validation()->hasError('guestallow') ? 'has-error' : '' ?>">
         <label for="guestallow" class="col-lg-2 control-label">

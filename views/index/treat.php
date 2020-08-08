@@ -25,7 +25,6 @@
                    value="<?php if ($this->getRequest()->getPost('songtitel') != '') { echo $this->escape($this->getRequest()->getPost('songtitel')); } ?>" />
         </div>
     </div>
-
     <?php if ($this->get('captchaNeeded')) : ?>
         <div class="form-group <?=$this->validation()->hasError('captcha') ? 'has-error' : '' ?>">
             <label class="col-lg-2 control-label">
@@ -48,7 +47,7 @@
                             document.getElementById('captcha').src='<?=$this->getUrl() ?>/application/libraries/Captcha/Captcha.php?'+Math.random();
                             document.getElementById('captcha-form').focus();"
                        id="change-image">
-                        <i class="fa fa-refresh"></i>
+                        <i class="fas fa-sync"></i>
                     </a>
                 </span>
             </div>

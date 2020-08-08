@@ -10,7 +10,7 @@ class Config extends \Ilch\Config\Install
 {
     public $config = [
         'key' => 'radiohoerercharts',
-        'version' => '1.5.0',
+        'version' => '1.5.1',
         'icon_small' => 'fa-list-ol',
         'author' => 'Reilard, Dennis alias hhunderter ',
         'link' => '',
@@ -203,8 +203,16 @@ class Config extends \Ilch\Config\Install
                 $this->db()->query('UPDATE `[prefix]_radio_hoerercharts` SET `datecreate` = "'.$datecreate.'" WHERE `datecreate` = "0000-00-00 00:00:00"');
             case "1.4.4": //update zu 1.5.0
                 /*
-                Admin View Sort #2 (https://github.com/hhunderter/radiohoerercharts/issues/2)
+                Admin View Sort #2 ( https://github.com/hhunderter/radiohoerercharts/issues/2 )
                 */
+            case "1.5.0": //update zu 1.5.1
+                /*
+                Change Font Awesome icons
+                if voting period + additional time, there is no sorted issue #3 ( https://github.com/hhunderter/radiohoerercharts/issues/3 )
+                */
+                $databaseConfig = new \Ilch\Config\Database($this->db());
+                $databaseConfig->set('radio_hoerercharts_Program_sec_duration', '7200'); //2h
+            case "1.5.1": //update zu ?
             }
         return 'Update function executed.';
     }
