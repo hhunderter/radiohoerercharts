@@ -1,25 +1,24 @@
 <?php
 /**
- * @copyright Dennis Reilard
+ * @copyright Dennis Reilard alias hhunderter
  * @package ilch
  */
 
 return [
     'hoerercharts' => 'Listener Charts',
-    'nouser' => 'To use the listener charts you need to be registered.',
+    'nouser' => 'To use the %s you need to be registered.',
     'register' => 'Register',
     'place' => 'Place',
     'interpret' => 'Interpret',
-    'songtitel' => 'Songtitel / Track',
+    'songtitel' => 'Songtitel',
     'vote' => 'Votes',
     'noentries' => 'No titles or artists have yet been entered. Please check back later, thank you.',
     'votetextuser' => 'Each community member',
     'votetextguest' => 'Everyone',
-    'votetext' => '<h2>So It Works:</h2>
-%s can vote for their favorite song and on a specific day (see Broadcasting schedule) there will be the show "%s".<br>
-This show plays from the bottom (e.g. 20th place) to the first place.<br>
-After that, the votes will be deleted again and updates the chart list.<br>
-i.e. new artists may be added or older titles are hidden, etc.',
+    'votetext' => '[b][size=120]So It Works:[/size][/b]
+--user-- can vote for their favorite song and on a specific day (see: Broadcasting schedule) there will be the show "--name--".
+This show plays from the bottom (e.g. 20th place) to the first place.
+After that, the votes will be deleted again and updates the chart list, i.e. new artists may be added or older titles are hidden, etc.',
     'votetextvote' => '<br><br>We, the entire Radio-Team wish you a lot of fun and keep your fingers crossed for your track.',
     'votedatetime' => 'Voting period:</h1> ',
     'fromto' => 'from %s to %s',
@@ -29,7 +28,19 @@ i.e. new artists may be added or older titles are hidden, etc.',
     'addButton' => 'Send',
     'noentriesadmin' => 'No entries',
     'reset' => 'Reset to default',
-    'notset' => 'not set',
+    'datetimeformat' => 'd-m-Y H:i',
+    'artworkUrl' => 'artworkUrl',
+    'artworkUrlget' => 'artworkUrl',
+    'show_artwork' => 'show_artwork',
+    'show_artworkText' => 'show_artworkText',
+    'artwork' => 'artwork',
+    'artworkUrl' => 'Artwork URL',
+    'active' => 'Aktive',
+    'active_list' => 'Aktive List',
+    'list' => 'List',
+    'show_artwork' => 'Show Artwork',
+    'show_artworkText' => '',
+    'selectactive_list' => '',
 
     'Program_Name' => 'Program name',
     'Program_NameText' => 'Program name for the listener charts::',
@@ -69,6 +80,12 @@ i.e. new artists may be added or older titles are hidden, etc.',
     'user' => 'Username',
     'guest' => 'Gast',
 
+    'german' => 'German',
+    'english' => 'English',
+    'language_footer' => 'Placeholder: --user-- -> Guests:"%s", User:"%s" ; --name-- -> "%s"',
+
     'registered_by' => 'Registered by',
     'suggestionenable' => 'Suggestion enable',
+
+    'dbfail' => 'Database error ...',
 ];

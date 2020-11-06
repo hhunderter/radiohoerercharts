@@ -1,3 +1,7 @@
+<?php
+$start_datetime = $this->escape($this->originalInput('start_datetime', $this->get('start_datetime')));
+$end_datetime = $this->escape($this->originalInput('end_datetime', $this->get('end_datetime')));
+?>
 <link href="<?=$this->getStaticUrl('js/datetimepicker/css/bootstrap-datetimepicker.min.css') ?>" rel="stylesheet">
 <form class="form-horizontal" method="POST" action="">
     <?=$this->getTokenField() ?>
@@ -11,7 +15,7 @@
                    class="form-control"
                    id="start_datetime"
                    name="start_datetime"
-                   value="<?=$this->get('start_datetime') ?>" />
+                   value="<?=$start_datetime ?>" />
             <span class="input-group-addon">
                 <span class="fas fa-calendar"></span>
             </span>
@@ -28,7 +32,7 @@
                    class="form-control"
                    id="end_datetime"
                    name="end_datetime"
-                   value="<?=$this->get('end_datetime') ?>" />
+                   value="<?=$end_datetime ?>" />
             <span class="input-group-addon">
                 <span class="fas fa-calendar"></span>
             </span>
@@ -44,7 +48,7 @@
 <script>
 $(document).ready(function() {
     $('.form_datetime_1').datetimepicker({
-        <?=(($this->get('end_datetime')) ? 'endDate: "'.$this->get('end_datetime').'",' : '') ?>
+        <?=($end_datetime ? 'endDate: "'.$end_datetime.'",' : '') ?>
         format: "dd.mm.yyyy hh:ii",
         autoclose: true,
         language: '<?=substr($this->getTranslator()->getLocale(), 0, 2) ?>',
@@ -52,11 +56,11 @@ $(document).ready(function() {
         todayHighlight: true
     }).on('changeDate', function(ev){
         var mewDate = new Date(ev.date.valueOf());
-        $('.form_datetime_2').datetimepicker('setStartDate', mewDate);
-        $('.form_datetime_2').datetimepicker('update');
+        $('.form_datetime_2').datetimepicker('setStartDate', mewDate)
+            .datetimepicker('update');
     });
     $('.form_datetime_2').datetimepicker({
-        <?=(($this->get('start_datetime')) ? 'startDate: "'.$this->get('start_datetime').'",' : '') ?>
+        <?=($start_datetime ? 'startDate: "'.$start_datetime.'",' : '') ?>
         useCurrent: false, //Important! See issue #1075
         format: "dd.mm.yyyy hh:ii",
         autoclose: true,
@@ -65,8 +69,8 @@ $(document).ready(function() {
         todayHighlight: true
     }).on('changeDate', function(ev){
         var mewDate = new Date(ev.date.valueOf());
-        $('.form_datetime_1').datetimepicker('setEndDate', mewDate);
-        $('.form_datetime_1').datetimepicker('update');
+        $('.form_datetime_1').datetimepicker('setEndDate', mewDate)
+            .datetimepicker('update');
     });
 
 });

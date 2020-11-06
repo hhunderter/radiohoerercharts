@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Dennis Reilard
+ * @copyright Dennis Reilard alias hhunderter
  * @package ilch
  */
 
@@ -11,18 +11,30 @@ use Modules\RadioHoererCharts\Models\HoererChartsUserVotes as EntriesModel;
 class HoererChartsUserVotes extends \Ilch\Mapper
 {
     /**
+     * returns if the module is installed.
+     *
+     * @return boolean
+     * @throws \Ilch\Database\Exception
+     */
+    public function checkDB()
+    {
+        return $this->db()->ifTableExists('[prefix]_radio_hoerercharts_uservotes');
+    }
+
+    /**
      * Gets the Entries.
      *
      * @param array $where
+     * @param array $orderBy
      * @param \Ilch\Pagination|null $pagination
-     * @return EntriesModel[]|array
+     * @return array|null
      */
-    public function getEntries($where = [], $pagination = null)
+    public function getEntriesBy($where = [], $orderBy = ['id' => 'DESC'], $pagination = null)
     {
         $select = $this->db()->select('*')
             ->from('radio_hoerercharts_uservotes')
             ->where($where)
-            ->order(['id' => 'DESC']);
+            ->order($orderBy);
 
         if ($pagination !== null) {
             $select->limit($pagination->getLimit())
@@ -34,7 +46,10 @@ class HoererChartsUserVotes extends \Ilch\Mapper
         }
 
         $entryArray = $result->fetchRows();
-        $entry = [];
+        if (empty($entryArray)) {
+            return null;
+        }
+        $entrys = [];
 
         foreach ($entryArray as $entries) {
             $entryModel = new EntriesModel();
@@ -42,10 +57,22 @@ class HoererChartsUserVotes extends \Ilch\Mapper
             $entryModel->setUser_Id($entries['user_id']);
             $entryModel->setSessionId($entries['session_id']);
             $entryModel->setLast_Activity($entries['last_activity']);
-            $entry[] = $entryModel;
+            $entrys[] = $entryModel;
         }
 
-        return $entry;
+        return $entrys;
+    }
+
+    /**
+     * Gets the Entries.
+     *
+     * @param array $where
+     * @param \Ilch\Pagination|null $pagination
+     * @return array|null
+     */
+    public function getEntries($where = [], $pagination = null)
+    {
+        return $this->getEntriesBy($where, ['id' => 'DESC'], $pagination);
     }
 
     /**
@@ -54,32 +81,22 @@ class HoererChartsUserVotes extends \Ilch\Mapper
      * @param int $id
      * @return null|EntriesModel
      */
-    public function getEntryById($id)
+    public function getEntryById(int $id)
     {
-        $entryRow = $this->db()->select('*')
-            ->from('radio_hoerercharts_uservotes')
-            ->where(['id' => $id])
-            ->execute()
-            ->fetchAssoc();
+        $entrys = $this->getEntriesBy(['id' => (int)$id], []);
 
-        if (empty($entryRow)) {
-            return null;
+        if (!empty($entrys)) {
+            return reset($entrys);
         }
-
-        $entryModel = new EntriesModel();
-        $entryModel->setId($entryRow['id']);
-        $entryModel->setUser_Id($entryRow['user_id']);
-        $entryModel->setSessionId($entryRow['session_id']);
-        $entryModel->setLast_Activity($entryRow['last_activity']);
-
-        return $entryModel;
+        
+        return null;
     }
 
     /**
      * Inserts or updates entry.
      *
      * @param EntriesModel $model
-     * @return boolean
+     * @return boolean|integer
      */
     public function save(EntriesModel $model)
     {
@@ -91,23 +108,23 @@ class HoererChartsUserVotes extends \Ilch\Mapper
         ];
 
         if ($model->getId()) {
-            $this->db()->update('radio_hoerercharts_uservotes')
+            $result = $this->db()->update('radio_hoerercharts_uservotes')
                 ->values($fields)
                 ->where(['id' => $model->getId()])
                 ->execute();
         } else {
-            $this->db()->insert('radio_hoerercharts_uservotes')
+            $result = $this->db()->insert('radio_hoerercharts_uservotes')
                 ->values($fields)
                 ->execute();
         }
-        return true;
+        return $result;
     }
 
     /**
-     *
+     * Inserts or updates entry by User.
      *
      * @param EntriesModel $model
-     * @return bool
+     * @return bool|integer
      */
     public function save_user(EntriesModel $model)
     {
@@ -116,16 +133,16 @@ class HoererChartsUserVotes extends \Ilch\Mapper
         ];
 
         if ($model->getUser_Id()) {
-            $this->db()->update('radio_hoerercharts_uservotes')
+            $result = $this->db()->update('radio_hoerercharts_uservotes')
                 ->values($fields)
                 ->where(['user_id' => $model->getUser_Id()])
                 ->execute();
         } else {
-            $this->db()->insert('radio_hoerercharts_uservotes')
+            $result = $this->db()->insert('radio_hoerercharts_uservotes')
                 ->values($fields)
                 ->execute();
         }
-        return true;
+        return $result;
     }
 
     /**
@@ -134,7 +151,7 @@ class HoererChartsUserVotes extends \Ilch\Mapper
      * @param integer $id
      * @return boolean
      */
-    public function delete($id)
+    public function delete(int $id)
     {
         return $this->db()->delete('radio_hoerercharts_uservotes')
             ->where(['id' => $id])
@@ -147,7 +164,7 @@ class HoererChartsUserVotes extends \Ilch\Mapper
      * @param integer $user_id
      * @return boolean
      */
-    public function delete_user($user_id)
+    public function delete_user(int $user_id)
     {
         return $this->db()->delete('radio_hoerercharts_uservotes')
             ->where(['user_id' => $user_id])
@@ -160,7 +177,7 @@ class HoererChartsUserVotes extends \Ilch\Mapper
      * @param string $session_id
      * @return boolean
      */
-    public function delete_session($session_id)
+    public function delete_session(string $session_id)
     {
         return $this->db()->delete('radio_hoerercharts_uservotes')
             ->where(['session_id' => $session_id])
@@ -176,13 +193,15 @@ class HoererChartsUserVotes extends \Ilch\Mapper
     public function getEntryByUserSession($User = null)
     {
         $User_Id = 0;
-        if ($User) $User_Id = $User->getId();
+        if ($User) {
+            $User_Id = $User->getId();
+        }
 
         $oldsession = session_id();
         if (isset($_COOKIE['RadioHoererCharts_is_voted'])) {
             $oldsession = $_COOKIE['RadioHoererCharts_is_voted'];
             if ($oldsession != session_id()) {
-                setcookie('RadioHoererCharts_is_voted', session_id(), strtotime( '+1 days' ), '/', $_SERVER['SERVER_NAME'], (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off'), true);
+                $this->setIsVotedCookie(session_id());
             }
         }
 
@@ -191,7 +210,7 @@ class HoererChartsUserVotes extends \Ilch\Mapper
             ->Where(['session_id' => $oldsession])
             ->execute()
             ->fetchCell();
-        if (!$voteId and $User_Id > 0) {
+        if (!$voteId && $User_Id > 0) {
             $voteId = (int) $this->db()->select('id')
             ->from('radio_hoerercharts_uservotes')
             ->Where(['user_id >' => 0, 'user_id' => $User_Id])
@@ -201,38 +220,62 @@ class HoererChartsUserVotes extends \Ilch\Mapper
 
         return $voteId;
     }
+
+    /**
+     * Sets the is_voted Cookie.
+     *
+     * @param String $sessionid
+     */
+    public function setIsVotedCookie(String $sessionid)
+    {
+        if (PHP_VERSION_ID >= 70300) {
+            setcookie('RadioHoererCharts_is_voted', $sessionid, [
+                'expires' => strtotime('+1 days'),
+                'path' => '/',
+                'domain' => $_SERVER['SERVER_NAME'],
+                'samesite' => 'Lax',
+                'secure' => (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'),
+                'httponly' => true,
+            ]);
+        } else {
+            // workaround syntax to set the SameSite attribute in PHP < 7.3
+            setcookie('RadioHoererCharts_is_voted', $sessionid, strtotime('+1 days'), '/; samesite=Lax', $_SERVER['SERVER_NAME'], (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'), true);
+        }
+    }
     
     /**
      * Check if user has already voted or if guests can vote.
      *
      * @param \Modules\User\Models\User $User
-     * @param boolean $guestallow
-     * @param integer $timediff
      * @return boolean
      */
-    public function is_voted($User = null, $guestallow = false, $timediff = 30)
+    public function is_voted($User = null)
     {
+        $config = \Ilch\Registry::get('config');
+
         $date = new \Ilch\Date();
-        $datenow = new \Ilch\Date($date->format("Y-m-d H:i:s",true));
-        //$datenow->modify('+1 hours');
+        $datenow = new \Ilch\Date($date->format("Y-m-d H:i:s", true));
 
         $User_Id = 0;
-        if ($User) $User_Id = $User->getId();
+        if ($User) {
+            $User_Id = $User->getId();
+        }
 
         $voteId = $this->getEntryByUserSession($User);
 
         if ($voteId > 0) {
-
             $returnvalue = true;
             $entryModel = $this->getEntryById($voteId);
 
-            if (!empty($entryModel->getLast_Activity())) $dateentry = new \Ilch\Date($entryModel->getLast_Activity());
-            else $dateentry = clone $datenow;
+            if (!empty($entryModel->getLast_Activity())) {
+                $dateentry = new \Ilch\Date($entryModel->getLast_Activity());
+            } else {
+                $dateentry = clone $datenow;
+            }
 
-            if ($timediff > 0) {
-
+            if ($config->get('radio_hoerercharts_all_sec_vote') > 0) {
                 $dateentryclone = clone $dateentry;
-                $dateentryclone->modify('+'.$timediff.' seconds');
+                $dateentryclone->modify('+'.$config->get('radio_hoerercharts_all_sec_vote').' seconds');
 
                 if ($dateentryclone->getTimestamp() < $datenow->getTimestamp()) {
                     $returnvalue = false;
@@ -240,15 +283,14 @@ class HoererChartsUserVotes extends \Ilch\Mapper
             }
 
             $entryModel->setLast_Activity($dateentry);
-            if ($User_Id) $entryModel->setUser_Id($User_Id);
+            if ($User_Id) {
+                $entryModel->setUser_Id($User_Id);
+            }
             $entryModel->setSessionId(session_id());
-            $this->save($entryModel);  
+            $this->save($entryModel);
             return $returnvalue;
         } else {
-            if (!$User_Id and !$guestallow)
-                return true;
-            else
-                return false;
+            return (!$User_Id && !$config->get('radio_hoerercharts_Guest_Allow'));
         }
     }
 

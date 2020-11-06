@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Dennis Reilard
+ * @copyright Dennis Reilard alias hhunderter
  * @package ilch
  */
 
@@ -22,79 +22,12 @@ class HoererChartsSuggestion extends \Ilch\Mapper
     }
 
     /**
-     * Gets the Entries.
-     *
-     * @param array $where
-     * @param \Ilch\Pagination|null $pagination
-     * @return EntriesModel[]|array
-     */
-    public function getEntries($where = [], $pagination = null)
-    {
-        $select = $this->db()->select('*')
-            ->from('radio_hoerercharts_suggestion')
-            ->where($where)
-            ->order(['id' => 'DESC']);
-
-        if ($pagination !== null) {
-            $select->limit($pagination->getLimit())
-                ->useFoundRows();
-            $result = $select->execute();
-            $pagination->setRows($result->getFoundRows());
-        } else {
-            $result = $select->execute();
-        }
-
-        $entryArray = $result->fetchRows();
-        $entry = [];
-
-        foreach ($entryArray as $entries) {
-            $entryModel = new EntriesModel();
-            $entryModel->setId($entries['id']);
-            $entryModel->setInterpret($entries['interpret']);
-            $entryModel->setSongTitel($entries['songtitel']);
-            $entryModel->setDateCreate($entries['datecreate']);
-            $entryModel->setUser_Id($entries['user_id']);
-            $entry[] = $entryModel;
-        }
-
-        return $entry;
-    }
-
-    /**
-     * Gets the entry by given ID.
-     *
-     * @param int $id
-     * @return null|EntriesModel
-     */
-    public function getEntryById($id)
-    {
-        $entryRow = $this->db()->select('*')
-            ->from('radio_hoerercharts_suggestion')
-            ->where(['id' => $id])
-            ->execute()
-            ->fetchAssoc();
-
-        if (empty($entryRow)) {
-            return null;
-        }
-
-        $entryModel = new EntriesModel();
-        $entryModel->setId($entryRow['id'])
-            ->setInterpret($entryRow['interpret'])
-            ->setSongTitel($entryRow['songtitel'])
-            ->setDateCreate($entryRow['datecreate'])
-            ->setUser_Id($entryRow['user_id']);
-
-        return $entryModel;
-    }
-
-    /**
      * Gets the Entries by param.
      *
      * @param array $where
      * @param array $orderBy
      * @param \Ilch\Pagination|null $pagination
-     * @return EntriesModel[]|array
+     * @return array|null
      */
     public function getEntriesBy($where = [], $orderBy = ['id' => 'DESC'], $pagination = null)
     {
@@ -113,7 +46,10 @@ class HoererChartsSuggestion extends \Ilch\Mapper
         }
 
         $entryArray = $result->fetchRows();
-        $entry = [];
+        if (empty($entryArray)) {
+            return null;
+        }
+        $entrys = [];
 
         foreach ($entryArray as $entries) {
             $entryModel = new EntriesModel();
@@ -122,16 +58,45 @@ class HoererChartsSuggestion extends \Ilch\Mapper
             $entryModel->setSongTitel($entries['songtitel']);
             $entryModel->setDateCreate($entries['datecreate']);
             $entryModel->setUser_Id($entries['user_id']);
-            $entry[] = $entryModel;
+            $entrys[] = $entryModel;
         }
-        return $entry;
+        return $entrys;
+    }
+
+    /**
+     * Gets the Entries.
+     *
+     * @param array $where
+     * @param \Ilch\Pagination|null $pagination
+     * @return array|null
+     */
+    public function getEntries($where = [], $pagination = null)
+    {
+        return $this->getEntriesBy($where, ['id' => 'DESC'], $pagination);
+    }
+
+    /**
+     * Gets the entry by given ID.
+     *
+     * @param int $id
+     * @return null|EntriesModel
+     */
+    public function getEntryById(int $id)
+    {
+        $entrys = $this->getEntriesBy(['id' => (int)$id], []);
+
+        if (!empty($entrys)) {
+            return reset($entrys);
+        }
+        
+        return null;
     }
 
     /**
      * Inserts or updates entry.
      *
      * @param EntriesModel $model
-     * @return boolean
+     * @return boolean|integer
      */
     public function save(EntriesModel $model)
     {
@@ -144,17 +109,17 @@ class HoererChartsSuggestion extends \Ilch\Mapper
         ];
 
         if ($model->getId()) {
-            $this->db()->update('radio_hoerercharts_suggestion')
+            $result = $this->db()->update('radio_hoerercharts_suggestion')
                 ->values($fields)
                 ->where(['id' => $model->getId()])
                 ->execute();
         } else {
-            $this->db()->insert('radio_hoerercharts_suggestion')
+            $result = $this->db()->insert('radio_hoerercharts_suggestion')
                 ->values($fields)
                 ->execute();
         }
 
-        return true;
+        return $result;
     }
 
     /**
@@ -163,11 +128,10 @@ class HoererChartsSuggestion extends \Ilch\Mapper
      * @param integer $id
      * @return boolean
      */
-    public function delete($id)
+    public function delete(int $id)
     {
         return $this->db()->delete('radio_hoerercharts_suggestion')
             ->where(['id' => $id])
             ->execute();
     }
-    
 }

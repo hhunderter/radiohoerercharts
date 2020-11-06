@@ -10,7 +10,7 @@
                    type="text"
                    id="interpret"
                    name="interpret"
-                   value="<?php if ($this->getRequest()->getPost('interpret') != '') { echo $this->escape($this->getRequest()->getPost('interpret')); } ?>" />
+                   value="<?=$this->escape($this->originalInput('interpret', '')) ?>" />
         </div>
     </div>
     <div class="form-group <?=$this->validation()->hasError('songtitel') ? 'has-error' : '' ?>">
@@ -22,10 +22,11 @@
                    type="text"
                    id="songtitel"
                    name="songtitel"
-                   value="<?php if ($this->getRequest()->getPost('songtitel') != '') { echo $this->escape($this->getRequest()->getPost('songtitel')); } ?>" />
+                   value="<?=$this->escape($this->originalInput('songtitel', '')) ?>" />
         </div>
     </div>
-    <?php if ($this->get('captchaNeeded')) : ?>
+    <?php if ($this->get('captchaNeeded')) {
+    ?>
         <div class="form-group <?=$this->validation()->hasError('captcha') ? 'has-error' : '' ?>">
             <label class="col-lg-2 control-label">
                 <?=$this->getTrans('captcha') ?>
@@ -52,7 +53,7 @@
                 </span>
             </div>
         </div>
-    <?php endif; ?>
-
+    <?php
+} ?>
     <?=$this->getSaveBar('addButton') ?>
 </form>

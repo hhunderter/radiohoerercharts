@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Dennis Reilard
+ * @copyright Dennis Reilard alias hhunderter
  * @package ilch
  */
 
@@ -51,7 +51,7 @@ class HoererChartsUserVotes extends \Ilch\Model
      * @param int $id
      * @return $this
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = (int) $id;
 
@@ -73,7 +73,7 @@ class HoererChartsUserVotes extends \Ilch\Model
      * @param int $user_id
      * @return $this
      */
-    public function setUser_Id($user_id)
+    public function setUser_Id(int $user_id)
     {
         $this->user_id = (int) $user_id;
 
@@ -97,7 +97,7 @@ class HoererChartsUserVotes extends \Ilch\Model
      *
      * @param string $sessionId
      */
-    public function setSessionId($sessionId)
+    public function setSessionId(String $sessionId)
     {
         $this->sessionId = (string) $sessionId;
     }
@@ -117,7 +117,7 @@ class HoererChartsUserVotes extends \Ilch\Model
      * @param string $last_activity
      * @return $this
      */
-    public function setLast_Activity($last_activity)
+    public function setLast_Activity(String $last_activity)
     {
         $this->last_activity = (string) $last_activity;
 

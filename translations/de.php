@@ -1,25 +1,24 @@
 <?php
 /**
- * @copyright Dennis Reilard
+ * @copyright Dennis Reilard alias hhunderter
  * @package ilch
  */
 
 return [
     'hoerercharts' => 'Hörercharts',
-    'nouser' => 'Um die Hörercharts nutzen zu können, müssen Sie registriert sein.',
+    'nouser' => 'Um die %s nutzen zu können, müssen Sie registriert sein.',
     'register' => 'Registrieren',
     'place' => 'Platz',
-    'interpret' => 'Dj / Interpret',
-    'songtitel' => 'Songtitel / Track',
+    'interpret' => 'Interpret',
+    'songtitel' => 'Songtitel',
     'vote' => 'Stimmen',
     'noentries' => 'Es wurden noch keine Titel oder Künstler eingegeben. Bitte versuchen Sie es später noch einmal, danke.',
     'votetextuser' => 'Jedes Community-Mitglied',
     'votetextguest' => 'Jeder',
-    'votetext' => '<h1>So funktioniert es:</h1>
-%s darf für seinen Lieblingstitel stimmen und an einem Bestimmten Tag (siehe Sende plan) wird es die Sendung "%s" geben.<br>
-In dieser Sendung wird von unten (z.B. Platz 20) bis auf Platz 1 gespielt.<br>
-Danach werden die Stimmen von Ihnen wieder gelöscht und die Chartliste aktualisiert, <br>
-d.h. es werden möglicherweise neue Interpreten hinzugefügt oder ältere Titel werden ausgeblendet usw.',
+    'votetext' => '[size=120][b]So funktioniert es:[/b][/size]
+--user-- darf für seinen Lieblingstitel stimmen und an einem Bestimmten Tag (siehe: Sendeplan) wird es die Sendung "--name--" geben.
+In dieser Sendung wird von unten (z.B. Platz 20) bis auf Platz 1 gespielt.
+Danach werden die Stimmen von Ihnen wieder gelöscht und die Chartliste aktualisiert, d.h. es werden möglicherweise neue Interpreten hinzugefügt oder ältere Titel werden ausgeblendet usw.',
     'votetextvote' => '<br><br>Wir, das gesamte Radio-Team, wünschen Ihnen viel Spaß und drücken die Daumen für Ihren Track.',
     'votedatetime' => '<b>Abstimmungszeitraum:</b> ',
     'fromto' => 'vom %s bis zum %s',
@@ -29,7 +28,19 @@ d.h. es werden möglicherweise neue Interpreten hinzugefügt oder ältere Titel 
     'addButton' => 'Absenden',
     'noentriesadmin' => 'keine Einträge',
     'reset' => 'Zurücksetzen',
-    'notset' => 'nicht festgelegt',
+    'datetimeformat' => 'd.m.Y H:i',
+    'artworkUrl' => 'artworkUrl',
+    'artworkUrlget' => 'artworkUrl',
+    'show_artwork' => 'show_artwork',
+    'show_artworkText' => 'show_artworkText',
+    'artwork' => 'artwork',
+    'artworkUrl' => 'Artwork URL',
+    'active' => 'Aktiv',
+    'active_list' => 'Aktive Liste',
+    'list' => 'Liste',
+    'show_artwork' => 'Artwork anzeigen',
+    'show_artworkText' => '',
+    'selectactive_list' => '',
 
     'Program_Name' => 'Programmname',
     'Program_NameText' => 'Programmname für die Hörercharts:',
@@ -69,6 +80,12 @@ d.h. es werden möglicherweise neue Interpreten hinzugefügt oder ältere Titel 
     'user' => 'Username',
     'guest' => 'Gast',
 
+    'german' => 'Deutsch',
+    'english' => 'Englisch',
+    'language_footer' => 'Platzhalter: --user-- -> Gäste:"%s", User:"%s" ; --name-- -> "%s"',
+
     'registered_by' => 'Eingetragen von',
     'suggestionenable' => 'Vorschlag aktivieren',
+
+    'dbfail' => 'Datenbank fehler ...',
 ];

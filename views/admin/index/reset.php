@@ -15,29 +15,30 @@
                     <th><?=$this->getTrans('datecreate') ?></th>
                 </tr>
             </thead>
-            <?php foreach ($this->get('entries') as $entry): ?>
+            <?php foreach ($this->get('entries') as $entry) {
+    ?>
                 <tbody>
                     <tr>
                         <td>
                         <?php
                             $userMapper = new \Modules\User\Mappers\User();
                             
-                            $user_id = $entry->getUser_Id();
-                            $user = $userMapper->getUserById($user_id);
-                            if ($user)
-                                echo $this->escape($user->getName());
-                            else
-                                echo $this->getTrans('guest');
-                        ?>
+    $user_id = $entry->getUser_Id();
+    $user = $userMapper->getUserById($user_id);
+    if ($user) {
+        echo $this->escape($user->getName());
+    } else {
+        echo $this->getTrans('guest');
+    } ?>
                         </td>
                         <td>
                         <?php
                             $datenow = new \Ilch\Date($entry->getLast_Activity());
-                            echo $datenow->format('d.m.Y H:i');
-                        ?>
+    echo $datenow->format($this->getTrans('datetimeformat')); ?>
                         </td>
                     </tr>
                 </tbody>
-            <?php endforeach; ?>
+            <?php
+} ?>
         </table>
     </div>

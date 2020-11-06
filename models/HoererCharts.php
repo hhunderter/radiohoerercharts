@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Dennis Reilard
+ * @copyright Dennis Reilard alias hhunderter
  * @package ilch
  */
 
@@ -56,6 +56,14 @@ class HoererCharts extends \Ilch\Model
      * @var int
      */
     protected $user_id;
+    
+    /**
+     * The artworkUrl.
+     *
+     * @var string
+     */
+    protected $artworkUrl;
+    
 
     /**
      * Gets the Id.
@@ -72,7 +80,7 @@ class HoererCharts extends \Ilch\Model
      * @param int $id
      * @return $this
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = (int) $id;
 
@@ -94,7 +102,7 @@ class HoererCharts extends \Ilch\Model
      * @param int $setfree
      * @return $this
      */
-    public function setSetFree($setfree)
+    public function setSetFree(int $setfree)
     {
         $this->setfree = (int) $setfree;
 
@@ -116,7 +124,7 @@ class HoererCharts extends \Ilch\Model
      * @param String $interpret
      * @return $this
      */
-    public function setInterpret($interpret)
+    public function setInterpret(String $interpret)
     {
         $this->interpret = (string) $interpret;
 
@@ -138,7 +146,7 @@ class HoererCharts extends \Ilch\Model
      * @param String $songtitel
      * @return $this
      */
-    public function setSongTitel($songtitel)
+    public function setSongTitel(string $songtitel)
     {
         $this->songtitel = (string) $songtitel;
 
@@ -160,7 +168,7 @@ class HoererCharts extends \Ilch\Model
      * @param int $votes
      * @return $this
      */
-    public function setVotes($votes)
+    public function setVotes(int $votes)
     {
         $this->votes = (int) $votes;
 
@@ -182,7 +190,7 @@ class HoererCharts extends \Ilch\Model
      * @param String $datecreate
      * @return $this
      */
-    public function setDateCreate($datecreate)
+    public function setDateCreate(String $datecreate)
     {
         $this->datecreate = (string) $datecreate;
 
@@ -204,11 +212,32 @@ class HoererCharts extends \Ilch\Model
      * @param int $user_id
      * @return $this
      */
-    public function setUser_Id($user_id)
+    public function setUser_Id(int $user_id)
     {
         $this->user_id = (int) $user_id;
 
         return $this;
     }
+    
+    /**
+     * Gets the artworkUrl.
+     *
+     * @return string
+     */
+    public function getArtworkUrl()
+    {
+        return $this->artworkUrl;
+    }
+    /**
+     * Sets the artworkUrl.
+     *
+     * @param string $artworkUrl
+     * @return $this
+     */
+    public function setArtworkUrl(string $artworkUrl)
+    {
+        $this->artworkUrl = (string) $artworkUrl;
 
+        return $this;
+    }
 }
