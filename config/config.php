@@ -13,7 +13,7 @@ class Config extends \Ilch\Config\Install
 {
     public $config = [
         'key' => 'radiohoerercharts',
-        'version' => '1.6.0',
+        'version' => '1.6.1',
         'icon_small' => 'fa-list-ol',
         'author' => 'Reilard, Dennis alias hhunderter ',
         'link' => '',
@@ -296,6 +296,12 @@ After that, the votes will be deleted again and updates the chart list, i.e. new
                 $databaseConfig = new \Ilch\Config\Database($this->db());
                 $databaseConfig->set('radio_hoerercharts_show_artwork', '0');
                 $databaseConfig->set('radio_hoerercharts_active_list', '1');
+            case "1.6.0":
+            // update zu 1.6.1
+                /*
+                translations update
+                */
+                
         }
         return 'Update function executed.';
     }

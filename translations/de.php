@@ -30,7 +30,7 @@ Danach werden die Stimmen von Ihnen wieder gelöscht und die Chartliste aktualis
     'reset' => 'Zurücksetzen',
     'datetimeformat' => 'd.m.Y H:i',
     'artworkUrl' => 'artworkUrl',
-    'artworkUrlget' => 'artworkUrl',
+    'artworkUrlget' => 'Laden der Bild URL',
     'show_artwork' => 'show_artwork',
     'show_artworkText' => 'show_artworkText',
     'artwork' => 'artwork',

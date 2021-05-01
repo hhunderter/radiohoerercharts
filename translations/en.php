@@ -30,7 +30,7 @@ After that, the votes will be deleted again and updates the chart list, i.e. new
     'reset' => 'Reset to default',
     'datetimeformat' => 'd-m-Y H:i',
     'artworkUrl' => 'artworkUrl',
-    'artworkUrlget' => 'artworkUrl',
+    'artworkUrlget' => 'Loading the image URL',
     'show_artwork' => 'show_artwork',
     'show_artworkText' => 'show_artworkText',
     'artwork' => 'artwork',
