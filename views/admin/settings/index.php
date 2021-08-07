@@ -73,7 +73,7 @@
             </div>
         </div>
     </div>
-    
+
     <h1><?=$this->getTrans('show_artwork') ?></h1>
     <div class="form-group <?=$this->validation()->hasError('show_artwork') ? 'has-error' : '' ?>">
         <label for="show_artwork" class="col-lg-2 control-label">
@@ -85,6 +85,22 @@
                 <label for="show_artwork-yes" class="flipswitch-label flipswitch-label-on"><?=$this->getTrans('on') ?></label>
                 <input type="radio" class="flipswitch-input" id="show_artwork-no" name="show_artwork" value="0"  <?=(!$this->originalInput('show_artwork', $this->get('show_artwork')))?'checked="checked"':'' ?> />  
                 <label for="show_artwork-no" class="flipswitch-label flipswitch-label-off"><?=$this->getTrans('off') ?></label>
+                <span class="flipswitch-selection"></span>
+            </div>
+        </div>
+    </div>
+
+    <h1><?=$this->getTrans('show_registered_by') ?></h1>
+    <div class="form-group <?=$this->validation()->hasError('show_registered_by') ? 'has-error' : '' ?>">
+        <label for="show_registered_by" class="col-lg-2 control-label">
+            <?=$this->getTrans('show_artworkText') ?>:
+        </label>
+        <div class="col-lg-4">
+            <div class="flipswitch">
+                <input type="radio" class="flipswitch-input" id="show_registered_by-yes" name="show_registered_by" value="1" <?=($this->originalInput('show_registered_by', $this->get('show_registered_by')))?'checked="checked"':'' ?> />
+                <label for="show_registered_by-yes" class="flipswitch-label flipswitch-label-on"><?=$this->getTrans('on') ?></label>
+                <input type="radio" class="flipswitch-input" id="show_registered_by-no" name="show_registered_by" value="0"  <?=(!$this->originalInput('show_registered_by', $this->get('show_registered_by')))?'checked="checked"':'' ?> />  
+                <label for="show_registered_by-no" class="flipswitch-label flipswitch-label-off"><?=$this->getTrans('off') ?></label>
                 <span class="flipswitch-selection"></span>
             </div>
         </div>

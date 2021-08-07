@@ -250,9 +250,12 @@ class Index extends \Ilch\Controller\Admin
                         $hoererchartsModel->setSetFree($this->getRequest()->getPost('setfree'));
                         if ($this->getConfig()->get('radio_hoerercharts_show_artwork')) $hoererchartsModel->setArtworkUrl($this->getRequest()->getPost('artworkUrl'));
                     }
+                    if ($hoererchartsModel->getId() && ($hoererchartsModel->getInterpret() != $this->getRequest()->getPost('interpret') || $hoererchartsModel->getSongTitel() != $this->getRequest()->getPost('songtitel'))) {
+                        $hoererchartsModel->setVotes(0);
+                    }
+                    
                     $hoererchartsModel->setInterpret($this->getRequest()->getPost('interpret'))
-                        ->setSongTitel($this->getRequest()->getPost('songtitel'))
-                        ->setVotes(0);
+                        ->setSongTitel($this->getRequest()->getPost('songtitel'));
 
                     if ($this->getRequest()->getParam('suggestion')) {
                         $hoererchartssuggestionMapper->save($hoererchartsModel);

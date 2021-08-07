@@ -30,6 +30,13 @@ class HoererChartsUserVotes extends \Ilch\Model
     protected $sessionId;
 
     /**
+     * The Ip.
+     *
+     * @var string
+     */
+    protected $ip;
+
+    /**
      * The last_activity.
      *
      * @var string
@@ -100,6 +107,28 @@ class HoererChartsUserVotes extends \Ilch\Model
     public function setSessionId(String $sessionId)
     {
         $this->sessionId = (string) $sessionId;
+    }
+
+    /**
+     * Gets the ip.
+     *
+     * @return string
+     */
+    public function getIp()
+    {
+        return $this->ip;
+    }
+    /**
+     * Sets the ip.
+     *
+     * @param string $ip
+     * @return $this
+     */
+    public function setIp(String $ip)
+    {
+        $this->ip = (string) $ip;
+
+        return $this;
     }
 
     /**

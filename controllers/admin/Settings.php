@@ -70,6 +70,7 @@ class Settings extends \Ilch\Controller\Admin
                         'Star4' => 'required|numeric|min:1',
                         'Star5' => 'required|numeric|min:1',
                         'show_artwork' => 'required|numeric|min:0|max:1',
+                        'show_registered_by' => 'required|numeric|min:0|max:1',
                     ]);
                 } else {
                     $validation = Validation::create($this->getRequest()->getPost(), [
@@ -90,7 +91,8 @@ class Settings extends \Ilch\Controller\Admin
                             ->set('radio_hoerercharts_Star3', $this->getRequest()->getPost('Star3'))
                             ->set('radio_hoerercharts_Star4', $this->getRequest()->getPost('Star4'))
                             ->set('radio_hoerercharts_Star5', $this->getRequest()->getPost('Star5'))
-                            ->set('radio_hoerercharts_show_artwork', $this->getRequest()->getPost('show_artwork'));
+                            ->set('radio_hoerercharts_show_artwork', $this->getRequest()->getPost('show_artwork'))
+                            ->set('radio_hoerercharts_show_registered_by', $this->getRequest()->getPost('show_registered_by'));
                     } else {
                         $this->getConfig()->set('radio_hoerercharts_votetext_de', $this->getRequest()->getPost('votetext_de'))
                             ->set('radio_hoerercharts_votetext_en', $this->getRequest()->getPost('votetext_en'));
@@ -119,7 +121,8 @@ class Settings extends \Ilch\Controller\Admin
                     ->set('Star3', $this->getConfig()->get('radio_hoerercharts_Star3'))
                     ->set('Star4', $this->getConfig()->get('radio_hoerercharts_Star4'))
                     ->set('Star5', $this->getConfig()->get('radio_hoerercharts_Star5'))
-                    ->set('show_artwork', $this->getConfig()->get('radio_hoerercharts_show_artwork'));
+                    ->set('show_artwork', $this->getConfig()->get('radio_hoerercharts_show_artwork'))
+                    ->set('show_registered_by', $this->getConfig()->get('radio_hoerercharts_show_registered_by'));
             } else {
                 if ($this->getTranslator()->shortenLocale($this->getTranslator()->getLocale()) == 'de') {
                     $language = new \Ilch\Translator('en_EN');

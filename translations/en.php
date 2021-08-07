@@ -35,6 +35,7 @@ After that, the votes will be deleted again and updates the chart list, i.e. new
     'active' => 'Aktive',
     'active_list' => 'Aktive List',
     'list' => 'List',
+    'show_registered_by' => 'Show "Registered by" info? ',
     'show_artwork' => 'Show Cover',
     'show_artworkText' => '',
     'selectactive_list' => '',

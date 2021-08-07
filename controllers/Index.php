@@ -28,7 +28,8 @@ class Index extends \Ilch\Controller\Frontend
         $hoererchartsconfig = [ 'guestallow' => $this->getConfig()->get('radio_hoerercharts_Guest_Allow'),
             'allowsuggestion' => $this->getConfig()->get('radio_hoerercharts_allow_suggestion'),
             'Program_Name' => ($radio_hoerercharts_Program_Name ? $radio_hoerercharts_Program_Name : $this->getTranslator()->trans('hoerercharts')),
-            'show_artwork' => $this->getConfig()->get('radio_hoerercharts_show_artwork')];
+            'show_artwork' => $this->getConfig()->get('radio_hoerercharts_show_artwork'),
+            'show_registered_by' => $this->getConfig()->get('radio_hoerercharts_show_registered_by'),];
 
         $this->getLayout()->getTitle()
             ->add($hoererchartsconfig['Program_Name']);
@@ -73,7 +74,7 @@ class Index extends \Ilch\Controller\Frontend
                     if ($validation->isValid() && !$validation_indb->isValid()) {
                         $hoererchartsMapper->update($this->getRequest()->getPost('hoerercharts-d'), -1);
 
-                        $voteId = $hoererchartsuservotesMapper->getEntryByUserSession($this->getUser());
+                        $voteId = $hoererchartsuservotesMapper->getEntryByUserSessionIp($this->getUser());
 
                         $date = new \Ilch\Date();
                         $datenow = new \Ilch\Date($date->format("Y-m-d H:i:s", true));
@@ -86,6 +87,7 @@ class Index extends \Ilch\Controller\Frontend
                             $model->setUser_Id($this->getUser()->getId());
                         }
                         $model->setSessionId(session_id());
+                        $model->setIp($hoererchartsuservotesMapper->getIp());
                         $model->setLast_Activity($datenow);
                         $hoererchartsuservotesMapper->save($model);
 

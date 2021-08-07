@@ -13,10 +13,10 @@ class Config extends \Ilch\Config\Install
 {
     public $config = [
         'key' => 'radiohoerercharts',
-        'version' => '1.6.1',
+        'version' => '1.7.0',
         'icon_small' => 'fa-list-ol',
-        'author' => 'Reilard, Dennis alias hhunderter ',
-        'link' => '',
+        'author' => 'Reilard, Dennis alias hhunderter',
+        'link' => 'https://github.com/hhunderter/radiohoerercharts',
         'official' => false,
         'languages' => [
             'de_DE' => [
@@ -163,7 +163,7 @@ After that, the votes will be deleted again and updates the chart list, i.e. new
                 $databaseConfig->set('radio_hoerercharts_End_Datetime', '');
                 $databaseConfig->set('radio_hoerercharts_Program_Name', 'Hörercharts');
                 $fields = [
-                    'author' => 'Reilard, Dennis alias hhunderter ',
+                    'author' => 'Reilard, Dennis alias hhunderter',
                     'icon_small' => 'fa-list-ol'
                 ];
                 $this->db()->update('modules')
@@ -292,7 +292,7 @@ After that, the votes will be deleted again and updates the chart list, i.e. new
                 foreach ($chartsentries as $chartsentriesmodels) {
                     $hoererchartslistMapper->addEntryToList($chartsentriesmodels->getId(), 1);
                 }
-                
+
                 $databaseConfig = new \Ilch\Config\Database($this->db());
                 $databaseConfig->set('radio_hoerercharts_show_artwork', '0');
                 $databaseConfig->set('radio_hoerercharts_active_list', '1');
@@ -301,7 +301,26 @@ After that, the votes will be deleted again and updates the chart list, i.e. new
                 /*
                 translations update
                 */
-                
+            
+            case "1.6.1":
+            // update zu 1.7.0
+                /*
+                add ip-sperre  issue #4 (https://github.com/hhunderter/radiohoerercharts/issues/4)
+                add option to show "Registered by"
+                fix show artwork on non Voted
+                fix reset by only change artwork URL
+                */
+                $this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts_uservotes` ADD `ip_address` VARCHAR(255) NOT NULL AFTER `session_id`;');
+                $databaseConfig = new \Ilch\Config\Database($this->db());
+                $databaseConfig->set('radio_hoerercharts_show_registered_by', '1');
+                $fields = [
+                    'link' => 'https://github.com/hhunderter/radiohoerercharts'
+                ];
+                $this->db()->update('modules')
+                ->values($fields)
+                ->where(['key' => 'radiohoerercharts'])
+                ->execute();
+
         }
         return 'Update function executed.';
     }

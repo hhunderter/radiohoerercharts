@@ -49,7 +49,11 @@ $userMapper = $this->get('userMapper');
                 <col class="col-lg-4">
                 <col class="col-lg-4">
                 <col class="col-lg-2">
+                <?php if ($hoererchartsconfig['show_registered_by']) {
+                ?>
                 <col class="icon_width">
+                <?php
+                } ?>
             </colgroup>
             <thead>
                 <tr>
@@ -66,7 +70,11 @@ $userMapper = $this->get('userMapper');
                     <th><?=$this->getTrans('interpret') ?></th>
                     <th><?=$this->getTrans('songtitel') ?></th>
                     <th><?=$this->getTrans('vote') ?></th>
+                    <?php if ($hoererchartsconfig['show_registered_by']) {
+                    ?>
                     <th></th>
+                    <?php
+                    } ?>
                 </tr>
             </thead>
             <tbody>
@@ -92,8 +100,12 @@ $userMapper = $this->get('userMapper');
                     <td><?=$this->escape($entry->getInterpret()) ?></td>
                     <td><?=$this->escape($entry->getSongTitel()) ?></td>
                     <td><?=$this->get('hoererchartsMapper')->getStars($entry->getVotes()) ?></td>
+                    <?php if ($hoererchartsconfig['show_registered_by']) {
+                    ?>
                     <?php $User = $userMapper->getUserById($entry->getUser_Id()); ?>
                     <td><span class="fas fa-info-circle text-info" data-toggle="tooltip" data-placement="left" title="<?=$this->getTrans('registered_by') ?>: <?=(!$User?$this->getTrans('guest'):$this->escape($User->getName())) ?>"></span></td>
+                    <?php
+                    } ?>
                 </tr>
                 <?php
                 $platz++; ?>
@@ -127,27 +139,60 @@ $userMapper = $this->get('userMapper');
             <table class="table table-hover table-striped">
                 <colgroup>
                     <col class="icon_width">
+                    <?php if ($hoererchartsconfig['show_artwork']) {
+                    ?>
+                    <col class="col-lg-1">
+                    <?php
+                    } ?>
                     <col class="col-lg-6">
                     <col class="col-lg-5">
+                    <?php if ($hoererchartsconfig['show_registered_by']) {
+                    ?>
                     <col class="icon_width">
+                    <?php
+                    } ?>
                 </colgroup>
                 <thead>
                     <tr>
                         <th>&nbsp;</th>
+                        <?php if ($hoererchartsconfig['show_artwork']) {
+                            ?>
+                        <th><?=$this->getTrans('artwork') ?></th>
+                        <?php
+                        } ?>
                         <th><?=$this->getTrans('interpret') ?></th>
                         <th><?=$this->getTrans('songtitel') ?></th>
+                        <?php if ($hoererchartsconfig['show_registered_by']) {
+                        ?>
                         <th></th>
+                        <?php
+                        } ?>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($this->get('entries') as $entry) {
-                ?>
+                    ?>
                     <tr>
                         <td><label><input type="radio" name="hoerercharts-d" value="<?=$entry->getId() ?>"></label></td>
+                        <?php if ($hoererchartsconfig['show_artwork']) {
+                        ?>
+                        <td>
+                            <?php if ($entry->getArtworkUrl()) {
+                            ?>
+                            <img src="<?=$this->escape($entry->getArtworkUrl()) ?>" class="img-thumbnail">
+                            <?php
+                            } ?>
+                        </td>
+                        <?php
+                        } ?>
                         <td><?=$this->escape($entry->getInterpret()) ?></td>
                         <td><?=$this->escape($entry->getSongTitel()) ?></td>
+                        <?php if ($hoererchartsconfig['show_registered_by']) {
+                        ?>
                         <?php $User = $userMapper->getUserById($entry->getUser_Id()); ?>
                         <td><span class="fas fa-info-circle text-info" data-toggle="tooltip" data-placement="left" title="<?=$this->getTrans('registered_by') ?>: <?=(!$User?$this->getTrans('guest'):$this->escape($User->getName())) ?>"></span></td>
+                        <?php
+                        } ?>
                     </tr>
                     <?php
             } ?>

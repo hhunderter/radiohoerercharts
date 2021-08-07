@@ -56,6 +56,7 @@ class HoererChartsUserVotes extends \Ilch\Mapper
             $entryModel->setId($entries['id']);
             $entryModel->setUser_Id($entries['user_id']);
             $entryModel->setSessionId($entries['session_id']);
+            $entryModel->setIp($entries['ip_address']);
             $entryModel->setLast_Activity($entries['last_activity']);
             $entrys[] = $entryModel;
         }
@@ -103,8 +104,8 @@ class HoererChartsUserVotes extends \Ilch\Mapper
         $fields = [
             'user_id'       => $model->getUser_Id(),
             'session_id'    => $model->getSessionId(),
-            'last_activity' => $model->getLast_Activity()
-                            
+            'last_activity' => $model->getLast_Activity(),
+            'ip_address'    => $model->getIp(),
         ];
 
         if ($model->getId()) {
@@ -170,7 +171,7 @@ class HoererChartsUserVotes extends \Ilch\Mapper
             ->where(['user_id' => $user_id])
             ->execute();
     }
-    
+
     /**
      * Delete user vote with specific session_id.
      *
@@ -185,13 +186,50 @@ class HoererChartsUserVotes extends \Ilch\Mapper
     }
 
     /**
+     * Delete user vote with specific ip_address.
+     *
+     * @param string|null $ip_address
+     * @return boolean
+     */
+    public function delete_ip(string $ip_address)
+    {
+        if (!$ip_address) {
+            $ip_address = $this->getIp();
+        }
+        
+        return $this->db()->delete('radio_hoerercharts_uservotes')
+            ->where(['ip_address' => $ip_address])
+            ->execute();
+    }
+    
+    /**
+     * get thi ip_address
+     *
+     * @return string
+     */
+    public function getIp()
+    {
+        if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && preg_match("/^[0-9a-zA-Z\/.:]{7,}$/", $_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } elseif (preg_match("/^[0-9a-zA-Z\/.:]{7,}$/", $_SERVER['REMOTE_ADDR'])) {
+            $ip_address = $_SERVER['REMOTE_ADDR'];
+        } else {
+            $ip_address = '128.0.0.1';
+        }
+        
+        return $ip_address;
+    }
+
+    /**
      * Gets the entry by given ID.
      *
      * @param \Modules\User\Models\User $User
      * @return integer
      */
-    public function getEntryByUserSession($User = null)
+    public function getEntryByUserSessionIp($User = null)
     {
+        $ip = $this->getIp();
+
         $User_Id = 0;
         if ($User) {
             $User_Id = $User->getId();
@@ -212,10 +250,17 @@ class HoererChartsUserVotes extends \Ilch\Mapper
             ->fetchCell();
         if (!$voteId && $User_Id > 0) {
             $voteId = (int) $this->db()->select('id')
-            ->from('radio_hoerercharts_uservotes')
-            ->Where(['user_id >' => 0, 'user_id' => $User_Id])
-            ->execute()
-            ->fetchCell();
+                ->from('radio_hoerercharts_uservotes')
+                ->Where(['user_id >' => 0, 'user_id' => $User_Id])
+                ->execute()
+                ->fetchCell();
+        }
+        if (!$voteId && $User_Id === 0) {
+            $voteId = (int) $this->db()->select('id')
+                ->from('radio_hoerercharts_uservotes')
+                ->Where(['ip_address' => $ip])
+                ->execute()
+                ->fetchCell();
         }
 
         return $voteId;
@@ -228,21 +273,9 @@ class HoererChartsUserVotes extends \Ilch\Mapper
      */
     public function setIsVotedCookie(String $sessionid)
     {
-        if (PHP_VERSION_ID >= 70300) {
-            setcookie('RadioHoererCharts_is_voted', $sessionid, [
-                'expires' => strtotime('+1 days'),
-                'path' => '/',
-                'domain' => $_SERVER['SERVER_NAME'],
-                'samesite' => 'Lax',
-                'secure' => (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'),
-                'httponly' => true,
-            ]);
-        } else {
-            // workaround syntax to set the SameSite attribute in PHP < 7.3
-            setcookie('RadioHoererCharts_is_voted', $sessionid, strtotime('+1 days'), '/; samesite=Lax', $_SERVER['SERVER_NAME'], (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'), true);
-        }
+        setcookieIlch('RadioHoererCharts_is_voted', $sessionid, strtotime('+1 days'));
     }
-    
+
     /**
      * Check if user has already voted or if guests can vote.
      *
@@ -261,7 +294,7 @@ class HoererChartsUserVotes extends \Ilch\Mapper
             $User_Id = $User->getId();
         }
 
-        $voteId = $this->getEntryByUserSession($User);
+        $voteId = $this->getEntryByUserSessionIp($User);
 
         if ($voteId > 0) {
             $returnvalue = true;
