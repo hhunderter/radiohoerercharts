@@ -14,7 +14,7 @@ $userMapper = $this->get('userMapper');
 </h1>
 <div class="teams" id="hoerercharts-container">
     <div class="col-lg-12" id="hoerercharts-form-container">
-    <?=nl2br($this->getHtmlFromBBCode($this->escape($this->get('hoererchartsMapper')->getvotetext()))) ?>
+    <?=$this->purify($this->get('hoererchartsMapper')->getvotetext()) ?>
     <?=((!$this->getUser() and !$hoererchartsconfig['guestallow'])?'':$this->getTrans('votetextvote')) ?><br><br>
     <?php if ($this->get('voted')) {
         ?>
@@ -103,7 +103,7 @@ $userMapper = $this->get('userMapper');
                     <?php if ($hoererchartsconfig['show_registered_by']) {
                     ?>
                     <?php $User = $userMapper->getUserById($entry->getUser_Id()); ?>
-                    <td><span class="fas fa-info-circle text-info" data-toggle="tooltip" data-placement="left" title="<?=$this->getTrans('registered_by') ?>: <?=(!$User?$this->getTrans('guest'):$this->escape($User->getName())) ?>"></span></td>
+                    <td><span class="fa-solid fa-circle-info text-info" data-toggle="tooltip" data-placement="left" title="<?=$this->getTrans('registered_by') ?>: <?=(!$User?$this->getTrans('guest'):$this->escape($User->getName())) ?>"></span></td>
                     <?php
                     } ?>
                 </tr>
@@ -190,7 +190,7 @@ $userMapper = $this->get('userMapper');
                         <?php if ($hoererchartsconfig['show_registered_by']) {
                         ?>
                         <?php $User = $userMapper->getUserById($entry->getUser_Id()); ?>
-                        <td><span class="fas fa-info-circle text-info" data-toggle="tooltip" data-placement="left" title="<?=$this->getTrans('registered_by') ?>: <?=(!$User?$this->getTrans('guest'):$this->escape($User->getName())) ?>"></span></td>
+                        <td><span class="fa-solid fa-circle-info text-info" data-toggle="tooltip" data-placement="left" title="<?=$this->getTrans('registered_by') ?>: <?=(!$User?$this->getTrans('guest'):$this->escape($User->getName())) ?>"></span></td>
                         <?php
                         } ?>
                     </tr>

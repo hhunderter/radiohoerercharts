@@ -4,7 +4,7 @@
 <?php if (!$this->get('suggestion') && !$this->get('list')) {
     ?>
     <div class="col-lg-6">
-        <?=$this->getTrans('votedatetime') ?><?=$this->get('votedatetime') ?> <a href="javascript:votedatetime()" title="<?=$this->getTrans('edit') ?>"><span class="fas fa-edit text-success"></span></a>
+        <?=$this->getTrans('votedatetime') ?><?=$this->get('votedatetime') ?> <a href="javascript:votedatetime()" title="<?=$this->getTrans('edit') ?>"><span class="fa-solid fa-pen-to-square text-success"></span></a>
     </div>
     <div class="form-group">
         <label for="filterlist" class="col-lg-2 control-label">
@@ -104,7 +104,7 @@
                         <?php foreach ($this->get('listentries') as $entry) { 
                         $listentries[] = $entry->getHId();
                         ?>
-                            <li class="handle_li" value="<?=$entry->getHId() ?>"><div><span class="fa fa-sort"></span> <?=$entry->getEntry()->getInterpret() ?> - <?=$entry->getEntry()->getSongTitel() ?></div></li>
+                            <li class="handle_li" value="<?=$entry->getHId() ?>"><div><span class="fa-solid fa-sort"></span> <?=$entry->getEntry()->getInterpret() ?> - <?=$entry->getEntry()->getSongTitel() ?></div></li>
                         <?php } ?>
                         </ol>
                     </div>
@@ -114,7 +114,7 @@
                             <ol id="entries" class="sortable connectedSortable">
                             <?php foreach ($this->get('entries') as $entry) { ?>
                                 <?php if (!in_array($entry->getId(), $listentries)) { ?>
-                                <li class="handle_li" value="<?=$entry->getId() ?>"><div><span class="fa fa-sort"></span> <?=$entry->getInterpret() ?> - <?=$entry->getSongTitel() ?></div></li>
+                                <li class="handle_li" value="<?=$entry->getId() ?>"><div><span class="fa-solid fa-sort"></span> <?=$entry->getInterpret() ?> - <?=$entry->getSongTitel() ?></div></li>
                                 <?php } ?>
                             <?php } ?>
                             </ol>
@@ -168,13 +168,13 @@
                     <th>
                         <a href="<?=$this->getUrl(array_merge(['column' => 'interpret'], $urladd)) ?>" title="<?=$this->getTrans('interpret') ?>">
                         <?=$this->getTrans('interpret') ?>
-                        <i class="fas fa-sort<?php echo $this->get('sort_column') == 'interpret' ? '-' . str_replace(['ASC', 'DESC'], ['up', 'down'], $this->get('sort_order')) : ''; ?>"></i>
+                        <i class="fa-solid fa-sort<?php echo $this->get('sort_column') == 'interpret' ? '-' . str_replace(['ASC', 'DESC'], ['up', 'down'], $this->get('sort_order')) : ''; ?>"></i>
                         </a>
                     </th>
                     <th>
                         <a href="<?=$this->getUrl(array_merge(['column' => 'songtitel'], $urladd)) ?>" title="<?=$this->getTrans('songtitel') ?>">
                         <?=$this->getTrans('songtitel') ?>
-                        <i class="fas fa-sort<?php echo $this->get('sort_column') == 'songtitel' ? '-' . str_replace(['ASC', 'DESC'], ['up', 'down'], $this->get('sort_order')) : ''; ?>"></i>
+                        <i class="fa-solid fa-sort<?php echo $this->get('sort_column') == 'songtitel' ? '-' . str_replace(['ASC', 'DESC'], ['up', 'down'], $this->get('sort_order')) : ''; ?>"></i>
                         </a>
                     </th>
                     <?php if (!$this->get('suggestion')) {
@@ -182,7 +182,7 @@
                     <th>
                         <a href="<?=$this->getUrl(array_merge(['column' => 'votes'], $urladd)) ?>" title="<?=$this->getTrans('vote') ?>">
                         <?=$this->getTrans('vote') ?>
-                        <i class="fas fa-sort<?php echo $this->get('sort_column') == 'votes' ? '-' . str_replace(['ASC', 'DESC'], ['up', 'down'], $this->get('sort_order')) : ''; ?>"></i>
+                        <i class="fa-solid fa-sort<?php echo $this->get('sort_column') == 'votes' ? '-' . str_replace(['ASC', 'DESC'], ['up', 'down'], $this->get('sort_order')) : ''; ?>"></i>
                         </a>
                     </th>
                     <?php
@@ -190,13 +190,13 @@
                     <th>
                         <a href="<?=$this->getUrl(array_merge(['column' => 'datecreate'], $urladd)) ?>" title="<?=$this->getTrans('datecreate') ?>">
                         <?=$this->getTrans('datecreate') ?>
-                        <i class="fas fa-sort<?php echo $this->get('sort_column') == 'datecreate' ? '-' . str_replace(['ASC', 'DESC'], ['up', 'down'], $this->get('sort_order')) : ''; ?>"></i>
+                        <i class="fa-solid fa-sort<?php echo $this->get('sort_column') == 'datecreate' ? '-' . str_replace(['ASC', 'DESC'], ['up', 'down'], $this->get('sort_order')) : ''; ?>"></i>
                         </a>
                     </th>
                     <th>
                         <a href="<?=$this->getUrl(array_merge(['column' => 'user'], $urladd)) ?>" title="<?=$this->getTrans('user') ?>">
                         <?=$this->getTrans('user') ?>
-                        <i class="fas fa-sort<?php echo $this->get('sort_column') == 'user' ? '-' . str_replace(['ASC', 'DESC'], ['up', 'down'], $this->get('sort_order')) : ''; ?>"></i>
+                        <i class="fa-solid fa-sort<?php echo $this->get('sort_column') == 'user' ? '-' . str_replace(['ASC', 'DESC'], ['up', 'down'], $this->get('sort_order')) : ''; ?>"></i>
                         </a>
                     </th>
                 </tr>
@@ -212,13 +212,13 @@
                         <?php if (!$this->get('suggestion')) {
                 ?>
                             <a href="<?=$this->getUrl(['action' => 'update', 'id' => $entry->getId(), 'status_man' => -1], null, true) ?>">
-                                <span class="far fa-<?=($entry->getSetFree()?'check-':'') ?>square text-info"></span>
+                                <span class="fa-regular fa-<?=($entry->getSetFree()?'check-':'') ?>square text-info"></span>
                             </a>
                         <?php
             } else {
                 ?>
                             <a href="<?=$this->getUrl(['action' => 'suggestionenable', 'id' => $entry->getId()], null, true) ?>">
-                                <span class="fas fa-reply text-info"></span>
+                                <span class="fa-solid fa-reply text-info"></span>
                             </a>
                         <?php
             } ?>

@@ -35,7 +35,7 @@ Danach werden die Stimmen von Ihnen wieder gelöscht und die Chartliste aktualis
     'active' => 'Aktiv',
     'active_list' => 'Aktive Liste',
     'list' => 'Liste',
-    'show_registered_by' => '"Eingetragen von" Info aneigen?',
+    'show_registered_by' => '"Eingetragen von" Info anzeigen?',
     'show_artwork' => 'Cover anzeigen',
     'show_artworkText' => '',
     'selectactive_list' => '',

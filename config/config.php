@@ -13,8 +13,8 @@ class Config extends \Ilch\Config\Install
 {
     public $config = [
         'key' => 'radiohoerercharts',
-        'version' => '1.7.0',
-        'icon_small' => 'fa-list-ol',
+        'version' => '1.8.0',
+        'icon_small' => 'fa-solid fa-list-ol',
         'author' => 'Reilard, Dennis alias hhunderter',
         'link' => 'https://github.com/hhunderter/radiohoerercharts',
         'official' => false,
@@ -28,8 +28,8 @@ class Config extends \Ilch\Config\Install
                 'description' => 'Here you can manage your Listener Charts.',
             ],
         ],
-        'ilchCore' => '2.1.41',
-        'phpVersion' => '7.0',
+        'ilchCore' => '2.1.52',
+        'phpVersion' => '7.3',
     ];
 
     public function install()
@@ -164,7 +164,7 @@ After that, the votes will be deleted again and updates the chart list, i.e. new
                 $databaseConfig->set('radio_hoerercharts_Program_Name', 'Hörercharts');
                 $fields = [
                     'author' => 'Reilard, Dennis alias hhunderter',
-                    'icon_small' => 'fa-list-ol'
+                    'icon_small' => 'fa-solid fa-list-ol'
                 ];
                 $this->db()->update('modules')
                 ->values($fields)
@@ -320,6 +320,9 @@ After that, the votes will be deleted again and updates the chart list, i.e. new
                 ->values($fields)
                 ->where(['key' => 'radiohoerercharts'])
                 ->execute();
+            case "1.7.0":
+                // Update icons for fontawesome 6
+                $this->db()->query("UPDATE `[prefix]_modules` SET `icon_small` = '" . $this->config['icon_small'] . "' WHERE `key` = '" . $this->config['key'] . "';");
 
         }
         return 'Update function executed.';
