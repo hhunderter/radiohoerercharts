@@ -205,7 +205,7 @@
             <textarea class="form-control ckeditor"
                       id="votetext_de"
                       name="votetext_de"
-                      toolbar="ilch_bbcode"
+                      toolbar="ilch_html"
                       required><?=$this->escape($this->originalInput('votetext_de', $this->get('votetext_de'))) ?></textarea>
         </div>
         <div class="form-group col-lg-6">
@@ -213,7 +213,7 @@
             <textarea class="form-control ckeditor"
                       id="votetext_en"
                       name="votetext_en"
-                      toolbar="ilch_bbcode"
+                      toolbar="ilch_html"
                       required><?=$this->escape($this->originalInput('votetext_en', $this->get('votetext_en'))) ?></textarea>
         </div>
     </div>

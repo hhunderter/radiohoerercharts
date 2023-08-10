@@ -17,7 +17,7 @@ $end_datetime = $this->escape($this->originalInput('end_datetime', $this->get('e
                    name="start_datetime"
                    value="<?=$start_datetime ?>" />
             <span class="input-group-addon">
-                <span class="fas fa-calendar"></span>
+                <span class="fa-solid fa-calendar"></span>
             </span>
         </div>
     </div>
@@ -34,7 +34,7 @@ $end_datetime = $this->escape($this->originalInput('end_datetime', $this->get('e
                    name="end_datetime"
                    value="<?=$end_datetime ?>" />
             <span class="input-group-addon">
-                <span class="fas fa-calendar"></span>
+                <span class="fa-solid fa-calendar"></span>
             </span>
         </div>
     </div>

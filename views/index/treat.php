@@ -48,7 +48,7 @@
                             document.getElementById('captcha').src='<?=$this->getUrl() ?>/application/libraries/Captcha/Captcha.php?'+Math.random();
                             document.getElementById('captcha-form').focus();"
                        id="change-image">
-                        <i class="fas fa-sync"></i>
+                        <i class="fa-solid fa-rotate"></i>
                     </a>
                 </span>
             </div>

@@ -301,8 +301,8 @@ class HoererCharts extends \Ilch\Mapper
             }
 
             $stars = '';
-            for ($i = 1; $i <= $starcount; $i++) $stars .= '<i class="fas fa-star text-warning"></i>';
-            for ($i = 1; $i <= 5-$starcount; $i++) $stars .= '<i class="far fa-star text-secondary"></i>';
+            for ($i = 1; $i <= $starcount; $i++) $stars .= '<i class="fa-solid fa-star text-warning"></i>';
+            for ($i = 1; $i <= 5-$starcount; $i++) $stars .= '<i class="fa-regular fa-star text-secondary"></i>';
         } else {
             $stars = $votes;
         }
