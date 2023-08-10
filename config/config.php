@@ -341,7 +341,7 @@ After that, the votes will be deleted again and updates the chart list, i.e. new
                 ->execute();
             // no break
             case "1.7.0":
-                // update zu 1.7.1
+                // update zu 1.8.0
                 /*
                  * Ilch-Core und PHP-Version Anpassung
                  * FontAwesome 6
@@ -350,7 +350,7 @@ After that, the votes will be deleted again and updates the chart list, i.e. new
                 */
                 $this->db()->query("UPDATE `[prefix]_modules` SET `icon_small` = '" . $this->config['icon_small'] . "' WHERE `key` = '" . $this->config['key'] . "';");
                 // no break
-            case "1.7.1":
+            case "1.8.0":
                 // update zu 1.?.?
                 /*
                 */
