@@ -1,18 +1,17 @@
 <h1><?=$this->getTrans('menuSettings') ?></h1>
 <div class="form-group">
     <ul class="nav nav-tabs">
-        <li class="<?=(!$this->get('settings_language')?'active':'') ?>">
+        <li class="<?=(!$this->get('settings_language') ? 'active' : '') ?>">
             <a href="<?=$this->getUrl(['action' => 'index']) ?>"><?=$this->getTrans('index') ?></a>
         </li>
-        <li class="<?=($this->get('settings_language')?'active':'') ?>">
+        <li class="<?=($this->get('settings_language') ? 'active' : '') ?>">
             <a href="<?=$this->getUrl(['action' => 'index', 'settings_language' => 'true']) ?>"><?=$this->getTrans('language') ?></a>
         </li>
     </ul>
 </div>
-<form class="form-horizontal" method="POST" action="<?=$this->getUrl(($this->get('settings_language')?['action' => $this->getRequest()->getActionName(), 'settings_language' => 'true']:['action' => $this->getRequest()->getActionName()])) ?>">
+<form class="form-horizontal" method="POST" action="<?=$this->getUrl(($this->get('settings_language') ? ['action' => $this->getRequest()->getActionName(), 'settings_language' => 'true'] : ['action' => $this->getRequest()->getActionName()])) ?>">
     <?=$this->getTokenField() ?>
-    <?php if (!$this->get('settings_language')) {
-    ?>
+    <?php if (!$this->get('settings_language')) { ?>
     <h1><?=$this->getTrans('Program_Name') ?></h1>
     <div class="form-group <?=$this->validation()->hasError('Program_Name') ? 'has-error' : '' ?>">
         <label for="Program_Name" class="col-lg-2 control-label">
@@ -65,9 +64,9 @@
         </label>
         <div class="col-lg-4">
             <div class="flipswitch">
-                <input type="radio" class="flipswitch-input" id="guestallow-yes" name="guestallow" value="1" <?=($this->originalInput('guestallow', $this->get('guestallow')))?'checked="checked"':'' ?> />
+                <input type="radio" class="flipswitch-input" id="guestallow-yes" name="guestallow" value="1" <?=($this->originalInput('guestallow', $this->get('guestallow'))) ? 'checked="checked"' : '' ?> />
                 <label for="guestallow-yes" class="flipswitch-label flipswitch-label-on"><?=$this->getTrans('on') ?></label>
-                <input type="radio" class="flipswitch-input" id="guestallow-no" name="guestallow" value="0"  <?=(!$this->originalInput('guestallow', $this->get('guestallow')))?'checked="checked"':'' ?> />  
+                <input type="radio" class="flipswitch-input" id="guestallow-no" name="guestallow" value="0"  <?=(!$this->originalInput('guestallow', $this->get('guestallow'))) ? 'checked="checked"' : '' ?> />
                 <label for="guestallow-no" class="flipswitch-label flipswitch-label-off"><?=$this->getTrans('off') ?></label>
                 <span class="flipswitch-selection"></span>
             </div>
@@ -81,9 +80,9 @@
         </label>
         <div class="col-lg-4">
             <div class="flipswitch">
-                <input type="radio" class="flipswitch-input" id="show_artwork-yes" name="show_artwork" value="1" <?=($this->originalInput('show_artwork', $this->get('show_artwork')))?'checked="checked"':'' ?> />
+                <input type="radio" class="flipswitch-input" id="show_artwork-yes" name="show_artwork" value="1" <?=($this->originalInput('show_artwork', $this->get('show_artwork'))) ? 'checked="checked"' : '' ?> />
                 <label for="show_artwork-yes" class="flipswitch-label flipswitch-label-on"><?=$this->getTrans('on') ?></label>
-                <input type="radio" class="flipswitch-input" id="show_artwork-no" name="show_artwork" value="0"  <?=(!$this->originalInput('show_artwork', $this->get('show_artwork')))?'checked="checked"':'' ?> />  
+                <input type="radio" class="flipswitch-input" id="show_artwork-no" name="show_artwork" value="0"  <?=(!$this->originalInput('show_artwork', $this->get('show_artwork'))) ? 'checked="checked"' : '' ?> />
                 <label for="show_artwork-no" class="flipswitch-label flipswitch-label-off"><?=$this->getTrans('off') ?></label>
                 <span class="flipswitch-selection"></span>
             </div>
@@ -97,9 +96,9 @@
         </label>
         <div class="col-lg-4">
             <div class="flipswitch">
-                <input type="radio" class="flipswitch-input" id="show_registered_by-yes" name="show_registered_by" value="1" <?=($this->originalInput('show_registered_by', $this->get('show_registered_by')))?'checked="checked"':'' ?> />
+                <input type="radio" class="flipswitch-input" id="show_registered_by-yes" name="show_registered_by" value="1" <?=($this->originalInput('show_registered_by', $this->get('show_registered_by'))) ? 'checked="checked"' : '' ?> />
                 <label for="show_registered_by-yes" class="flipswitch-label flipswitch-label-on"><?=$this->getTrans('on') ?></label>
-                <input type="radio" class="flipswitch-input" id="show_registered_by-no" name="show_registered_by" value="0"  <?=(!$this->originalInput('show_registered_by', $this->get('show_registered_by')))?'checked="checked"':'' ?> />  
+                <input type="radio" class="flipswitch-input" id="show_registered_by-no" name="show_registered_by" value="0"  <?=(!$this->originalInput('show_registered_by', $this->get('show_registered_by'))) ? 'checked="checked"' : '' ?> />
                 <label for="show_registered_by-no" class="flipswitch-label flipswitch-label-off"><?=$this->getTrans('off') ?></label>
                 <span class="flipswitch-selection"></span>
             </div>
@@ -113,9 +112,9 @@
         </label>
         <div class="col-lg-4">
             <div class="flipswitch">
-                <input type="radio" class="flipswitch-input" id="showstars-yes" name="showstars" value="1" <?=($this->originalInput('showstars', $this->get('showstars')))?'checked="checked"':'' ?> />
+                <input type="radio" class="flipswitch-input" id="showstars-yes" name="showstars" value="1" <?=($this->originalInput('showstars', $this->get('showstars'))) ? 'checked="checked"' : '' ?> />
                 <label for="showstars-yes" class="flipswitch-label flipswitch-label-on"><?=$this->getTrans('on') ?></label>
-                <input type="radio" class="flipswitch-input" id="showstars-no" name="showstars" value="0"  <?=(!$this->originalInput('showstars', $this->get('showstars')))?'checked="checked"':'' ?> />  
+                <input type="radio" class="flipswitch-input" id="showstars-no" name="showstars" value="0"  <?=(!$this->originalInput('showstars', $this->get('showstars'))) ? 'checked="checked"' : '' ?> />
                 <label for="showstars-no" class="flipswitch-label flipswitch-label-off"><?=$this->getTrans('off') ?></label>
                 <span class="flipswitch-selection"></span>
             </div>
@@ -196,9 +195,7 @@
                    required />
         </div>
     </div>
-    <?php
-} else {
-        ?>
+    <?php } else { ?>
     <div class="form-row">
         <div class="form-group col-lg-6 <?=($this->validation()->hasError('votetext_de') || $this->validation()->hasError('votetext_en')) ? 'has-error' : '' ?>">
             <label for="votetext_de"><?=$this->getTrans('german') ?></label>
@@ -218,7 +215,6 @@
         </div>
     </div>
     <h1><?=$this->getTrans('language_footer', $this->getTrans('votetextguest'), $this->getTrans('votetextuser'), $this->get('Program_Name')) ?></h1>
-    <?php
-    } ?>
+    <?php } ?>
     <?=$this->getSaveBar() ?>
 </form>

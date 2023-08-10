@@ -2,10 +2,16 @@
 
 namespace Modules\RadioHoererCharts\Libs;
 
-class SearchiTunes {
-    
-    const REQUEST_SEARCH = 1;
-    const REQUEST_LOOKUP = 2;
+class SearchiTunes
+{
+    /**
+     * @var int
+     */
+    public const REQUEST_SEARCH = 1;
+    /**
+     * @var int
+     */
+    public const REQUEST_LOOKUP = 2;
 
     /**
      * The API url
@@ -13,51 +19,90 @@ class SearchiTunes {
      * @var string
      */
     protected $apiUrl =      'https://itunes.apple.com/';
-    
-    protected $parameters = null;
-    protected $debug = 0;
-    protected $result = null;
-    protected $url = '';
-    
-    
-    protected $term = null;
-    protected $country = null; // US
-    protected $media = null; // https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/iTuneSearchAPI/Searching.html#//apple_ref/doc/uid/TP40017632-CH5-SW3
-    protected $entity = null;
-    protected $attribute = null;
-    protected $limit = null; // 1 to 200 
-    protected $lang = null; // en_us
-    protected $explicit = null; // Yes, No 
-    
-    protected $lookup = 'id'; // id, amgArtistId, amgAlbumId, upc, amgVideoId, isbn
-    protected $sort = 'recent';
 
+    /**
+     * @var array
+     */
+    protected $parameters = [];
+
+    /**
+     * @var bool
+     */
+    protected $debug = false;
+    /**
+     * @var mixed
+     */
+    protected $result = null;
+    /**
+     * @var string
+     */
+    protected $url = '';
+
+    /**
+     * @var string
+     */
+    protected $term = '';
+    /**
+     * @var string
+     */
+    protected $country = ''; // US
+    /**
+     * @var string|null
+     */
+    protected $media = null; // https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/iTuneSearchAPI/Searching.html#//apple_ref/doc/uid/TP40017632-CH5-SW3
+    /**
+     * @var string
+     */
+    protected $entity = '';
+    /**
+     * @var string
+     */
+    protected $attribute = '';
+    /**
+     * @var int
+     */
+    protected $limit = 0; // 1 to 200
+    /**
+     * @var string
+     */
+    protected $lang = ''; // en_us
+    /**
+     * @var bool
+     */
+    protected $explicit = false; // Yes, No
+
+    /**
+     * @var string|null
+     */
+    protected $lookup = 'id'; // id, amgArtistId, amgAlbumId, upc, amgVideoId, isbn
 
     /**
      * SearchiTunes constructor.
      *
-     * @param $term       string|null  Wargaming Application API Key
-     * @param $country    string|null  Wargaming Application API Secret
-     * @param $media      string|null  Wargaming Application API Secret
-     * @param $entity     string|null  OAuth Token
-     * @param $attribute  string|null  OAuth Token Secret
-     * @param $limit      int|null     The callback Url
-     * @param $lang       string|null  The callback Url
-     * @param $explicit   bool|null    The callback Url
+     * @param string|null $term
+     * @param string|null $entity
      */
-    public function __construct($term = null, $entity = null)
+    public function __construct(?string $term = null, ?string $entity = null)
     {
-        if ($term) $this->setTerm($term);
-        if ($entity) $this->setTerm($entity);
+        if ($term) {
+            $this->setTerm($term);
+        }
+        if ($entity) {
+            $this->setEntity($entity);
+        }
         return $this;
     }
 
     /**
      * max 20 calls per minute
+     * @param string|null $term
+     * @return false|SearchiTunes
      */
-    public function search($term = null)
+    public function search(?string $term = null)
     {
-        if ($term) $this->setTerm($term);
+        if ($term) {
+            $this->setTerm($term);
+        }
 
         if ($this->getTerm()) {
             $this->makeRequest(self::REQUEST_SEARCH);
@@ -66,13 +111,17 @@ class SearchiTunes {
             return false;
         }
     }
-    
+
     /**
      * max 20 calls per minute
+     * @param string|null $term
+     * @return false|SearchiTunes
      */
-    public function lookup($term = null)
+    public function lookup(?string $term = null)
     {
-        if ($term) $this->setTerm($term);
+        if ($term) {
+            $this->setTerm($term);
+        }
 
         if ($this->getTerm()) {
             $this->makeRequest(self::REQUEST_LOOKUP);
@@ -85,13 +134,11 @@ class SearchiTunes {
     /**
      * Makes the actual request
      *
-     * @param $type
-     *
-     * @throws Exception
+     * @param int $type
      *
      * @return void
      */
-    protected function makeRequest($type)
+    protected function makeRequest(int $type)
     {
         $this->makeParameters($type);
         $this->makeUrl($type);
@@ -122,82 +169,107 @@ class SearchiTunes {
     /**
      * @return string
      */
-    public function getApiUrl()
+    public function getApiUrl(): string
     {
         return $this->apiUrl;
     }
 
     /**
      * @param string $apiUrl
+     * @return SearchiTunes
      */
-    public function setApiUrl(string $apiUrl)
+    public function setApiUrl(string $apiUrl): SearchiTunes
     {
-        $this->apiUrl = (string) $apiUrl;
+        $this->apiUrl = $apiUrl;
         return $this;
     }
-    
+
     /**
      * @return string
      */
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->url;
     }
 
     /**
-     * @param string $apiUrl
+     * @param string $url
+     * @return SearchiTunes
      */
-    public function setUrl(string $url)
+    public function setUrl(string $url): SearchiTunes
     {
-        $this->url = (string) $url;
+        $this->url = $url;
         return $this;
     }
-    
+
     /**
-     * @param string $apiUrl
+     * @param int $type
+     * @return SearchiTunes
      */
-    public function makeUrl($type)
+    public function makeUrl(int $type): SearchiTunes
     {
         $this->setUrl('');
         if ($this->getParameters()) {
-            switch($type) {
+            switch ($type) {
                 case self::REQUEST_SEARCH:
-                    $this->setUrl($this->getApiUrl().'search?'.http_build_query($this->getParameters()));
+                    $this->setUrl($this->getApiUrl() . 'search?' . http_build_query($this->getParameters()));
                     break;
                 case self::REQUEST_LOOKUP:
-                    $this->setUrl($this->getApiUrl().'lookup?'.http_build_query($this->getParameters()));
+                    $this->setUrl($this->getApiUrl() . 'lookup?' . http_build_query($this->getParameters()));
                     break;
             }
         }
-        
+
         return $this;
     }
-    
+
     /**
      * Obtains the needed tokens
+     * @param int $type
+     * @return SearchiTunes
      */
-    public function makeParameters($type)
+    public function makeParameters(int $type): SearchiTunes
     {
         $this->setParameters(null);
-        
-        switch($type) {
+
+        switch ($type) {
             case self::REQUEST_SEARCH:
                 if ($this->getTerm() && $this->getCountry()) {
-                    if ($this->getTerm())      $this->setParameter('term',      $this->getTerm());
-                    if ($this->getCountry())   $this->setParameter('country',   $this->getCountry());
-                    if ($this->getMedia())     $this->setParameter('media',     $this->getMedia());
-                    if ($this->getEntity())    $this->setParameter('entity',    $this->getEntity());
-                    if ($this->getAttribute()) $this->setParameter('attribute', $this->getAttribute());
-                    if ($this->getLimit())     $this->setParameter('limit',     $this->getLimit());
-                    if ($this->getLang())      $this->setParameter('lang',      $this->getLang());
-                    if ($this->getExplicit())  $this->setParameter('explicit',  ($this->getExplicit()?'Yes':'No'));
+                    if ($this->getTerm()) {
+                        $this->setParameter('term', $this->getTerm());
+                    }
+                    if ($this->getCountry()) {
+                        $this->setParameter('country', $this->getCountry());
+                    }
+                    if ($this->getMedia()) {
+                        $this->setParameter('media', $this->getMedia());
+                    }
+                    if ($this->getEntity()) {
+                        $this->setParameter('entity', $this->getEntity());
+                    }
+                    if ($this->getAttribute()) {
+                        $this->setParameter('attribute', $this->getAttribute());
+                    }
+                    if ($this->getLimit()) {
+                        $this->setParameter('limit', $this->getLimit());
+                    }
+                    if ($this->getLang()) {
+                        $this->setParameter('lang', $this->getLang());
+                    }
+                    $this->setParameter('explicit', ($this->getExplicit() ? 'Yes' : 'No'));
                 }
                 break;
             case self::REQUEST_LOOKUP:
                 if ($this->getLookup() && $this->getTerm()) {
-                    if ($this->getTerm())      $this->setParameter($this->getLookup(),  $this->getTerm());
-                    if ($this->getEntity())    $this->setParameter('entity',            $this->getEntity());
-                    if ($this->getLimit())     $this->setParameter('limit',             $this->getLimit());
+                    if ($this->getTerm()) {
+                        $this->setParameter($this->getLookup(), $this->getTerm());
+                    }
+                    if ($this->getEntity()) {
+                        $this->setParameter('entity', $this->getEntity());
+                    }
+                    if ($this->getLimit()) {
+                        $this->setParameter('limit', $this->getLimit());
+                    }
                 }
                 break;
         }
@@ -207,38 +279,49 @@ class SearchiTunes {
     /**
      * @return array
      */
-    public function getParameters()
+    public function getParameters(): array
     {
         return $this->parameters;
     }
 
     /**
-     * @param array $parameters
+     * @param array|null $parameters
+     * @return SearchiTunes
      */
-    public function setParameters($parameters)
+    public function setParameters(?array $parameters): SearchiTunes
     {
+        if (!$parameters) {
+            $parameters = [];
+        }
         $this->parameters = $parameters;
+
+        return $this;
     }
 
-    public function setParameter($key, $value)
+    /**
+     * @param $key
+     * @param $value
+     * @return SearchiTunes
+     */
+    public function setParameter($key, $value): SearchiTunes
     {
         $this->parameters[$key] = $value;
 
         return $this;
     }
-    
+
     /**
      * @return bool
      */
-    public function hasParameters()
+    public function hasParameters(): bool
     {
-        return !empty($this->getParameters());
+        return count($this->getParameters()) > 0;
     }
 
     /**
      * @return bool
      */
-    public function isDebug()
+    public function isDebug(): bool
     {
         return $this->debug;
     }
@@ -266,16 +349,18 @@ class SearchiTunes {
     {
         $this->result = $result;
     }
-    
+
     /**
+     * @param string|null $key
+     * @param int|null $id
      * @return mixed
      */
-    public function getResult($key = null, $id = null)
+    public function getResult(?string $key = null, ?int $id = null)
     {
         if (!$key && !$id) {
             return $this->getResults();
         }
-        
+
         $keys = [   'wrapperType',
                     'collectionType',
                     'artistId',
@@ -297,16 +382,16 @@ class SearchiTunes {
                     'releaseDate',
                     'primaryGenreName',
                 ];
-                
+
         if ($key && !in_array($key, $keys)) {
             return false;
         }
-                
-        if ($id && isset($this->result[$id-1])){
+
+        if ($id && isset($this->result[$id - 1])) {
             if ($key) {
-                return $this->result[$id-1][$key] ?? '';
+                return $this->result[$id - 1][$key] ?? '';
             } else {
-                return $this->result[$id-1];
+                return $this->result[$id - 1];
             }
         } elseif (!$id) {
             $result = [];
@@ -318,40 +403,56 @@ class SearchiTunes {
             return null;
         }
     }
-    
-    
-    
-    
 
-
-    public function getTerm()
+    /**
+     * @return string
+     */
+    public function getTerm(): string
     {
         return $this->term;
     }
 
-    public function setTerm(string $term)
+    /**
+     * @param string $term
+     * @return SearchiTunes
+     */
+    public function setTerm(string $term): SearchiTunes
     {
-        $this->term = (string) $term;
+        $this->term = $term;
         return $this;
     }
-    
-    public function getCountry()
+
+    /**
+     * @return string
+     */
+    public function getCountry(): string
     {
         return $this->country;
     }
 
-    public function setCountry(string $country)
+    /**
+     * @param string $country
+     * @return SearchiTunes
+     */
+    public function setCountry(string $country): SearchiTunes
     {
-        $this->country = (string) $country;
+        $this->country = $country;
         return $this;
     }
-    
-    public function getMedia()
+
+    /**
+     * @return null|string
+     */
+    public function getMedia(): ?string
     {
         return $this->media;
     }
 
-    public function setMedia(string $media)
+    /**
+     * @param string|null $media
+     * @return SearchiTunes
+     */
+    public function setMedia(?string $media): SearchiTunes
     {
         $keys = [   'movie',
                     'podcast',
@@ -365,21 +466,26 @@ class SearchiTunes {
                     'all',
                 ];
         if ($media && in_array($media, $keys)) {
-            $this->media = (string) $media;
+            $this->media = $media;
         } else {
             $this->media = null;
         }
         return $this;
     }
-    
-    public function getEntity()
+
+    public function getEntity(): string
     {
         if ($this->getMedia()) {
             return $this->entity;
         }
+        return '';
     }
 
-    public function setEntity(string $entity)
+    /**
+     * @param string $entity
+     * @return SearchiTunes
+     */
+    public function setEntity(string $entity): SearchiTunes
     {
         $keys = [   'movie' => [     'movieArtist',
                                      'movie',
@@ -424,21 +530,22 @@ class SearchiTunes {
                                 ],
                 ];
         if ($this->getMedia() && $entity && isset($keys[$this->getMedia()]) && in_array($entity, $keys[$this->getMedia()])) {
-            $this->entity = (string) $entity;
+            $this->entity = $entity;
         } else {
             $this->entity = '';
         }
         return $this;
     }
-    
-    public function getAttribute()
+
+    public function getAttribute(): string
     {
         if ($this->getMedia()) {
             return $this->attribute;
         }
+        return '';
     }
 
-    public function setAttribute(string $attribute)
+    public function setAttribute(string $attribute): SearchiTunes
     {
         $keys = [   'movie' => [     'actorTerm',
                                      'genreIndex',
@@ -526,53 +633,77 @@ class SearchiTunes {
                                 ],
                 ];
         if ($this->getMedia() && $attribute && isset($keys[$this->getMedia()]) && in_array($attribute, $keys[$this->getMedia()])) {
-            $this->attribute = (string) $attribute;
+            $this->attribute = $attribute;
         } else {
             $this->attribute = '';
         }
         return $this;
     }
-    
-    
-    public function getLimit()
+
+
+    /**
+     * @return int
+     */
+    public function getLimit(): int
     {
         return $this->limit;
     }
 
-    public function setLimit(int $limit)
+    public function setLimit(int $limit): SearchiTunes
     {
-        $this->limit = (int) $limit;
+        $this->limit = $limit;
         return $this;
     }
-    
-    public function getLang()
+
+    /**
+     * @return string
+     */
+    public function getLang(): string
     {
         return $this->lang;
     }
 
-    public function setLang(string $lang)
+    /**
+     * @param string $lang
+     * @return SearchiTunes
+     */
+    public function setLang(string $lang): SearchiTunes
     {
-        $this->lang = (string) $lang;
+        $this->lang = $lang;
         return $this;
     }
-    
-    public function getExplicit()
+
+    /**
+     * @return bool
+     */
+    public function getExplicit(): bool
     {
         return $this->explicit;
     }
 
-    public function setExplicit(bool $explicit)
+    /**
+     * @param bool $explicit
+     * @return SearchiTunes
+     */
+    public function setExplicit(bool $explicit): SearchiTunes
     {
         $this->explicit = $explicit;
         return $this;
     }
-    
-    public function getLookup()
+
+    /**
+     * @return null|string
+     */
+    public function getLookup(): ?string
     {
         return $this->lookup;
     }
 
-    public function setLookup(string $lookup)
+    /**
+     * @param string $lookup
+     * @return SearchiTunes
+     */
+    public function setLookup(string $lookup): SearchiTunes
     {
         $keys = [   'id',
                     'amgArtistId',
@@ -582,11 +713,10 @@ class SearchiTunes {
                     'isbn',
                 ];
         if ($lookup && in_array($lookup, $keys)) {
-            $this->lookup = (string) $lookup;
+            $this->lookup = $lookup;
         } else {
             $this->lookup = null;
         }
         return $this;
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Dennis Reilard alias hhunderter
  * @package ilch
@@ -80,7 +81,7 @@ Danach werden die Stimmen von Ihnen wieder gelöscht und die Chartliste aktualis
 
     'german' => 'Deutsch',
     'english' => 'Englisch',
-    'language_footer' => 'Platzhalter: --user-- -> Gäste:"%s", User:"%s" ; --name-- -> "%s"',
+    'language_footer' => 'Platzhalter:<br> --user-- -><br>    Gäste:"%s"<br>    User:"%s"<br>--name-- -> "%s"',
 
     'registered_by' => 'Eingetragen von',
     'suggestionenable' => 'Vorschlag aktivieren',

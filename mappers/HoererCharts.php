@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Dennis Reilard alias hhunderter
  * @package ilch
@@ -6,19 +7,29 @@
 
 namespace Modules\RadioHoererCharts\Mappers;
 
+use Ilch\Date;
+use Ilch\Pagination;
 use Modules\RadioHoererCharts\Models\HoererCharts as EntriesModel;
 
 class HoererCharts extends \Ilch\Mapper
 {
     /**
+     * @var string
+     */
+    public $tablename = 'radio_hoerercharts';
+    /**
+     * @var string
+     */
+    public $tablenameList = 'radio_hoerercharts_list';
+
+    /**
      * returns if the module is installed.
      *
-     * @return boolean
-     * @throws \Ilch\Database\Exception
+     * @return bool
      */
-    public function checkDB()
+    public function checkDB(): bool
     {
-        return $this->db()->ifTableExists('[prefix]_radio_hoerercharts');
+        return $this->db()->ifTableExists($this->tablename);
     }
 
     /**
@@ -26,13 +37,13 @@ class HoererCharts extends \Ilch\Mapper
      *
      * @param array $where
      * @param array $orderBy
-     * @param \Ilch\Pagination|null $pagination
-     * @return array|null
+     * @param Pagination|null $pagination
+     * @return EntriesModel[]|null
      */
-    public function getEntriesBy($where = [], $orderBy = ['id' => 'DESC'], $pagination = null)
+    public function getEntriesBy(array $where = [], array $orderBy = ['id' => 'DESC'], ?Pagination $pagination = null): ?array
     {
         $select = $this->db()->select('*')
-            ->from('radio_hoerercharts')
+            ->from($this->tablename)
             ->where($where)
             ->order($orderBy);
 
@@ -45,35 +56,29 @@ class HoererCharts extends \Ilch\Mapper
             $result = $select->execute();
         }
 
-        $entryArray = $result->fetchRows();
-        if (empty($entryArray)) {
+        $entriesArray = $result->fetchRows();
+        if (empty($entriesArray)) {
             return null;
         }
-        $entrys = [];
+        $entries = [];
 
-        foreach ($entryArray as $entries) {
+        foreach ($entriesArray as $entry) {
             $entryModel = new EntriesModel();
-            $entryModel->setId($entries['id'])
-                ->setSetFree($entries['setfree'])
-                ->setInterpret($entries['interpret'])
-                ->setSongTitel($entries['songtitel'])
-                ->setVotes($entries['votes'])
-                ->setDateCreate($entries['datecreate'])
-                ->setUser_Id($entries['user_id'])
-                ->setArtworkUrl($entries['artworkUrl']);
-            $entrys[] = $entryModel;
+            $entryModel->setByArray($entry);
+
+            $entries[] = $entryModel;
         }
-        return $entrys;
+        return $entries;
     }
 
     /**
      * Gets the Entries.
      *
      * @param array $where
-     * @param \Ilch\Pagination|null $pagination
-     * @return array|null
+     * @param Pagination|null $pagination
+     * @return EntriesModel[]|null
      */
-    public function getEntries($where = [], $pagination = null)
+    public function getEntries(array $where = [], ?Pagination $pagination = null): ?array
     {
         return $this->getEntriesBy($where, ['setfree' => 'DESC', 'id' => 'DESC'], $pagination);
     }
@@ -84,31 +89,31 @@ class HoererCharts extends \Ilch\Mapper
      * @param int $id
      * @return null|EntriesModel
      */
-    public function getEntryById(int $id)
+    public function getEntryById(int $id): ?EntriesModel
     {
-        $entrys = $this->getEntriesBy(['id' => (int)$id], []);
+        $entries = $this->getEntriesBy(['id' => $id], []);
 
-        if (!empty($entrys)) {
-            return reset($entrys);
+        if (!empty($entries)) {
+            return reset($entries);
         }
-        
+
         return null;
     }
-    
+
     /**
      * Gets the entry by given ID.
      *
      * @param array $where
-     * @param array $orderBy_
-     * @param \Ilch\Pagination|null $pagination
-     * @return null|array
+     * @param array $orderBy
+     * @param Pagination|null $pagination
+     * @return null|EntriesModel[]
      */
-    public function getEntryByList($where = [], $orderBy = ['h.id' => 'DESC'], $pagination = null)
+    public function getEntryByList(array $where = [], array $orderBy = ['h.id' => 'DESC'], ?Pagination $pagination = null): ?array
     {
         $select = $this->db()->select()
             ->fields(['h.id', 'h.setfree', 'h.interpret', 'h.songtitel', 'h.votes', 'h.datecreate', 'h.user_id', 'h.artworkUrl'])
-            ->from(['h' => 'radio_hoerercharts'])
-            ->join(['l' => 'radio_hoerercharts_list'], 'h.id = l.hid', 'LEFT', ['l.list'])
+            ->from(['h' => $this->tablename])
+            ->join(['l' => $this->tablenameList], 'h.id = l.hid', 'LEFT', ['l.list'])
             ->where($where)
             ->order($orderBy);
 
@@ -121,89 +126,77 @@ class HoererCharts extends \Ilch\Mapper
             $result = $select->execute();
         }
 
-        $entryArray = $result->fetchRows();
-        if (empty($entryArray)) {
+        $entriesArray = $result->fetchRows();
+        if (empty($entriesArray)) {
             return null;
         }
-        $entrys = [];
+        $entries = [];
 
-        foreach ($entryArray as $entries) {
+        foreach ($entriesArray as $entryArray) {
             $entryModel = new EntriesModel();
-            $entryModel->setId($entries['id'])
-                ->setSetFree($entries['setfree'])
-                ->setInterpret($entries['interpret'])
-                ->setSongTitel($entries['songtitel'])
-                ->setVotes($entries['votes'])
-                ->setDateCreate($entries['datecreate'])
-                ->setUser_Id($entries['user_id'])
-                ->setArtworkUrl($entries['artworkUrl']);
-            $entrys[] = $entryModel;
+            $entryModel->setByArray($entryArray);
+
+            $entries[] = $entryModel;
         }
-        return $entrys;
+        return $entries;
     }
 
     /**
      * Inserts or updates entry.
      *
      * @param EntriesModel $model
-     * @return boolean|integer
+     * @return int
      */
-    public function save(EntriesModel $model)
+    public function save(EntriesModel $model): int
     {
-        $fields = [
-            'setfree'       => $model->getSetFree(),
-            'interpret'     => $model->getInterpret(),
-            'songtitel'     => $model->getSongTitel(),
-            'votes'         => $model->getVotes(),
-            'datecreate'    => $model->getDateCreate(),
-            'user_id'       => $model->getUser_Id(),
-            'artworkUrl'    => $model->getArtworkUrl(),
-        ];
+        $fields = $model->getArray(false);
+        if (str_ends_with($this->tablename, 'suggestion')) {
+            unset($fields['setfree'], $fields['votes'], $fields['artworkUrl']);
+        }
 
         if ($model->getId()) {
-            $result = $this->db()->update('radio_hoerercharts')
+            $this->db()->update($this->tablename)
                 ->values($fields)
                 ->where(['id' => $model->getId()])
                 ->execute();
+            $result = $model->getId();
         } else {
-            $result = $this->db()->insert('radio_hoerercharts')
+            $result = $this->db()->insert($this->tablename)
                 ->values($fields)
                 ->execute();
         }
 
         return $result;
     }
-    
+
     /**
      * Updates Entrie setfree with given id.
      *
      * @param int $id
-     * @param int $setfree_man
-     * @return boolean
+     * @param int $setFreeMan
+     * @return bool
      */
-    public function update_setfree(int $id, int $setfree_man)
+    public function updateSetFree(int $id, int $setFreeMan): bool
     {
-        if ($setfree_man != -1) {
-            $setfree_now = (int)$setfree_man;
+        if ($setFreeMan != -1) {
+            $setFreeNow = $setFreeMan;
         } else {
-            $setfree = (int) $this->db()->select('setfree')
-                                ->from('radio_hoerercharts')
-                                ->where(['id' => (int)$id])
+            $setFree = (int) $this->db()->select('setfree')
+                                ->from($this->tablename)
+                                ->where(['id' => $id])
                                 ->execute()
                                 ->fetchCell();
 
-            if ($setfree == 1) {
-                $setfree_now = 0;
+            if ($setFree == 1) {
+                $setFreeNow = 0;
             } else {
-                $setfree_now = 1;
+                $setFreeNow = 1;
             }
         }
-        $result = $this->db()->update('radio_hoerercharts')
-            ->values(['setfree' => $setfree_now])
-            ->where(['id' => (int)$id])
+        return $this->db()->update($this->tablename)
+            ->values(['setfree' => $setFreeNow])
+            ->where(['id' => $id])
             ->execute();
-
-        return $result;
     }
 
     /**
@@ -211,28 +204,26 @@ class HoererCharts extends \Ilch\Mapper
      *
      * @param int $id
      * @param int $votes_man
-     * @return boolean
+     * @return bool
      */
-    public function update(int $id, int $votes_man)
+    public function update(int $id, int $votes_man): bool
     {
         if ($votes_man != -1) {
-            $votes_now = (int)$votes_man;
+            $votes_now = $votes_man;
         } else {
             $votes = (int) $this->db()->select('votes')
-                            ->from('radio_hoerercharts')
-                            ->where(['id' => (int)$id])
+                            ->from($this->tablename)
+                            ->where(['id' => $id])
                             ->execute()
                             ->fetchCell();
 
             $votes_now = $votes + 1;
         }
 
-        $result = $this->db()->update('radio_hoerercharts')
+        return $this->db()->update($this->tablename)
             ->values(['votes' => $votes_now])
-            ->where(['id' => (int)$id])
+            ->where(['id' => $id])
             ->execute();
-
-        return $result;
     }
 
     /**
@@ -240,34 +231,34 @@ class HoererCharts extends \Ilch\Mapper
      *
      * @return String
      */
-    public function gettext()
+    public function gettext(): string
     {
-        $configClass = '\\Modules\\'.ucfirst('RadioHoererCharts').'\\Config\\Config';
+        $configClass = '\\Modules\\' . ucfirst('RadioHoererCharts') . '\\Config\\Config';
         $config = new $configClass();
-        return " -> &copy; by Dennis Reilard alias hhunderter (Version: ".$config->config['version'].")";
+        return " -> &copy; by Dennis Reilard alias hhunderter (Version: " . $config->config['version'] . ")";
     }
 
     /**
      * Deletes the entry.
      *
      * @param integer $id
-     * @return boolean
+     * @return bool
      */
-    public function delete(int $id)
+    public function delete(int $id): bool
     {
-        return $this->db()->delete('radio_hoerercharts')
-            ->where(['id' => (int)$id])
+        return $this->db()->delete($this->tablename)
+            ->where(['id' => $id])
             ->execute();
     }
 
     /**
      * Reset the Vote counts.
      *
-     * @return boolean
+     * @return bool
      */
-    public function reset()
+    public function reset(): bool
     {
-        return $this->db()->update('radio_hoerercharts')
+        return $this->db()->update($this->tablename)
             ->values(['votes' => 0])
             ->execute();
     }
@@ -298,11 +289,17 @@ class HoererCharts extends \Ilch\Mapper
                 $starcount = 1;
             } elseif ($votes < $config->get('radio_hoerercharts_Star1')) {
                 $starcount = 0;
+            } else {
+                $starcount = 0;
             }
 
             $stars = '';
-            for ($i = 1; $i <= $starcount; $i++) $stars .= '<i class="fa-solid fa-star text-warning"></i>';
-            for ($i = 1; $i <= 5-$starcount; $i++) $stars .= '<i class="fa-regular fa-star text-secondary"></i>';
+            for ($i = 1; $i <= $starcount; $i++) {
+                $stars .= '<i class="fa-solid fa-star text-warning"></i>';
+            }
+            for ($i = 1; $i <= 5 - $starcount; $i++) {
+                $stars .= '<i class="fa-regular fa-star text-secondary"></i>';
+            }
         } else {
             $stars = $votes;
         }
@@ -312,50 +309,50 @@ class HoererCharts extends \Ilch\Mapper
     /**
      * Checks if voting is allowed.
      *
-     * @param null|\Ilch\Date $start_datetime
-     * @param null|\Ilch\Date $end_datetime
-     * @return boolean
+     * @param Date|null $startDatetime
+     * @param Date|null $endDatetime
+     * @return bool
      */
-    public function vote_allowed($start_datetime = null, $end_datetime = null)
+    public function voteAllowed(?Date $startDatetime = null, ?Date $endDatetime = null): bool
     {
-        $date = new \Ilch\Date();
-        $datenow = new \Ilch\Date($date->format("Y-m-d H:i:s", true));
+        $date = new Date();
+        $datenow = new Date($date->format("Y-m-d H:i:s", true));
 
-        if (!$start_datetime && !$end_datetime) {
+        if (!$startDatetime && !$endDatetime) {
             return true;
         } else {
-            if ($start_datetime) {
-                if (!$end_datetime) {
-                    return ($datenow->getTimestamp() >= $start_datetime->getTimestamp());
+            if ($startDatetime) {
+                if (!$endDatetime) {
+                    return ($datenow->getTimestamp() >= $startDatetime->getTimestamp());
                 }
             }
-            if ($end_datetime) {
-                if (!$start_datetime) {
-                    return ($datenow->getTimestamp() <= $end_datetime->getTimestamp());
+            if ($endDatetime) {
+                if (!$startDatetime) {
+                    return ($datenow->getTimestamp() <= $endDatetime->getTimestamp());
                 }
             }
-            return ($datenow->getTimestamp() >= $start_datetime->getTimestamp() && $datenow->getTimestamp() <= $end_datetime->getTimestamp());
+            return ($datenow->getTimestamp() >= $startDatetime->getTimestamp() && $datenow->getTimestamp() <= $endDatetime->getTimestamp());
         }
     }
 
     /**
      * Checks if Time to show the Final list.
      *
-     * @param null|\Ilch\Date $end_datetime
-     * @return boolean
+     * @param Date|null $end_datetime
+     * @return bool
      */
-    public function is_showsortedlist($end_datetime = null)
+    public function isShowSortedList(?Date $end_datetime = null): bool
     {
         $config = \Ilch\Registry::get('config');
         $program_secduration = $config->get('radio_hoerercharts_Program_sec_duration');
 
-        $date = new \Ilch\Date();
-        $datenow = new \Ilch\Date($date->format("Y-m-d H:i:s", true));
+        $date = new Date();
+        $datenow = new Date($date->format("Y-m-d H:i:s", true));
 
         if (!$end_datetime) {
             return true;
         } else {
-            return ($datenow->getTimestamp() >= ($end_datetime->getTimestamp()+$program_secduration));
+            return ($datenow->getTimestamp() >= ($end_datetime->getTimestamp() + $program_secduration));
         }
     }
 
@@ -364,7 +361,7 @@ class HoererCharts extends \Ilch\Mapper
      *
      * @return String
      */
-    public function getvotetext()
+    public function getVoteText(): string
     {
         $config = \Ilch\Registry::get('config');
         $translator = \Ilch\Registry::get('translator');
@@ -375,7 +372,7 @@ class HoererCharts extends \Ilch\Mapper
         }
         $radio_hoerercharts_Program_Name = $config->get('radio_hoerercharts_Program_Name');
 
-        $Program_Name = ($radio_hoerercharts_Program_Name ? $radio_hoerercharts_Program_Name : $translator->trans('hoerercharts'));
-        return str_replace(['--user--', '--name--'], [((!$config->get('guestallow'))?$translator->trans('votetextuser'):$translator->trans('votetextguest')), $Program_Name], $votetext);
+        $Program_Name = ($radio_hoerercharts_Program_Name ?: $translator->trans('hoerercharts'));
+        return str_replace(['--user--', '--name--'], [((!$config->get('guestallow')) ? $translator->trans('votetextuser') : $translator->trans('votetextguest')), $Program_Name], $votetext);
     }
 }

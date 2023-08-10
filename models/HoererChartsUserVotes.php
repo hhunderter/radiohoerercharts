@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Dennis Reilard alias hhunderter
  * @package ilch
@@ -13,42 +14,63 @@ class HoererChartsUserVotes extends \Ilch\Model
      *
      * @var int
      */
-    protected $id;
+    protected $id = 0;
 
     /**
      * The User_Id.
      *
      * @var int
      */
-    protected $user_id;
+    protected $user_id = 0;
 
     /**
      * The Session_Id.
      *
      * @var string
      */
-    protected $sessionId;
+    protected $sessionId = '';
 
     /**
      * The Ip.
      *
      * @var string
      */
-    protected $ip;
+    protected $ip = '';
 
     /**
      * The last_activity.
      *
      * @var string
      */
-    protected $last_activity;
+    protected $last_activity = '';
+
+    /**
+     * @param array $entries
+     * @return $this
+     */
+    public function setByArray(array $entries): HoererChartsUserVotes
+    {
+        if (isset($entries['id'])) {
+            $this->setId($entries['id']);
+        }
+        if (isset($entries['user_id'])) {
+            $this->setUserId($entries['user_id']);
+        }
+        if (isset($entries['session_id'])) {
+            $this->setSessionId($entries['session_id']);
+        }
+        if (isset($entries['last_activity'])) {
+            $this->setLastActivity($entries['last_activity']);
+        }
+        return $this;
+    }
 
     /**
      * Gets the Id.
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -58,9 +80,9 @@ class HoererChartsUserVotes extends \Ilch\Model
      * @param int $id
      * @return $this
      */
-    public function setId(int $id)
+    public function setId(int $id): HoererChartsUserVotes
     {
-        $this->id = (int) $id;
+        $this->id = $id;
 
         return $this;
     }
@@ -70,7 +92,7 @@ class HoererChartsUserVotes extends \Ilch\Model
      *
      * @return int
      */
-    public function getUser_Id()
+    public function getUserId(): int
     {
         return $this->user_id;
     }
@@ -80,9 +102,9 @@ class HoererChartsUserVotes extends \Ilch\Model
      * @param int $user_id
      * @return $this
      */
-    public function setUser_Id(int $user_id)
+    public function setUserId(int $user_id): HoererChartsUserVotes
     {
-        $this->user_id = (int) $user_id;
+        $this->user_id = $user_id;
 
         return $this;
     }
@@ -94,7 +116,7 @@ class HoererChartsUserVotes extends \Ilch\Model
      *
      * @return string
      */
-    public function getSessionId()
+    public function getSessionId(): string
     {
         return $this->sessionId;
     }
@@ -104,9 +126,9 @@ class HoererChartsUserVotes extends \Ilch\Model
      *
      * @param string $sessionId
      */
-    public function setSessionId(String $sessionId)
+    public function setSessionId(string $sessionId)
     {
-        $this->sessionId = (string) $sessionId;
+        $this->sessionId = $sessionId;
     }
 
     /**
@@ -114,7 +136,7 @@ class HoererChartsUserVotes extends \Ilch\Model
      *
      * @return string
      */
-    public function getIp()
+    public function getIp(): string
     {
         return $this->ip;
     }
@@ -124,9 +146,9 @@ class HoererChartsUserVotes extends \Ilch\Model
      * @param string $ip
      * @return $this
      */
-    public function setIp(String $ip)
+    public function setIp(string $ip): HoererChartsUserVotes
     {
-        $this->ip = (string) $ip;
+        $this->ip = $ip;
 
         return $this;
     }
@@ -136,7 +158,7 @@ class HoererChartsUserVotes extends \Ilch\Model
      *
      * @return string
      */
-    public function getLast_Activity()
+    public function getLastActivity(): string
     {
         return $this->last_activity;
     }
@@ -146,10 +168,29 @@ class HoererChartsUserVotes extends \Ilch\Model
      * @param string $last_activity
      * @return $this
      */
-    public function setLast_Activity(String $last_activity)
+    public function setLastActivity(string $last_activity): HoererChartsUserVotes
     {
-        $this->last_activity = (string) $last_activity;
+        $this->last_activity = $last_activity;
 
         return $this;
+    }
+
+    /**
+     * Gets the Array of Model.
+     *
+     * @param bool $withId
+     * @return array
+     */
+    public function getArray(bool $withId = true): array
+    {
+        return array_merge(
+            ($withId ? ['id' => $this->getId()] : []),
+            [
+                'user_id'       => $this->getUserId(),
+                'session_id'     => $this->getSessionId(),
+                'last_activity'     => $this->getLastActivity(),
+                'ip_address'     => $this->getIp(),
+            ]
+        );
     }
 }

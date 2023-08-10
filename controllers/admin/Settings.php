@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Dennis Reilard alias hhunderter
  * @package ilch
@@ -52,7 +53,7 @@ class Settings extends \Ilch\Controller\Admin
 
         $radio_hoerercharts_Program_Name = $this->getConfig()->get('radio_hoerercharts_Program_Name');
 
-        $Program_Name = ($radio_hoerercharts_Program_Name ? $radio_hoerercharts_Program_Name : $this->getTranslator()->trans('hoerercharts'));
+        $Program_Name = ($radio_hoerercharts_Program_Name ?: $this->getTranslator()->trans('hoerercharts'));
 
         $this->getView()->set('Program_Name', $Program_Name);
 
@@ -100,14 +101,14 @@ class Settings extends \Ilch\Controller\Admin
 
                     $this->redirect()
                         ->withMessage('saveSuccess')
-                        ->to(array_merge(['action' => 'index'], ($this->getRequest()->getParam('settings_language')?['settings_language' => 'true']:[])));
+                        ->to(array_merge(['action' => 'index'], ($this->getRequest()->getParam('settings_language') ? ['settings_language' => 'true'] : [])));
                 }
 
                 $this->addMessage($validation->getErrorBag()->getErrorMessages(), 'danger', true);
                 $this->redirect()
                     ->withInput()
                     ->withErrors($validation->getErrorBag())
-                    ->to(array_merge(['action' => 'index'], ($this->getRequest()->getParam('settings_language')?['settings_language' => 'true']:[])));
+                    ->to(array_merge(['action' => 'index'], ($this->getRequest()->getParam('settings_language') ? ['settings_language' => 'true'] : [])));
             }
 
             if (!$this->getRequest()->getParam('settings_language')) {
@@ -130,7 +131,7 @@ class Settings extends \Ilch\Controller\Admin
                     $language = new \Ilch\Translator('de_DE');
                 }
 
-                $language->load(APPLICATION_PATH.'/modules/radiohoerercharts/translations');
+                $language->load(APPLICATION_PATH . '/modules/radiohoerercharts/translations');
                 $language_votetext = $language->trans('votetext');
 
                 if ($this->getTranslator()->shortenLocale($this->getTranslator()->getLocale()) == 'de') {
@@ -206,8 +207,8 @@ class Settings extends \Ilch\Controller\Admin
                 $end_datetime = new \Ilch\Date($this->getConfig()->get('radio_hoerercharts_End_Datetime'));
             }
 
-            $this->getView()->set('start_datetime', (($start_datetime)?$start_datetime->format($this->getTranslator()->trans('datetimeformat')):''))
-                ->set('end_datetime', (($end_datetime)?$end_datetime->format($this->getTranslator()->trans('datetimeformat')):''));
+            $this->getView()->set('start_datetime', (($start_datetime) ? $start_datetime->format($this->getTranslator()->trans('datetimeformat')) : ''))
+                ->set('end_datetime', (($end_datetime) ? $end_datetime->format($this->getTranslator()->trans('datetimeformat')) : ''));
         }
     }
 }

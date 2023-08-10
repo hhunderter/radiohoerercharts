@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Dennis Reilard alias hhunderter
  * @package ilch
@@ -15,36 +16,53 @@ class HoererChartsList extends \Ilch\Model
      *
      * @var int
      */
-    protected $id;
+    protected $id = 0;
 
     /**
      * The Entry ID.
      *
      * @var int
      */
-    protected $hid;
-    
+    protected $hid = 0;
+
     /**
      * The Entry ID.
      *
      * @var EntriesModel
      */
-    protected $entry;
+    protected $entry = null;
 
     /**
      * The List ID.
      *
      * @var int
      */
-    protected $list;
-    
+    protected $list = 0;
+
+    /**
+     * @param array $entries
+     * @return $this
+     */
+    public function setByArray(array $entries): HoererChartsList
+    {
+        if (isset($entries['id'])) {
+            $this->setId($entries['id']);
+        }
+        if (isset($entries['hid'])) {
+            $this->setHId($entries['hid']);
+        }
+        if (isset($entries['list'])) {
+            $this->setList($entries['list']);
+        }
+        return $this;
+    }
 
     /**
      * Gets the Id.
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -54,31 +72,32 @@ class HoererChartsList extends \Ilch\Model
      * @param int $id
      * @return $this
      */
-    public function setId(int $id)
+    public function setId(int $id): HoererChartsList
     {
-        $this->id = (int) $id;
+        $this->id = $id;
 
         return $this;
     }
-    
+
     /**
      * Gets the hid.
      *
      * @return int
      */
-    public function getHId()
+    public function getHId(): int
     {
         return $this->hid;
     }
+
     /**
      * Sets the setfree.
      *
-     * @param int $setfree
+     * @param int $hid
      * @return $this
      */
-    public function setHId(int $hid)
+    public function setHId(int $hid): HoererChartsList
     {
-        $this->hid = (int) $hid;
+        $this->hid = $hid;
 
         return $this;
     }
@@ -88,8 +107,11 @@ class HoererChartsList extends \Ilch\Model
      *
      * @return EntriesModel
      */
-    public function getEntry()
+    public function getEntry(): EntriesModel
     {
+        if (!$this->entry) {
+            $this->entry = new EntriesModel();
+        }
         return $this->entry;
     }
     /**
@@ -98,7 +120,7 @@ class HoererChartsList extends \Ilch\Model
      * @param EntriesModel $entry
      * @return $this
      */
-    public function setEntry(EntriesModel $entry)
+    public function setEntry(EntriesModel $entry): HoererChartsList
     {
         $this->entry = $entry;
 
@@ -110,21 +132,38 @@ class HoererChartsList extends \Ilch\Model
      *
      * @return int
      */
-    public function getList()
+    public function getList(): int
     {
         return $this->list;
     }
+
     /**
      * Sets the List.
      *
      * @param int $list
      * @return $this
      */
-    public function setList(string $list)
+    public function setList(int $list): HoererChartsList
     {
-        $this->list = (int) $list;
+        $this->list = $list;
 
         return $this;
     }
 
+    /**
+     * Gets the Array of Model.
+     *
+     * @param bool $withId
+     * @return array
+     */
+    public function getArray(bool $withId = true): array
+    {
+        return array_merge(
+            ($withId ? ['id' => $this->getId()] : []),
+            [
+                'hid'       => $this->getHId(),
+                'list'     => $this->getList(),
+            ]
+        );
+    }
 }

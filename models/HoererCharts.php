@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Dennis Reilard alias hhunderter
  * @package ilch
@@ -13,64 +14,96 @@ class HoererCharts extends \Ilch\Model
      *
      * @var int
      */
-    protected $id;
+    protected $id = 0;
 
     /**
      * The setfree.
      *
-     * @var int
+     * @var bool
      */
-    protected $setfree;
+    protected $setfree = false;
 
     /**
      * The Interpret.
      *
      * @var string
      */
-    protected $interpret;
+    protected $interpret = '';
 
     /**
      * The Songtitel.
      *
      * @var string
      */
-    protected $songtitel;
+    protected $songtitel = '';
 
     /**
      * The Votes.
      *
      * @var int
      */
-    protected $votes;
+    protected $votes = 0;
 
     /**
      * The DateCreate.
      *
      * @var string
      */
-    protected $datecreate;
+    protected $datecreate = '';
 
     /**
      * The user_id.
      *
      * @var int
      */
-    protected $user_id;
-    
+    protected $user_id = 0;
+
     /**
      * The artworkUrl.
      *
      * @var string
      */
-    protected $artworkUrl;
-    
+    protected $artworkUrl = '';
+
+    /**
+     * @param array $entries
+     * @return $this
+     */
+    public function setByArray(array $entries): HoererCharts
+    {
+        if (isset($entries['id'])) {
+            $this->setId($entries['id']);
+        }
+        if (isset($entries['setfree'])) {
+            $this->setSetFree($entries['setfree']);
+        }
+        if (isset($entries['interpret'])) {
+            $this->setInterpret($entries['interpret']);
+        }
+        if (isset($entries['songtitel'])) {
+            $this->setSongTitel($entries['songtitel']);
+        }
+        if (isset($entries['votes'])) {
+            $this->setVotes($entries['votes']);
+        }
+        if (isset($entries['datecreate'])) {
+            $this->setDateCreate($entries['datecreate']);
+        }
+        if (isset($entries['user_id'])) {
+            $this->setUserId($entries['user_id']);
+        }
+        if (isset($entries['artworkUrl'])) {
+            $this->setArtworkUrl($entries['artworkUrl']);
+        }
+        return $this;
+    }
 
     /**
      * Gets the Id.
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -80,31 +113,31 @@ class HoererCharts extends \Ilch\Model
      * @param int $id
      * @return $this
      */
-    public function setId(int $id)
+    public function setId(int $id): HoererCharts
     {
-        $this->id = (int) $id;
+        $this->id = $id;
 
         return $this;
     }
-    
+
     /**
      * Gets the setfree.
      *
-     * @return int
+     * @return bool
      */
-    public function getSetFree()
+    public function getSetFree(): bool
     {
         return $this->setfree;
     }
     /**
      * Sets the setfree.
      *
-     * @param int $setfree
+     * @param bool $setfree
      * @return $this
      */
-    public function setSetFree(int $setfree)
+    public function setSetFree(bool $setfree): HoererCharts
     {
-        $this->setfree = (int) $setfree;
+        $this->setfree = $setfree;
 
         return $this;
     }
@@ -114,7 +147,7 @@ class HoererCharts extends \Ilch\Model
      *
      * @return string
      */
-    public function getInterpret()
+    public function getInterpret(): string
     {
         return $this->interpret;
     }
@@ -124,9 +157,9 @@ class HoererCharts extends \Ilch\Model
      * @param String $interpret
      * @return $this
      */
-    public function setInterpret(String $interpret)
+    public function setInterpret(string $interpret): HoererCharts
     {
-        $this->interpret = (string) $interpret;
+        $this->interpret = $interpret;
 
         return $this;
     }
@@ -136,7 +169,7 @@ class HoererCharts extends \Ilch\Model
      *
      * @return string
      */
-    public function getSongTitel()
+    public function getSongTitel(): string
     {
         return $this->songtitel;
     }
@@ -146,9 +179,9 @@ class HoererCharts extends \Ilch\Model
      * @param String $songtitel
      * @return $this
      */
-    public function setSongTitel(string $songtitel)
+    public function setSongTitel(string $songtitel): HoererCharts
     {
-        $this->songtitel = (string) $songtitel;
+        $this->songtitel = $songtitel;
 
         return $this;
     }
@@ -158,7 +191,7 @@ class HoererCharts extends \Ilch\Model
      *
      * @return int
      */
-    public function getVotes()
+    public function getVotes(): int
     {
         return $this->votes;
     }
@@ -168,9 +201,9 @@ class HoererCharts extends \Ilch\Model
      * @param int $votes
      * @return $this
      */
-    public function setVotes(int $votes)
+    public function setVotes(int $votes): HoererCharts
     {
-        $this->votes = (int) $votes;
+        $this->votes = $votes;
 
         return $this;
     }
@@ -180,7 +213,7 @@ class HoererCharts extends \Ilch\Model
      *
      * @return String
      */
-    public function getDateCreate()
+    public function getDateCreate(): string
     {
         return $this->datecreate;
     }
@@ -190,19 +223,19 @@ class HoererCharts extends \Ilch\Model
      * @param String $datecreate
      * @return $this
      */
-    public function setDateCreate(String $datecreate)
+    public function setDateCreate(string $datecreate): HoererCharts
     {
-        $this->datecreate = (string) $datecreate;
+        $this->datecreate = $datecreate;
 
         return $this;
     }
-    
+
     /**
      * Gets the user_id.
      *
      * @return int
      */
-    public function getUser_Id()
+    public function getUserId(): int
     {
         return $this->user_id;
     }
@@ -212,19 +245,19 @@ class HoererCharts extends \Ilch\Model
      * @param int $user_id
      * @return $this
      */
-    public function setUser_Id(int $user_id)
+    public function setUserId(int $user_id): HoererCharts
     {
-        $this->user_id = (int) $user_id;
+        $this->user_id = $user_id;
 
         return $this;
     }
-    
+
     /**
      * Gets the artworkUrl.
      *
      * @return string
      */
-    public function getArtworkUrl()
+    public function getArtworkUrl(): string
     {
         return $this->artworkUrl;
     }
@@ -234,10 +267,32 @@ class HoererCharts extends \Ilch\Model
      * @param string $artworkUrl
      * @return $this
      */
-    public function setArtworkUrl(string $artworkUrl)
+    public function setArtworkUrl(string $artworkUrl): HoererCharts
     {
-        $this->artworkUrl = (string) $artworkUrl;
+        $this->artworkUrl = $artworkUrl;
 
         return $this;
+    }
+
+    /**
+     * Gets the Array of Model.
+     *
+     * @param bool $withId
+     * @return array
+     */
+    public function getArray(bool $withId = true): array
+    {
+        return array_merge(
+            ($withId ? ['id' => $this->getId()] : []),
+            [
+                'setfree'       => $this->getSetFree(),
+                'interpret'     => $this->getInterpret(),
+                'songtitel'     => $this->getSongTitel(),
+                'votes'         => $this->getVotes(),
+                'datecreate'    => $this->getDateCreate(),
+                'user_id'       => $this->getUserId(),
+                'artworkUrl'    => $this->getArtworkUrl(),
+            ]
+        );
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Dennis Reilard alias hhunderter
  * @package ilch
@@ -12,14 +13,18 @@ use Modules\RadioHoererCharts\Models\HoererChartsList as EntriesModel;
 class HoererChartsList extends \Ilch\Mapper
 {
     /**
+     * @var string
+     */
+    public $tablename = 'radio_hoerercharts_list';
+
+    /**
      * returns if the module is installed.
      *
-     * @return boolean
-     * @throws \Ilch\Database\Exception
+     * @return bool
      */
-    public function checkDB()
+    public function checkDB(): bool
     {
-        return $this->db()->ifTableExists('[prefix]_radio_hoerercharts_list');
+        return $this->db()->ifTableExists($this->tablename);
     }
 
     /**
@@ -28,12 +33,12 @@ class HoererChartsList extends \Ilch\Mapper
      * @param array $where
      * @param array $orderBy
      * @param \Ilch\Pagination|null $pagination
-     * @return array|null
+     * @return EntriesModel[]|null
      */
-    public function getEntriesBy($where = [], $orderBy = ['id' => 'DESC'], $pagination = null)
+    public function getEntriesBy(array $where = [], array $orderBy = ['id' => 'DESC'], ?\Ilch\Pagination $pagination = null): ?array
     {
         $select = $this->db()->select('*')
-            ->from('radio_hoerercharts_list')
+            ->from($this->tablename)
             ->where($where)
             ->order($orderBy);
 
@@ -46,30 +51,29 @@ class HoererChartsList extends \Ilch\Mapper
             $result = $select->execute();
         }
 
-        $entryArray = $result->fetchRows();
-        if (empty($entryArray)) {
+        $entriesArray = $result->fetchRows();
+        if (empty($entriesArray)) {
             return null;
         }
-        $entrys = [];
-        
+        $entries = [];
+
         $entriesMapper = new EntriesMapper();
 
-        foreach ($entryArray as $entries) {
-            $entriesmapperModel = $entriesMapper->getEntryById($entries['hid']);
-            if ($entriesmapperModel && $entriesmapperModel->getSetFree() === 1) {
+        foreach ($entriesArray as $entryArray) {
+            $hoererChartsModel = $entriesMapper->getEntryById($entryArray['hid']);
+            if ($hoererChartsModel && $hoererChartsModel->getSetFree()) {
                 $entryModel = new EntriesModel();
-                $entryModel->setId($entries['id'])
-                    ->setHId($entries['hid'])
-                    ->setEntry($entriesMapper->getEntryById($entries['hid']))
-                    ->setList($entries['list']);
-                $entrys[] = $entryModel;
+                $entryModel->setByArray($entryArray)
+                    ->setEntry($hoererChartsModel);
+
+                $entries[] = $entryModel;
             } else {
-                $this->db()->delete('radio_hoerercharts_list')
-                ->where(['id' => $entries['id']])
-                ->execute();
+                $this->db()->delete($this->tablename)
+                    ->where(['id' => $entryArray['id']])
+                    ->execute();
             }
         }
-        return $entrys;
+        return $entries;
     }
 
     /**
@@ -77,41 +81,42 @@ class HoererChartsList extends \Ilch\Mapper
      *
      * @param array $where
      * @param \Ilch\Pagination|null $pagination
-     * @return array|null
+     * @return EntriesModel[]|null
      */
-    public function getEntries($where = [], $pagination = null)
+    public function getEntries(array $where = [], ?\Ilch\Pagination $pagination = null): ?array
     {
         return $this->getEntriesBy($where, ['list' => 'DESC', 'id' => 'DESC'], $pagination);
     }
-    
+
     /**
      * Gets the entry by given List ID.
      *
      * @param int $id
-     * @return null|EntriesModel
+     * @return EntriesModel[]|null
      */
-    public function getEntryByList(int $id)
+    public function getEntryByList(int $id): ?array
     {
-        $entrys = $this->getEntriesBy(['list' => (int) $id], []);
+        $entries = $this->getEntriesBy(['list' => $id], []);
 
-        if (!empty($entrys)) {
-            return $entrys;
+        if (!empty($entries)) {
+            return $entries;
         }
-        
+
         return null;
     }
 
     /**
      * Add H ID to a List.
      *
-     * @param int $hId
+     * @param int $hID
      * @param int $listId
+     * @return bool|int
      */
     public function addEntryToList(int $hID, int $listId)
     {
-        if (!$this->getEntriesBy(['hid' => (int) $hID, 'list' => (int) $listId])) {
-            return $this->db()->insert('radio_hoerercharts_list')
-                ->values(['hid' => (int) $hID, 'list' => (int) $listId])
+        if (!$this->getEntriesBy(['hid' => $hID, 'list' => $listId])) {
+            return $this->db()->insert($this->tablename)
+                ->values(['hid' => $hID, 'list' => $listId])
                 ->execute();
         }
         return false;
@@ -120,17 +125,17 @@ class HoererChartsList extends \Ilch\Mapper
     /**
      * Delete H ID to a List.
      *
-     * @param int $hId
+     * @param int $hID
      * @param int $listId
+     * @return bool|int
      */
     public function deleteEntryToList(int $hID, int $listId)
     {
-        if ($this->getEntriesBy(['hid' => (int) $hID, 'list' => (int) $listId])) {
-            return $this->db()->delete('radio_hoerercharts_list')
-                ->where(['hid' => (int) $hID, 'list' => (int) $listId])
+        if ($this->getEntriesBy(['hid' => $hID, 'list' => $listId])) {
+            return $this->db()->delete($this->tablename)
+                ->where(['hid' => $hID, 'list' => $listId])
                 ->execute();
         }
         return false;
     }
-
 }

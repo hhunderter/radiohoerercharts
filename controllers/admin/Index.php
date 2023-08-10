@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Dennis Reilard alias hhunderter
  * @package ilch
@@ -10,10 +11,8 @@ use Modules\RadioHoererCharts\Mappers\HoererCharts as HoererChartsMapper;
 use Modules\RadioHoererCharts\Models\HoererCharts as HoererChartsModel;
 use Modules\RadioHoererCharts\Mappers\HoererChartsSuggestion as HoererChartsSuggestionMapper;
 use Modules\RadioHoererCharts\Mappers\HoererChartsUserVotes as HoererChartsUserVotesMapper;
-use Modules\RadioHoererCharts\Models\HoererChartsUserVotes as HoererChartsUserVotesModel;
 use Modules\RadioHoererCharts\Mappers\HoererChartsList as HoererChartsListMapper;
 use Modules\RadioHoererCharts\Models\HoererChartsList as HoererChartsListModel;
-
 use Ilch\Validation;
 use Modules\RadioHoererCharts\Libs\SearchiTunes;
 
@@ -89,18 +88,19 @@ class Index extends \Ilch\Controller\Admin
 
         $this->getView()->set('allowsuggestion', $this->getConfig()->get('radio_hoerercharts_allow_suggestion'));
         $this->getView()->set('suggestion', $this->getRequest()->getParam('suggestion'));
-        
+
         $activelist = $this->getConfig()->get('radio_hoerercharts_active_list');
         $this->getView()->set('activelist', $activelist);
         $this->getView()->set('list', $this->getRequest()->getParam('list'));
-        
+
         $this->getView()->set('filterlist', $this->getRequest()->getParam('filterlist'));
-        
+
+        $listentries = [];
         if ($this->getRequest()->getParam('list')) {
             $listentries = $hoererchartslistMapper->getEntryByList($this->getRequest()->getParam('list')) ?? [];
         }
 
-        $this->getView()->set('votedatetime', ((!$start_datetime && !$end_datetime)?$this->getTranslator()->trans('noentriesadmin'):(($start_datetime && $end_datetime)?call_user_func_array([$this->getTranslator(), 'trans'], ['fromto', $start_datetime->format($this->getTranslator()->trans('datetimeformat')),$end_datetime->format($this->getTranslator()->trans('datetimeformat'))]):(($start_datetime)?$this->getTranslator()->trans('from').' '.$start_datetime->format($this->getTranslator()->trans('datetimeformat')):$this->getTranslator()->trans('to').' '.$end_datetime->format($this->getTranslator()->trans('datetimeformat'))))."<br><br>"));
+        $this->getView()->set('votedatetime', ((!$start_datetime && !$end_datetime) ? $this->getTranslator()->trans('noentriesadmin') : (($start_datetime && $end_datetime) ? call_user_func_array([$this->getTranslator(), 'trans'], ['fromto', $start_datetime->format($this->getTranslator()->trans('datetimeformat')), $end_datetime->format($this->getTranslator()->trans('datetimeformat'))]) : (($start_datetime) ? $this->getTranslator()->trans('from') . ' ' . $start_datetime->format($this->getTranslator()->trans('datetimeformat')) : $this->getTranslator()->trans('to') . ' ' . $end_datetime->format($this->getTranslator()->trans('datetimeformat')))) . "<br><br>"));
         if ($hoererchartsMapper->checkDB() && $hoererchartssuggestionMapper->checkDB() && $hoererchartsuservotesMapper->checkDB()) {
             if ($this->getRequest()->getPost('check_entries')) {
                 if ($this->getRequest()->getPost('action') == 'delete') {
@@ -136,7 +136,7 @@ class Index extends \Ilch\Controller\Admin
                         unset($sortItems[$keylist]);
                     }
                 }
-                foreach($sortItems as $key => $hid) {
+                foreach ($sortItems as $hid) {
                     $id = $hoererchartslistMapper->addEntryToList($hid, $this->getRequest()->getParam('list'));
                     $hoererchartslistModel = new HoererChartsListModel();
                     $hoererchartslistModel->setId($id)
@@ -145,7 +145,7 @@ class Index extends \Ilch\Controller\Admin
                     $listentries[] = $hoererchartslistModel;
                 }
                 $this->addMessage('updateSuccess');
-                
+
                 $this->redirect(['action' => 'index', 'list' => $this->getRequest()->getParam('list')]);
             }
 
@@ -155,7 +155,7 @@ class Index extends \Ilch\Controller\Admin
             }
             $column = $this->getRequest()->getParam('column') && in_array($this->getRequest()->getParam('column'), $columns) ? $this->getRequest()->getParam('column') : $columns[0];
             $sort_order = $this->getRequest()->getParam('order') && strtolower($this->getRequest()->getParam('order')) == 'asc' ? 'ASC' : 'DESC';
-            
+
             if ($column === 'votes') {
                 $suggestionentries = $hoererchartssuggestionMapper->getEntriesby([], [$columns[0] => $sort_order]);
             } else {
@@ -166,9 +166,8 @@ class Index extends \Ilch\Controller\Admin
                 $this->getView()->set('listentries', $listentries);
                 $chartsentries = $hoererchartsMapper->getEntriesby(['setfree' => 1]) ?? [];
             } else {
-                $chartsentries = $hoererchartsMapper->getEntriesby([], [$column => $sort_order]);
                 if ($this->getRequest()->getParam('filterlist')) {
-                    $chartsentries = $hoererchartsMapper->getEntryByList(['l.list' => $this->getRequest()->getParam('filterlist')], ['h.'.$column => $sort_order]);
+                    $chartsentries = $hoererchartsMapper->getEntryByList(['l.list' => $this->getRequest()->getParam('filterlist')], ['h.' . $column => $sort_order]);
                 } else {
                     $chartsentries = $hoererchartsMapper->getEntriesby([], [$column => $sort_order]);
                 }
@@ -180,7 +179,7 @@ class Index extends \Ilch\Controller\Admin
                 $this->getView()->set('entries', $chartsentries);
             }
 
-            $this->getView()->set('badgeSuggestion', $suggestionentries?count($suggestionentries):0)
+            $this->getView()->set('badgeSuggestion', $suggestionentries ? count($suggestionentries) : 0)
                             ->set('sort_column', $column)
                             ->set('sort_order', $sort_order);
         } else {
@@ -192,7 +191,7 @@ class Index extends \Ilch\Controller\Admin
     {
         $hoererchartsMapper = new HoererChartsMapper();
         if ($hoererchartsMapper->checkDB() && $this->getRequest()->isSecure()) {
-            $hoererchartsMapper->update_setfree($this->getRequest()->getParam('id'), $this->getRequest()->getParam('status_man'));
+            $hoererchartsMapper->updateSetFree($this->getRequest()->getParam('id'), $this->getRequest()->getParam('status_man'));
 
             $this->addMessage('saveSuccess');
         }
@@ -217,43 +216,45 @@ class Index extends \Ilch\Controller\Admin
 
                 if ($this->getRequest()->getParam('suggestion')) {
                     $hoererchartsModel = $hoererchartssuggestionMapper->getEntryById($this->getRequest()->getParam('id'));
-                    $this->getView()->set('entrie', $hoererchartsModel);
                 } else {
                     $hoererchartsModel = $hoererchartsMapper->getEntryById($this->getRequest()->getParam('id'));
-                    $this->getView()->set('entrie', $hoererchartsModel);
+                }
+                if (!$hoererchartsModel) {
+                    $this->redirect(['action' => 'index']);
                 }
             } else {
                 $this->getLayout()->getAdminHmenu()
                     ->add($this->getTranslator()->trans('add'), ['action' => 'treat']);
             }
+            $this->getView()->set('entry', $hoererchartsModel);
 
             if ($this->getRequest()->isPost()) {
                 $validation = Validation::create($this->getRequest()->getPost(), array_merge([
                     'interpret' => 'required',
                     'songtitel'    => 'required'
-                ], (($this->getRequest()->getParam('suggestion'))?[]:['setfree' => 'required|numeric|min:0|max:1'])));
+                ], (($this->getRequest()->getParam('suggestion')) ? [] : ['setfree' => 'required|numeric|min:0|max:1'])));
 
                 if ($validation->isValid()) {
                     $date = new \Ilch\Date();
                     $datenow = new \Ilch\Date($date->format("Y-m-d H:i:s", true));
-                    
-                    if ($this->getRequest()->getParam('id')) {
-                        $hoererchartsModel->setId($this->getRequest()->getParam('id'));
-                    } else {
+
+                    if (!$hoererchartsModel->getId()) {
                         if ($this->getUser()) {
-                            $hoererchartsModel->setUser_Id($this->getUser()->getId());
+                            $hoererchartsModel->setUserId($this->getUser()->getId());
                         }
                         $hoererchartsModel->setDateCreate($datenow);
                     }
 
                     if (!$this->getRequest()->getParam('suggestion')) {
                         $hoererchartsModel->setSetFree($this->getRequest()->getPost('setfree'));
-                        if ($this->getConfig()->get('radio_hoerercharts_show_artwork')) $hoererchartsModel->setArtworkUrl($this->getRequest()->getPost('artworkUrl'));
+                        if ($this->getConfig()->get('radio_hoerercharts_show_artwork')) {
+                            $hoererchartsModel->setArtworkUrl($this->getRequest()->getPost('artworkUrl') ?? '');
+                        }
                     }
                     if ($hoererchartsModel->getId() && ($hoererchartsModel->getInterpret() != $this->getRequest()->getPost('interpret') || $hoererchartsModel->getSongTitel() != $this->getRequest()->getPost('songtitel'))) {
                         $hoererchartsModel->setVotes(0);
                     }
-                    
+
                     $hoererchartsModel->setInterpret($this->getRequest()->getPost('interpret'))
                         ->setSongTitel($this->getRequest()->getPost('songtitel'));
 
@@ -265,26 +266,26 @@ class Index extends \Ilch\Controller\Admin
 
                     $this->redirect()
                         ->withMessage('saveSuccess')
-                        ->to(array_merge(['action' => 'index'], (($this->getRequest()->getParam('suggestion'))?['suggestion' => 'true']:[])));
+                        ->to(array_merge(['action' => 'index'], (($this->getRequest()->getParam('suggestion')) ? ['suggestion' => 'true'] : [])));
                 }
                 $this->addMessage($validation->getErrorBag()->getErrorMessages(), 'danger', true);
                 $this->redirect()
                     ->withInput()
                     ->withErrors($validation->getErrorBag())
-                    ->to(array_merge(['action' => 'treat', 'id' => $this->getRequest()->getParam('id')], (($this->getRequest()->getParam('suggestion'))?['suggestion' => 'true']:[])));
+                    ->to(array_merge(['action' => 'treat', 'id' => $this->getRequest()->getParam('id')], (($this->getRequest()->getParam('suggestion')) ? ['suggestion' => 'true'] : [])));
             }
         } else {
-            $this->redirect(array_merge(['action' => 'index'], (($this->getRequest()->getParam('suggestion'))?['suggestion' => 'true']:[])));
+            $this->redirect(array_merge(['action' => 'index'], (($this->getRequest()->getParam('suggestion')) ? ['suggestion' => 'true'] : [])));
         }
         $this->getView()->set('show_artwork', $this->getConfig()->get('radio_hoerercharts_show_artwork'));
     }
-    
+
     public function searchiTunesAction()
     {
         $this->getLayout()->setFile('modules/admin/layouts/ajax');
 
         if ($this->getRequest()->isSecure()) {
-            $searchitunes = new SearchiTunes;
+            $searchitunes = new SearchiTunes();
             $searchitunes->setTerm($this->getRequest()->getParam('term'))
                                 ->setCountry('DE')
                                 ->setMedia('music')
@@ -295,7 +296,9 @@ class Index extends \Ilch\Controller\Admin
                                 ->setExplicit(false)
                                 ->search();
 
-            $this->getView()->set('entrie', ['URL' => $searchitunes->getResult('artworkUrl100', 1)]);
+            $this->getView()->set('entry', ['URL' => $searchitunes->getResult('artworkUrl100', 1)]);
+        } else {
+            $this->getView()->set('entry', []);
         }
     }
 
@@ -314,7 +317,7 @@ class Index extends \Ilch\Controller\Admin
                 $this->addMessage('deleteSuccess');
             }
         }
-        $this->redirect(array_merge(['action' => 'index'], (($this->getRequest()->getParam('suggestion'))?['suggestion' => 'true']:[])));
+        $this->redirect(array_merge(['action' => 'index'], (($this->getRequest()->getParam('suggestion')) ? ['suggestion' => 'true'] : [])));
     }
 
     public function allowsuggestionAction()
@@ -326,7 +329,7 @@ class Index extends \Ilch\Controller\Admin
             ->withMessage('updateSuccess')
             ->to(['action' => 'index', 'suggestion' => 'true']);
     }
-    
+
     public function activelistAction()
     {
         $this->getConfig()->set('radio_hoerercharts_active_list', $this->getRequest()->getParam('list'));
@@ -335,7 +338,7 @@ class Index extends \Ilch\Controller\Admin
             ->withMessage('updateSuccess')
             ->to(['action' => 'index', 'list' => $this->getRequest()->getParam('list')]);
     }
-    
+
     public function suggestionenableAction()
     {
         $hoererchartsMapper = new HoererChartsMapper();
@@ -373,6 +376,6 @@ class Index extends \Ilch\Controller\Admin
             }
         }
 
-        $this->getView()->set('entries', $hoererchartsuservotesMapper->getEntries([]) ?? []);
+        $this->getView()->set('entries', $hoererchartsuservotesMapper->getEntries() ?? []);
     }
 }

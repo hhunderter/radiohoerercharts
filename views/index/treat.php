@@ -1,5 +1,18 @@
+<?php
+
+/** @var \Ilch\View $this */
+
+/** @var bool $captchaNeeded */
+$captchaNeeded = $this->get('captchaNeeded');
+
+/** @var \Captcha\DefaultCaptcha $defaultcaptcha */
+$defaultcaptcha = $this->get('defaultcaptcha');
+
+/** @var \Captcha\GoogleCaptcha $googlecaptcha */
+$googlecaptcha = $this->get('googlecaptcha');
+?>
 <h1><?=$this->getTrans('add') ?></h1>
-<form role="form" class="form-horizontal" method="POST">
+<form id="rhcForm" name="rhcForm" class="form-horizontal" method="POST">
     <?=$this->getTokenField() ?>
     <div class="form-group <?=$this->validation()->hasError('interpret') ? 'has-error' : '' ?>">
         <label for="interpret" class="col-lg-2 control-label">
@@ -10,7 +23,7 @@
                    type="text"
                    id="interpret"
                    name="interpret"
-                   value="<?=$this->escape($this->originalInput('interpret', '')) ?>" />
+                   value="<?=$this->escape($this->originalInput('interpret')) ?>" />
         </div>
     </div>
     <div class="form-group <?=$this->validation()->hasError('songtitel') ? 'has-error' : '' ?>">
@@ -22,11 +35,10 @@
                    type="text"
                    id="songtitel"
                    name="songtitel"
-                   value="<?=$this->escape($this->originalInput('songtitel', '')) ?>" />
+                   value="<?=$this->escape($this->originalInput('songtitel')) ?>" />
         </div>
     </div>
-    <?php if ($this->get('captchaNeeded')) {
-    ?>
+    <?php if ($captchaNeeded) { ?>
         <div class="form-group <?=$this->validation()->hasError('captcha') ? 'has-error' : '' ?>">
             <label class="col-lg-2 control-label">
                 <?=$this->getTrans('captcha') ?>
@@ -35,25 +47,24 @@
                 <?=$this->getCaptchaField() ?>
             </div>
         </div>
+        <?php if ($captchaNeeded && $defaultcaptcha) : ?>
+            <?=$defaultcaptcha->getCaptcha($this) ?>
+        <?php endif; ?>
         <div class="form-group <?=$this->validation()->hasError('captcha') ? 'has-error' : '' ?>">
-            <div class="col-lg-offset-2 col-lg-3 input-group captcha">
-                <input type="text"
-                       class="form-control"
-                       id="captcha-form"
-                       name="captcha"
-                       autocomplete="off"
-                       placeholder="<?=$this->getTrans('captcha') ?>" />
-                <span class="input-group-addon">
-                    <a href="javascript:void(0)" onclick="
-                            document.getElementById('captcha').src='<?=$this->getUrl() ?>/application/libraries/Captcha/Captcha.php?'+Math.random();
-                            document.getElementById('captcha-form').focus();"
-                       id="change-image">
-                        <i class="fa-solid fa-rotate"></i>
-                    </a>
-                </span>
+            <div class="col-lg-offset-2 col-lg-8">
+                <?php
+                if ($captchaNeeded) {
+                    if ($googlecaptcha) {
+                        echo $googlecaptcha->setForm('rhcForm')->getCaptcha($this, 'addButton');
+                    } else {
+                        echo $this->getSaveBar('addButton');
+                    }
+                } else {
+                    echo $this->getSaveBar('addButton');
+                }
+                ?>
             </div>
         </div>
-    <?php
-} ?>
+    <?php } ?>
     <?=$this->getSaveBar('addButton') ?>
 </form>
