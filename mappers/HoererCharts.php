@@ -150,7 +150,7 @@ class HoererCharts extends \Ilch\Mapper
     public function save(EntriesModel $model): int
     {
         $fields = $model->getArray(false);
-        if (str_ends_with($this->tablename, 'suggestion')) {
+        if ((0 === substr_compare($this->tablename, 'suggestion', - 10))) {
             unset($fields['setfree'], $fields['votes'], $fields['artworkUrl']);
         }
 

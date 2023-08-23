@@ -39,7 +39,7 @@ $entries = $this->get('entries');
 </h1>
 <div class="teams" id="hoerercharts-container">
     <div class="col-lg-12" id="hoerercharts-form-container">
-    <?=nl2br($this->purify($this->escape($hoererchartsMapper->getVoteText()))) ?>
+    <?=$this->purify($hoererchartsMapper->getVoteText()) ?>
     <?=((!$this->getUser() && !$hoererchartsconfig['guestallow']) ? '' : $this->getTrans('votetextvote')) ?><br><br>
     <?php if ($voted) { ?>
         <?php if (!$this->getUser() && !$hoererchartsconfig['guestallow']) { ?>

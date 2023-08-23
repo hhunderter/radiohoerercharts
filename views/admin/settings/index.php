@@ -1,3 +1,7 @@
+<?php
+
+/** @var \Ilch\View $this */
+?>
 <h1><?=$this->getTrans('menuSettings') ?></h1>
 <div class="form-group">
     <ul class="nav nav-tabs">

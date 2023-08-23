@@ -14,7 +14,7 @@ class Config extends \Ilch\Config\Install
 {
     public $config = [
         'key' => 'radiohoerercharts',
-        'version' => '1.8.0',
+        'version' => '1.8.1',
         'icon_small' => 'fa-solid fa-list-ol',
         'author' => 'Reilard, Dennis alias hhunderter',
         'link' => 'https://github.com/hhunderter/radiohoerercharts',
@@ -49,14 +49,8 @@ class Config extends \Ilch\Config\Install
             ->set('radio_hoerercharts_all_sec_vote', '86400') // 24h
             ->set('radio_hoerercharts_allow_suggestion', '1')
             ->set('radio_hoerercharts_Program_sec_duration', '7200') // 2h
-            ->set('radio_hoerercharts_votetext_de', '[size=120][b]So funktioniert es:[/b][/size]
---user-- darf für seinen Lieblingstitel stimmen und an einem Bestimmten Tag (siehe: Sendeplan) wird es die Sendung "--name--" geben.
-In dieser Sendung wird von unten (z.B. Platz 20) bis auf Platz 1 gespielt.
-Danach werden die Stimmen von Ihnen wieder gelöscht und die Chartliste aktualisiert, d.h. es werden möglicherweise neue Interpreten hinzugefügt oder ältere Titel werden ausgeblendet usw.')
-            ->set('radio_hoerercharts_votetext_en', '[b][size=120]So It Works:[/size][/b]
---user-- can vote for their favorite song and on a specific day (see: Broadcasting schedule) there will be the show "--name--".
-This show plays from the bottom (e.g. 20th place) to the first place.
-After that, the votes will be deleted again and updates the chart list, i.e. new artists may be added or older titles are hidden, etc.')
+            ->set('radio_hoerercharts_votetext_de', '<p><span style="font-size:120%;"><strong>So funktioniert es:</strong></span> --user-- darf f&uuml;r seinen Lieblingstitel stimmen und an einem bestimmten Tag (siehe: Sendeplan) wird es die Sendung &quot;--name--&quot; geben. In dieser Sendung wird von unten (z.B. Platz 20) bis auf Platz 1 gespielt. Danach werden die Stimmen von Ihnen wieder gel&ouml;scht und die Chartliste aktualisiert, d.h. es werden m&ouml;glicherweise neue Interpreten hinzugef&uuml;gt oder &auml;ltere Titel werden ausgeblendet usw.</p>')
+            ->set('radio_hoerercharts_votetext_en', '<p><span style="font-size:120%;"><strong>So It Works:</strong></span>--user-- can vote for their favorite song and on a specific day (see: Broadcasting schedule) there will be the show &quot;--name--&quot;. This show plays from the bottom (e.g. 20th place) to the first place. After that, the votes will be deleted again and updates the chart list, i.e. new artists may be added or older titles are hidden, etc.</p>')
             ->set('radio_hoerercharts_show_artwork', '0')
             ->set('radio_hoerercharts_active_list', '1');
 
@@ -109,6 +103,7 @@ After that, the votes will be deleted again and updates the chart list, i.e. new
                   `id` INT(11) NOT NULL AUTO_INCREMENT,
                   `user_id` INT(11) NOT NULL,
                   `session_id` VARCHAR(255) NOT NULL DEFAULT \'\',
+                  `ip_address` VARCHAR(255) NOT NULL,
                   `last_activity` DATETIME NOT NULL,
                   PRIMARY KEY (`id`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;
@@ -148,7 +143,7 @@ After that, the votes will be deleted again and updates the chart list, i.e. new
             // update zu 1.1.0
                 /*
                 Bugfixes
-                Gäste können wenn gewünscht auch abstimmen
+                Gäste können, wenn gewünscht auch abstimmen
                 -session_id eingeführt
                 */
                 $this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts_uservotes` ADD COLUMN `session_id` VARCHAR(255) NOT NULL DEFAULT \'\' AFTER `user_id`;');
@@ -279,14 +274,8 @@ After that, the votes will be deleted again and updates the chart list, i.e. new
                 ilch-Version: >= 2.1.41
                 */
                 $databaseConfig = new \Ilch\Config\Database($this->db());
-                $databaseConfig->set('radio_hoerercharts_votetext_de', '[size=120][b]So funktioniert es:[/b][/size]
---user-- darf für seinen Lieblingstitel stimmen und an einem Bestimmten Tag (siehe: Sendeplan) wird es die Sendung "--name--" geben.
-In dieser Sendung wird von unten (z.B. Platz 20) bis auf Platz 1 gespielt.
-Danach werden die Stimmen von Ihnen wieder gelöscht und die Chartliste aktualisiert, d.h. es werden möglicherweise neue Interpreten hinzugefügt oder ältere Titel werden ausgeblendet usw.');
-                $databaseConfig->set('radio_hoerercharts_votetext_en', '[b][size=120]So It Works:[/size][/b]
---user-- can vote for their favorite song and on a specific day (see: Broadcasting schedule) there will be the show "--name--".
-This show plays from the bottom (e.g. 20th place) to the first place.
-After that, the votes will be deleted again and updates the chart list, i.e. new artists may be added or older titles are hidden, etc.');
+                $databaseConfig->set('radio_hoerercharts_votetext_de', '<p><span style="font-size:120%;"><strong>So funktioniert es:</strong></span> --user-- darf f&uuml;r seinen Lieblingstitel stimmen und an einem bestimmten Tag (siehe: Sendeplan) wird es die Sendung &quot;--name--&quot; geben. In dieser Sendung wird von unten (z.B. Platz 20) bis auf Platz 1 gespielt. Danach werden die Stimmen von Ihnen wieder gel&ouml;scht und die Chartliste aktualisiert, d.h. es werden m&ouml;glicherweise neue Interpreten hinzugef&uuml;gt oder &auml;ltere Titel werden ausgeblendet usw.</p>');
+                $databaseConfig->set('radio_hoerercharts_votetext_en', '<p><span style="font-size:120%;"><strong>So It Works:</strong></span>--user-- can vote for their favorite song and on a specific day (see: Broadcasting schedule) there will be the show &quot;--name--&quot;. This show plays from the bottom (e.g. 20th place) to the first place. After that, the votes will be deleted again and updates the chart list, i.e. new artists may be added or older titles are hidden, etc.</p>');
                 // no break
             case "1.5.2":
             // update zu 1.6.0
@@ -351,6 +340,17 @@ After that, the votes will be deleted again and updates the chart list, i.e. new
                 $this->db()->query("UPDATE `[prefix]_modules` SET `icon_small` = '" . $this->config['icon_small'] . "' WHERE `key` = '" . $this->config['key'] . "';");
                 // no break
             case "1.8.0":
+                // update zu 1.8.1
+                /*
+                 * Fehler mit PHP 7.3 Kompatibilität behoben
+                 * BBCode entfernt
+                 * Fehlende Spalte bei neu Installation
+                */
+                if (!$this->db()->ifColumnExists('radio_hoerercharts_uservotes', 'ip_address')) {
+                    $this->db()->query('ALTER TABLE `[prefix]_radio_hoerercharts_uservotes` ADD `ip_address` VARCHAR(255) NOT NULL AFTER `session_id`;');
+                }
+                // no break
+            case "1.8.1":
                 // update zu 1.?.?
                 /*
                 */
