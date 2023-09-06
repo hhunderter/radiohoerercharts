@@ -177,9 +177,7 @@ class Index extends \Ilch\Controller\Frontend
                             ->setVotes(0)
                             ->setDateCreate($datenow);
 
-                        $id = $hoererchartssuggestionMapper->save($hoererchartsModel);
-
-                        $this->addMessage($id);
+                        $hoererchartssuggestionMapper->save($hoererchartsModel);
 
                         $this->redirect()
                             ->withMessage('saveSuccess')

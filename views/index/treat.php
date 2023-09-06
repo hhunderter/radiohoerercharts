@@ -38,33 +38,23 @@ $googlecaptcha = $this->get('googlecaptcha');
                    value="<?=$this->escape($this->originalInput('songtitel')) ?>" />
         </div>
     </div>
-    <?php if ($captchaNeeded) { ?>
-        <div class="form-group <?=$this->validation()->hasError('captcha') ? 'has-error' : '' ?>">
-            <label class="col-lg-2 control-label">
-                <?=$this->getTrans('captcha') ?>
-            </label>
-            <div class="col-lg-8">
-                <?=$this->getCaptchaField() ?>
-            </div>
-        </div>
-        <?php if ($captchaNeeded && $defaultcaptcha) : ?>
-            <?=$defaultcaptcha->getCaptcha($this) ?>
-        <?php endif; ?>
-        <div class="form-group <?=$this->validation()->hasError('captcha') ? 'has-error' : '' ?>">
-            <div class="col-lg-offset-2 col-lg-8">
-                <?php
-                if ($captchaNeeded) {
-                    if ($googlecaptcha) {
-                        echo $googlecaptcha->setForm('rhcForm')->getCaptcha($this, 'addButton');
-                    } else {
-                        echo $this->getSaveBar('addButton');
-                    }
+
+    <?php if ($captchaNeeded && $this->get('defaultcaptcha')) : ?>
+        <?=$defaultcaptcha->getCaptcha($this) ?>
+    <?php endif; ?>
+    <div class="form-group">
+        <div class="col-lg-offset-2 col-lg-8">
+            <?php
+            if ($captchaNeeded) {
+                if ($googlecaptcha) {
+                    echo $googlecaptcha->setForm('rhcForm')->getCaptcha($this, 'addButton');
                 } else {
                     echo $this->getSaveBar('addButton');
                 }
-                ?>
-            </div>
+            } else {
+                echo $this->getSaveBar('addButton');
+            }
+            ?>
         </div>
-    <?php } ?>
-    <?=$this->getSaveBar('addButton') ?>
+    </div>
 </form>

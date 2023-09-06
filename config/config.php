@@ -14,7 +14,7 @@ class Config extends \Ilch\Config\Install
 {
     public $config = [
         'key' => 'radiohoerercharts',
-        'version' => '1.8.1',
+        'version' => '1.8.2',
         'icon_small' => 'fa-solid fa-list-ol',
         'author' => 'Reilard, Dennis alias hhunderter',
         'link' => 'https://github.com/hhunderter/radiohoerercharts',
@@ -351,11 +351,18 @@ class Config extends \Ilch\Config\Install
                 }
                 // no break
             case "1.8.1":
+                // update zu 1.8.2
+                /*
+                 * Captcha Fehler behoben
+                 * Neue einträge (Backend) automatisch Freigeben
+                */
+                // no break
+            case "1.8.2":
                 // update zu 1.?.?
                 /*
                 */
                 // no break
         }
-        return 'Update function executed.';
+        return '"' . $this->config['key'] . '" Update-function executed.';
     }
 }

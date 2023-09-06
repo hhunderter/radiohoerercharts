@@ -117,7 +117,6 @@ class Index extends \Ilch\Controller\Admin
                     foreach ($this->getRequest()->getPost('check_entries') as $entryId) {
                         $hoererchartsModel = $hoererchartssuggestionMapper->getEntryById($entryId);
                         $hoererchartsModel->setId(0);
-                        $hoererchartsModel->setSetFree(0);
                         $hoererchartsMapper->save($hoererchartsModel);
                         $hoererchartssuggestionMapper->delete($entryId);
                     }
@@ -347,7 +346,6 @@ class Index extends \Ilch\Controller\Admin
             if ($this->getRequest()->isSecure()) {
                 $hoererchartsModel = $hoererchartssuggestionMapper->getEntryById($this->getRequest()->getParam('id'));
                 $hoererchartsModel->setId(0);
-                $hoererchartsModel->setSetFree(0);
                 $hoererchartsMapper->save($hoererchartsModel);
                 $hoererchartssuggestionMapper->delete($this->getRequest()->getParam('id'));
 

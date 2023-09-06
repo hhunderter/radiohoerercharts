@@ -21,7 +21,7 @@ class HoererCharts extends \Ilch\Model
      *
      * @var bool
      */
-    protected $setfree = false;
+    protected $setfree = true;
 
     /**
      * The Interpret.
