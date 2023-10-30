@@ -38,7 +38,7 @@ $entries = $this->get('entries');
     <?php } ?>
 </h1>
 <div class="teams" id="hoerercharts-container">
-    <div class="col-lg-12" id="hoerercharts-form-container">
+    <div class="col-xl-12" id="hoerercharts-form-container">
     <?=$this->purify($hoererchartsMapper->getVoteText()) ?>
     <?=((!$this->getUser() && !$hoererchartsconfig['guestallow']) ? '' : $this->getTrans('votetextvote')) ?><br><br>
     <?php if ($voted) { ?>
@@ -60,11 +60,11 @@ $entries = $this->get('entries');
                 <col class="icon_width">
                 <?php } ?>
                 <?php if ($hoererchartsconfig['show_artwork']) { ?>
-                <col class="col-lg-1">
+                <col class="col-xl-1">
                 <?php } ?>
-                <col class="col-lg-4">
-                <col class="col-lg-4">
-                <col class="col-lg-2">
+                <col class="col-xl-4">
+                <col class="col-xl-4">
+                <col class="col-xl-2">
                 <?php if ($hoererchartsconfig['show_registered_by']) { ?>
                 <col class="icon_width">
                 <?php } ?>
@@ -132,10 +132,10 @@ $entries = $this->get('entries');
                 <colgroup>
                     <col class="icon_width">
                     <?php if ($hoererchartsconfig['show_artwork']) { ?>
-                    <col class="col-lg-1">
+                    <col class="col-xl-1">
                     <?php } ?>
-                    <col class="col-lg-6">
-                    <col class="col-lg-5">
+                    <col class="col-xl-6">
+                    <col class="col-xl-5">
                     <?php if ($hoererchartsconfig['show_registered_by']) { ?>
                     <col class="icon_width">
                     <?php } ?>
@@ -175,8 +175,8 @@ $entries = $this->get('entries');
                 </tbody>
             </table>
 
-            <div class="form-group">
-                <div class="col-lg-8">
+            <div class="row mb-3">
+                <div class="col-xl-8">
                     <?=$this->getSaveBar('addButton', 'HoererCharts') ?>
                 </div>
             </div>
