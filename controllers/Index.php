@@ -101,6 +101,8 @@ class Index extends \Ilch\Controller\Frontend
                     if ($validation->isValid() && $validation_indb->isValid()) {
                         $validation->getErrorBag()->addError('hoerercharts-d', 'Manipulation');
                     }
+
+                    $this->addMessage($validation->getErrorBag()->getErrorMessages(), 'danger', true);
                     $this->redirect()
                         ->withInput()
                         ->withErrors($validation->getErrorBag())

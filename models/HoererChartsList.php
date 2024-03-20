@@ -161,8 +161,8 @@ class HoererChartsList extends \Ilch\Model
         return array_merge(
             ($withId ? ['id' => $this->getId()] : []),
             [
-                'hid'       => $this->getHId(),
-                'list'     => $this->getList(),
+                'hid'   => $this->getHId(),
+                'list'  => $this->getList(),
             ]
         );
     }

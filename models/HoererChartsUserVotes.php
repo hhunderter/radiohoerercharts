@@ -186,10 +186,10 @@ class HoererChartsUserVotes extends \Ilch\Model
         return array_merge(
             ($withId ? ['id' => $this->getId()] : []),
             [
-                'user_id'       => $this->getUserId(),
-                'session_id'     => $this->getSessionId(),
+                'user_id'           => $this->getUserId(),
+                'session_id'        => $this->getSessionId(),
                 'last_activity'     => $this->getLastActivity(),
-                'ip_address'     => $this->getIp(),
+                'ip_address'        => $this->getIp(),
             ]
         );
     }

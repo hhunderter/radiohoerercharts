@@ -116,6 +116,7 @@ class HoererChartsUserVotes extends \Ilch\Mapper
                 ->values($fields)
                 ->execute();
         }
+
         return $result;
     }
 
@@ -257,7 +258,7 @@ class HoererChartsUserVotes extends \Ilch\Mapper
         if (!$voteId && $User_Id === 0) {
             $voteId = (int) $this->db()->select('id')
                 ->from($this->tablename)
-                ->Where(['ip_address' => $ip])
+                ->Where(['ip_address' => $ip, 'user_id' => 0])
                 ->execute()
                 ->fetchCell();
         }
@@ -319,6 +320,7 @@ class HoererChartsUserVotes extends \Ilch\Mapper
                 $entryModel->setUserId($User_Id);
             }
             $entryModel->setSessionId(session_id());
+            $entryModel->setIp($this->getIp());
             $this->save($entryModel);
             return $returnvalue;
         } else {
