@@ -45,16 +45,16 @@ $listentries = $this->get('listentries');
 ?>
 <h1><?=$this->getTrans('manage') ?></h1>
 
-<div class="form-group">
+<div class="row mb-3">
 <?php if (!$suggestion && !$list) { ?>
-    <div class="col-lg-6">
+    <div class="col-xl-6">
         <?=$this->getTrans('votedatetime') ?><?=$votedatetime ?> <a href="javascript:votedatetime()" title="<?=$this->getTrans('edit') ?>"><span class="fa-solid fa-pen-to-square text-success"></span></a>
     </div>
-    <div class="form-group">
-        <label for="filterlist" class="col-lg-2 control-label">
+    <div class="row mb-3">
+        <label for="filterlist" class="col-xl-2 col-form-label">
             <?=$this->getTrans('filter') ?>:
         </label>
-        <div class="col-lg-4">
+        <div class="col-xl-4">
             <select class="chosen-select form-control" id="filterlist" name="filterlist" data-placeholder="<?=$this->getTrans('selectactive_list') ?>">
                     <option value=""<?=(!$filterlist) ? ' selected' : '' ?>></option>
                     <option value="1"<?=($filterlist == 1) ? ' selected' : '' ?>><?=$this->getTrans('list') ?> 1</option>
@@ -63,7 +63,7 @@ $listentries = $this->get('listentries');
         </div>
     </div>
 <?php } elseif (!$list) { ?>
-    <div class="col-lg-6">
+    <div class="col-xl-6">
         <div class="flipswitch">
                 <input type="radio" class="flipswitch-input" id="allowsuggestion-on" name="allowsuggestion" value="1" <?=($allowsuggestion) ? 'checked="checked"' : '' ?> />
                 <label for="allowsuggestion-on" class="flipswitch-label flipswitch-label-on"><?=$this->getTrans('on') ?></label>
@@ -74,12 +74,12 @@ $listentries = $this->get('listentries');
     </div>
     <div id="console-event"></div>
 <?php } else { ?>
-<div class="col-lg-6">
-    <div class="form-group">
-        <label for="activelist" class="col-lg-2 control-label">
+<div class="col-xl-6">
+    <div class="row mb-3">
+        <label for="activelist" class="col-xl-2 col-form-label">
     <?=$this->getTrans('active_list') ?>
         </label>
-        <div class="col-lg-4">
+        <div class="col-xl-4">
             <select class="chosen-select form-control" id="activelist" name="activelist" data-placeholder="<?=$this->getTrans('selectactive_list') ?>">
                     <option value="1"<?=($activelist == 1) ? ' selected' : '' ?>><?=$this->getTrans('list') ?> 1</option>
                     <option value="2"<?=($activelist == 2) ? ' selected' : '' ?>><?=$this->getTrans('list') ?> 2</option>
@@ -89,39 +89,39 @@ $listentries = $this->get('listentries');
 </div>
 <?php } ?>
 </div>
-<div class="form-group">
+<div class="row mb-3">
     <ul class="nav nav-tabs">
-        <li class="<?=(!$suggestion && !$list ? 'active' : '') ?>">
-            <a href="<?=$this->getUrl(['action' => 'index']) ?>"><?=$this->getTrans('index') ?></a>
+        <li class="nav-item <?=(!$suggestion && !$list ? 'active' : '') ?>">
+            <a class="nav-link" href="<?=$this->getUrl(['action' => 'index']) ?>"><?=$this->getTrans('index') ?></a>
         </li>
-        <li class="<?=($list ? 'active' : '') ?>">
-            <a href="<?=$this->getUrl(['action' => 'index', 'list' => $activelist]) ?>"><?=$this->getTrans('list') ?></a>
+        <li class="nav-item <?=($list ? 'active' : '') ?>">
+            <a class="nav-link" href="<?=$this->getUrl(['action' => 'index', 'list' => $activelist]) ?>"><?=$this->getTrans('list') ?></a>
         </li>
-        <li class="<?=($suggestion ? 'active' : '') ?>">
-            <a href="<?=$this->getUrl(['action' => 'index', 'suggestion' => 'true']) ?>"><?=$this->getTrans('suggestion') ?> <span class="badge"><?=$badgeSuggestion ?></span></a>
+        <li class="nav-item <?=($suggestion ? 'active' : '') ?>">
+            <a class="nav-link" href="<?=$this->getUrl(['action' => 'index', 'suggestion' => 'true']) ?>"><?=$this->getTrans('suggestion') ?> <span class="badge rounded-pill bg-secondary"><?=$badgeSuggestion ?></span></a>
         </li>
     </ul>
 </div>
 <?php if ($list) { ?>
-<div class="form-group">
+<div class="row mb-3">
     <ul class="nav nav-tabs">
-        <li class="<?=($list == 1 ? 'active' : '') ?>">
-            <a href="<?=$this->getUrl(['action' => 'index', 'list' => '1']) ?>"><?=$this->getTrans('list') ?> 1</a>
+        <li class="nav-item <?=($list == 1 ? 'active' : '') ?>">
+            <a class="nav-link" href="<?=$this->getUrl(['action' => 'index', 'list' => '1']) ?>"><?=$this->getTrans('list') ?> 1</a>
         </li>
-        <li class="<?=($list == 2 ? 'active' : '') ?>">
-            <a href="<?=$this->getUrl(['action' => 'index', 'list' => '2']) ?>"><?=$this->getTrans('list') ?> 2</a>
+        <li class="nav-item <?=($list == 2 ? 'active' : '') ?>">
+            <a class="nav-link" href="<?=$this->getUrl(['action' => 'index', 'list' => '2']) ?>"><?=$this->getTrans('list') ?> 2</a>
         </li>
     </ul>
 </div>
 <?php } ?>
-<form class="form-horizontal" method="POST" id="groupForm" action="<?=$this->getUrl(array_merge(['action' => $this->getRequest()->getActionName()], ($list ? ['list' => $list] : []), ($suggestion ? ['suggestion' => 'true'] : []))) ?>">
+<form  method="POST" id="groupForm" action="<?=$this->getUrl(array_merge(['action' => $this->getRequest()->getActionName()], ($list ? ['list' => $list] : []), ($suggestion ? ['suggestion' => 'true'] : []))) ?>">
     <?=$this->getTokenField() ?>
     <br />
 <?php if ($list) { ?>
-    <div class="form-group">
+    <div class="row mb-3">
         <table class="table table-borderless">
-            <colgroup><col class="col-lg-6">
-                <col class="col-lg-6">
+            <colgroup><col class="col-xl-6">
+                <col class="col-xl-6">
                 <col>
             </colgroup>
             <thead>
