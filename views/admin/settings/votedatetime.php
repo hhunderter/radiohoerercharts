@@ -5,11 +5,11 @@
 $start_datetime = $this->escape($this->originalInput('start_datetime', $this->get('start_datetime')));
 $end_datetime = $this->escape($this->originalInput('end_datetime', $this->get('end_datetime')));
 ?>
-<link href="<?=$this->getStaticUrl('js/datetimepicker/css/bootstrap-datetimepicker.min.css') ?>" rel="stylesheet">
+<link href="<?=$this->getStaticUrl('js/tempus-dominus/dist/css/tempus-dominus.min.css') ?>" rel="stylesheet">
 <form method="POST" action="">
     <?=$this->getTokenField() ?>
     <h1><?=$this->getTrans('start_datetime') ?></h1>
-    <div class="row mb-3 <?=$this->validation()->hasError('start_datetime') ? 'has-error' : '' ?>">
+    <div class="row mb-3<?=$this->validation()->hasError('start_datetime') ? ' has-error' : '' ?>">
         <label for="start_datetime" class="col-xl-2 col-form-label">
             <?=$this->getTrans('start_datetimeText') ?>:
         </label>
@@ -26,7 +26,7 @@ $end_datetime = $this->escape($this->originalInput('end_datetime', $this->get('e
     </div>
 
     <h1><?=$this->getTrans('end_datetime') ?></h1>
-    <div class="row mb-3 <?=$this->validation()->hasError('end_datetime') ? 'has-error' : '' ?>">
+    <div class="row mb-3<?=$this->validation()->hasError('end_datetime') ? ' has-error' : '' ?>">
         <label for="end_datetime" class="col-xl-2 col-form-label">
             <?=$this->getTrans('end_datetimeText') ?>:
         </label>
@@ -44,37 +44,58 @@ $end_datetime = $this->escape($this->originalInput('end_datetime', $this->get('e
 
     <?=$this->getSaveBar('edit') ?>
 </form>
-<script src="<?=$this->getStaticUrl('js/datetimepicker/js/bootstrap-datetimepicker.min.js') ?>" charset="UTF-8"></script>
-<?php if (substr($this->getTranslator()->getLocale(), 0, 2) != 'en') : ?>
-    <script src="<?=$this->getStaticUrl('js/datetimepicker/js/locales/bootstrap-datetimepicker.' . substr($this->getTranslator()->getLocale(), 0, 2) . '.js') ?>" charset="UTF-8"></script>
+<script src="<?=$this->getStaticUrl('js/popper/dist/umd/popper.min.js') ?>" charset="UTF-8"></script>
+<script src="<?=$this->getStaticUrl('js/tempus-dominus/dist/js/tempus-dominus.min.js') ?>" charset="UTF-8"></script>
+<?php if (strncmp($this->getTranslator()->getLocale(), 'en', 2) !== 0) : ?>
+    <script src="<?=$this->getStaticUrl('js/tempus-dominus/dist/locales/' . substr($this->getTranslator()->getLocale(), 0, 2) . '.js') ?>" charset="UTF-8"></script>
 <?php endif; ?>
 <script>
 $(document).ready(function() {
-    $('.form_datetime_1').datetimepicker({
-        <?=($end_datetime ? 'endDate: "' . $end_datetime . '",' : '') ?>
-        format: "dd.mm.yyyy hh:ii",
-        autoclose: true,
-        language: '<?=substr($this->getTranslator()->getLocale(), 0, 2) ?>',
-        todayBtn: true,
-        todayHighlight: true
-    }).on('changeDate', function(ev){
-        let mewDate = new Date(ev.date.valueOf());
-        $('.form_datetime_2').datetimepicker('setStartDate', mewDate)
-            .datetimepicker('update');
-    });
-    $('.form_datetime_2').datetimepicker({
-        <?=($start_datetime ? 'startDate: "' . $start_datetime . '",' : '') ?>
-        useCurrent: false, //Important! See issue #1075
-        format: "dd.mm.yyyy hh:ii",
-        autoclose: true,
-        language: '<?=substr($this->getTranslator()->getLocale(), 0, 2) ?>',
-        todayBtn: true,
-        todayHighlight: true
-    }).on('changeDate', function(ev){
-        let mewDate = new Date(ev.date.valueOf());
-        $('.form_datetime_1').datetimepicker('setEndDate', mewDate)
-            .datetimepicker('update');
+    const start = new tempusDominus.TempusDominus(document.getElementById('start_datetime'), {
+        display: {
+            calendarWeeks: true,
+            buttons: {
+                today: true
+            }
+        },
+        localization: {
+            locale: "<?=substr($this->getTranslator()->getLocale(), 0, 2) ?>",
+            startOfTheWeek: 1,
+            format: "dd.MM.yyyy HH:mm",
+        }
     });
 
+    const end = new tempusDominus.TempusDominus(document.getElementById('end_datetime'), {
+        restrictions: {
+          minDate: new Date()
+        },
+        display: {
+            calendarWeeks: true,
+            buttons: {
+                today: true
+            }
+        },
+        localization: {
+            locale: "<?=substr($this->getTranslator()->getLocale(), 0, 2) ?>",
+            startOfTheWeek: 1,
+            format: "dd.MM.yyyy HH:mm",
+        }
+    });
+
+    start.subscribe('change.td', (e) => {
+        end.updateOptions({
+            restrictions: {
+                minDate: e.date,
+            },
+        });
+    });
+
+    end.subscribe('change.td', (e) => {
+        start.updateOptions({
+            restrictions: {
+                maxDate: e.date,
+            },
+        });
+    });
 });
 </script>

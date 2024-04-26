@@ -5,11 +5,11 @@
 <h1><?=$this->getTrans('menuSettings') ?></h1>
 <div class="row mb-3">
     <ul class="nav nav-tabs">
-        <li class="nav-item <?=(!$this->get('settings_language') ? 'active' : '') ?>">
-            <a class="nav-link" href="<?=$this->getUrl(['action' => 'index']) ?>"><?=$this->getTrans('index') ?></a>
+        <li class="nav-item">
+            <a class="nav-link <?=(!$this->get('settings_language') ? 'active' : '') ?>" href="<?=$this->getUrl(['action' => 'index']) ?>"><?=$this->getTrans('index') ?></a>
         </li>
-        <li class="nav-item <?=($this->get('settings_language') ? 'active' : '') ?>">
-            <a class="nav-link" href="<?=$this->getUrl(['action' => 'index', 'settings_language' => 'true']) ?>"><?=$this->getTrans('language') ?></a>
+        <li class="nav-item">
+            <a class="nav-link <?=($this->get('settings_language') ? 'active' : '') ?>" href="<?=$this->getUrl(['action' => 'index', 'settings_language' => 'true']) ?>"><?=$this->getTrans('language') ?></a>
         </li>
     </ul>
 </div>
@@ -17,7 +17,7 @@
     <?=$this->getTokenField() ?>
     <?php if (!$this->get('settings_language')) { ?>
     <h1><?=$this->getTrans('Program_Name') ?></h1>
-    <div class="row mb-3 <?=$this->validation()->hasError('Program_Name') ? 'has-error' : '' ?>">
+    <div class="row mb-3<?=$this->validation()->hasError('Program_Name') ? ' has-error' : '' ?>">
         <label for="Program_Name" class="col-xl-2 col-form-label">
             <?=$this->getTrans('Program_NameText') ?>:
         </label>
@@ -32,7 +32,7 @@
         </div>
     </div>
     <h1><?=$this->getTrans('Allsecvote') ?></h1>
-    <div class="row mb-3 <?=$this->validation()->hasError('allsecvote') ? 'has-error' : '' ?>">
+    <div class="row mb-3<?=$this->validation()->hasError('allsecvote') ? ' has-error' : '' ?>">
         <label for="allsecvote" class="col-xl-2 col-form-label">
             <?=$this->getTrans('AllsecvoteText') ?>:
         </label>
@@ -47,7 +47,7 @@
         </div>
     </div>
     <h1><?=$this->getTrans('Program_secduration') ?></h1>
-    <div class="row mb-3 <?=$this->validation()->hasError('program_secduration') ? 'has-error' : '' ?>">
+    <div class="row mb-3<?=$this->validation()->hasError('program_secduration') ? ' has-error' : '' ?>">
         <label for="program_secduration" class="col-xl-2 col-form-label">
             <?=$this->getTrans('Program_secdurationText') ?>:
         </label>
@@ -62,7 +62,7 @@
         </div>
     </div>
     <h1><?=$this->getTrans('guestallow') ?></h1>
-    <div class="row mb-3 <?=$this->validation()->hasError('guestallow') ? 'has-error' : '' ?>">
+    <div class="row mb-3<?=$this->validation()->hasError('guestallow') ? ' has-error' : '' ?>">
         <label for="guestallow" class="col-xl-2 col-form-label">
             <?=$this->getTrans('guestallowText') ?>:
         </label>
@@ -78,7 +78,7 @@
     </div>
 
     <h1><?=$this->getTrans('show_artwork') ?></h1>
-    <div class="row mb-3 <?=$this->validation()->hasError('show_artwork') ? 'has-error' : '' ?>">
+    <div class="row mb-3<?=$this->validation()->hasError('show_artwork') ? ' has-error' : '' ?>">
         <label for="show_artwork" class="col-xl-2 col-form-label">
             <?=$this->getTrans('show_artworkText') ?>:
         </label>
@@ -94,9 +94,9 @@
     </div>
 
     <h1><?=$this->getTrans('show_registered_by') ?></h1>
-    <div class="row mb-3 <?=$this->validation()->hasError('show_registered_by') ? 'has-error' : '' ?>">
+    <div class="row mb-3<?=$this->validation()->hasError('show_registered_by') ? ' has-error' : '' ?>">
         <label for="show_registered_by" class="col-xl-2 col-form-label">
-            <?=$this->getTrans('show_artworkText') ?>:
+            <?=$this->getTrans('show_registered_byText') ?>:
         </label>
         <div class="col-xl-4">
             <div class="flipswitch">
@@ -110,7 +110,7 @@
     </div>
 
     <h1><?=$this->getTrans('showstars') ?></h1>
-    <div class="row mb-3 <?=$this->validation()->hasError('showstars') ? 'has-error' : '' ?>">
+    <div class="row mb-3<?=$this->validation()->hasError('showstars') ? ' has-error' : '' ?>">
         <label for="showstars" class="col-xl-2 col-form-label">
             <?=$this->getTrans('showstarsText') ?>:
         </label>
@@ -125,7 +125,7 @@
         </div>
     </div>
     <h1><?=$this->getTrans('Star1') ?></h1>
-    <div class="row mb-3 <?=$this->validation()->hasError('Star1') ? 'has-error' : '' ?>">
+    <div class="row mb-3<?=$this->validation()->hasError('Star1') ? ' has-error' : '' ?>">
         <label for="Star1" class="col-xl-2 col-form-label">
             <?=$this->getTrans('Star1Text') ?>:
         </label>
@@ -140,7 +140,7 @@
         </div>
     </div>
     <h1><?=$this->getTrans('Star2') ?></h1>
-    <div class="row mb-3 <?=$this->validation()->hasError('Star2') ? 'has-error' : '' ?>">
+    <div class="row mb-3<?=$this->validation()->hasError('Star2') ? ' has-error' : '' ?>">
         <label for="Star2" class="col-xl-2 col-form-label">
             <?=$this->getTrans('Star2Text') ?>:
         </label>
@@ -155,7 +155,7 @@
         </div>
     </div>
     <h1><?=$this->getTrans('Star3') ?></h1>
-    <div class="row mb-3 <?=$this->validation()->hasError('Star3') ? 'has-error' : '' ?>">
+    <div class="row mb-3<?=$this->validation()->hasError('Star3') ? ' has-error' : '' ?>">
         <label for="Star3" class="col-xl-2 col-form-label">
             <?=$this->getTrans('Star3Text') ?>:
         </label>
@@ -170,7 +170,7 @@
         </div>
     </div>
     <h1><?=$this->getTrans('Star4') ?></h1>
-    <div class="row mb-3 <?=$this->validation()->hasError('Star4') ? 'has-error' : '' ?>">
+    <div class="row mb-3<?=$this->validation()->hasError('Star4') ? ' has-error' : '' ?>">
         <label for="Star4" class="col-xl-2 col-form-label">
             <?=$this->getTrans('Star4Text') ?>:
         </label>
@@ -185,7 +185,7 @@
         </div>
     </div>
     <h1><?=$this->getTrans('Star5') ?></h1>
-    <div class="row mb-3 <?=$this->validation()->hasError('Star5') ? 'has-error' : '' ?>">
+    <div class="row mb-3<?=$this->validation()->hasError('Star5') ? ' has-error' : '' ?>">
         <label for="Star5" class="col-xl-2 col-form-label">
             <?=$this->getTrans('Star5Text') ?>:
         </label>
@@ -200,25 +200,24 @@
         </div>
     </div>
     <?php } else { ?>
-    <div class="form-row">
-        <div class="row mb-3 col-xl-6 <?=($this->validation()->hasError('votetext_de') || $this->validation()->hasError('votetext_en')) ? 'has-error' : '' ?>">
-            <label for="votetext_de"><?=$this->getTrans('german') ?></label>
-            <textarea class="form-control ckeditor"
-                      id="votetext_de"
-                      name="votetext_de"
-                      toolbar="ilch_html"
-                      required><?=$this->escape($this->originalInput('votetext_de', $this->get('votetext_de'))) ?></textarea>
-        </div>
-        <div class="row mb-3 col-xl-6">
-            <label for="votetext_en"><?=$this->getTrans('english') ?></label>
-            <textarea class="form-control ckeditor"
-                      id="votetext_en"
-                      name="votetext_en"
-                      toolbar="ilch_html"
-                      required><?=$this->escape($this->originalInput('votetext_en', $this->get('votetext_en'))) ?></textarea>
-        </div>
+    <div class="row mb-3 col-xl-6<?=($this->validation()->hasError('votetext_de') || $this->validation()->hasError('votetext_en')) ? ' has-error' : '' ?>">
+        <label for="votetext_de"><?=$this->getTrans('german') ?></label>
+        <textarea class="form-control ckeditor"
+                  id="votetext_de"
+                  name="votetext_de"
+                  toolbar="ilch_html"
+                  required><?=$this->escape($this->originalInput('votetext_de', $this->get('votetext_de'))) ?></textarea>
+    </div>
+    <div class="row mb-3 col-xl-6">
+        <label for="votetext_en"><?=$this->getTrans('english') ?></label>
+        <textarea class="form-control ckeditor"
+                  id="votetext_en"
+                  name="votetext_en"
+                  toolbar="ilch_html"
+                  required><?=$this->escape($this->originalInput('votetext_en', $this->get('votetext_en'))) ?></textarea>
     </div>
     <h1><?=$this->getTrans('language_footer', $this->getTrans('votetextguest'), $this->getTrans('votetextuser'), $this->get('Program_Name')) ?></h1>
     <?php } ?>
     <?=$this->getSaveBar() ?>
 </form>
+<?=$this->getDialog('mediaModal', $this->getTrans('media'), '<iframe frameborder="0"></iframe>'); ?>

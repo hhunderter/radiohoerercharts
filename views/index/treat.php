@@ -14,7 +14,7 @@ $googlecaptcha = $this->get('googlecaptcha');
 <h1><?=$this->getTrans('add') ?></h1>
 <form id="rhcForm" name="rhcForm" method="POST">
     <?=$this->getTokenField() ?>
-    <div class="row mb-3 <?=$this->validation()->hasError('interpret') ? 'has-error' : '' ?>">
+    <div class="row mb-3<?=$this->validation()->hasError('interpret') ? ' has-error' : '' ?>">
         <label for="interpret" class="col-xl-2 col-form-label">
             <?=$this->getTrans('interpret') ?>
         </label>
@@ -26,7 +26,7 @@ $googlecaptcha = $this->get('googlecaptcha');
                    value="<?=$this->escape($this->originalInput('interpret')) ?>" />
         </div>
     </div>
-    <div class="row mb-3 <?=$this->validation()->hasError('songtitel') ? 'has-error' : '' ?>">
+    <div class="row mb-3<?=$this->validation()->hasError('songtitel') ? ' has-error' : '' ?>">
         <label for="songtitel" class="col-xl-2 col-form-label">
             <?=$this->getTrans('songtitel') ?>
         </label>

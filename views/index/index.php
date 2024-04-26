@@ -32,7 +32,7 @@ $entries = $this->get('entries');
 <h1>
     <?=$hoererchartsconfig['Program_Name'] . $this->get('gettext') ?>
     <?php if ($hoererchartsconfig['allowsuggestion'] && ((!$this->getUser() && $hoererchartsconfig['guestallow']) || $this->getUser())) { ?>
-    <div class="pull-right">
+    <div class="float-end">
         <a href="<?=$this->getUrl(['action' => 'treat']); ?>"><?=$this->getTrans('suggestionnew') ?></a>
     </div>
     <?php } ?>

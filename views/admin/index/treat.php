@@ -27,7 +27,7 @@ $entry = $this->get('entry');
         </div>
     </div>
     <?php if (!$this->getRequest()->getParam('suggestion')) { ?>
-    <div class="row mb-3 <?=$this->validation()->hasError('setfree') ? 'has-error' : '' ?>">
+    <div class="row mb-3<?=$this->validation()->hasError('setfree') ? ' has-error' : '' ?>">
         <div class="col-xl-2 col-form-label">
             <?=$this->getTrans('setfree') ?>
         </div>
@@ -42,7 +42,7 @@ $entry = $this->get('entry');
         </div>
     </div>
     <?php } ?>
-    <div class="row mb-3 <?=$this->validation()->hasError('interpret') ? 'has-error' : '' ?>">
+    <div class="row mb-3<?=$this->validation()->hasError('interpret') ? ' has-error' : '' ?>">
         <label for="interpret" class="col-xl-2 col-form-label">
             <?=$this->getTrans('interpret') ?>
         </label>
@@ -54,7 +54,7 @@ $entry = $this->get('entry');
                    value="<?=$this->escape($this->originalInput('interpret', ($entry->getInterpret()))) ?>" />
         </div>
     </div>
-    <div class="row mb-3 <?=$this->validation()->hasError('songtitel') ? 'has-error' : '' ?>">
+    <div class="row mb-3<?=$this->validation()->hasError('songtitel') ? ' has-error' : '' ?>">
         <label for="songtitel" class="col-xl-2 col-form-label">
             <?=$this->getTrans('songtitel') ?>
         </label>
@@ -67,7 +67,7 @@ $entry = $this->get('entry');
         </div>
     </div>
     <?php if (!$this->getRequest()->getParam('suggestion') && $show_artwork) { ?>
-    <div class="row mb-3 <?=$this->validation()->hasError('artworkUrl') ? 'has-error' : '' ?>">
+    <div class="row mb-3<?=$this->validation()->hasError('artworkUrl') ? ' has-error' : '' ?>">
         <label for="artworkUrl" class="col-xl-2 col-form-label">
             <?=$this->getTrans('artworkUrl') ?>
         </label>
@@ -79,11 +79,13 @@ $entry = $this->get('entry');
                    value="<?=$this->escape($this->originalInput('artworkUrl', ($entry->getArtworkUrl()))) ?>" />
         </div>
     </div>
-    <div class="row mb-3 <?=$this->validation()->hasError('artworkUrl') ? 'has-error' : '' ?>">
+    <div class="row mb-3<?=$this->validation()->hasError('artworkUrl') ? ' has-error' : '' ?>">
         <label for="artworkUrl" class="col-xl-2 col-form-labelcol-form-label">
             <a class="btn btn-success" id="searchiTunes"><?=$this->getTrans('artworkUrlget') ?> (iTunes)</a>
         </label>
-        <img src="<?=$this->escape($this->originalInput('artworkUrl', ($entry->getArtworkUrl()))) ?>" name="artworkUrlimg" id="artworkUrlimg" class="img-thumbnail" alt="iTunes">
+        <div class="col-xl-4">
+            <img src="<?=$this->escape($this->originalInput('artworkUrl', ($entry->getArtworkUrl()))) ?>" name="artworkUrlimg" id="artworkUrlimg" class="img-thumbnail" alt="iTunes">
+        </div>
     </div>
     <?php } ?>
     <?=($entry->getId()) ? $this->getSaveBar('updateButton') : $this->getSaveBar('addButton') ?>

@@ -50,16 +50,18 @@ $listentries = $this->get('listentries');
     <div class="col-xl-6">
         <?=$this->getTrans('votedatetime') ?><?=$votedatetime ?> <a href="javascript:votedatetime()" title="<?=$this->getTrans('edit') ?>"><span class="fa-solid fa-pen-to-square text-success"></span></a>
     </div>
-    <div class="row mb-3">
-        <label for="filterlist" class="col-xl-2 col-form-label">
-            <?=$this->getTrans('filter') ?>:
-        </label>
-        <div class="col-xl-4">
-            <select class="chosen-select form-control" id="filterlist" name="filterlist" data-placeholder="<?=$this->getTrans('selectactive_list') ?>">
-                    <option value=""<?=(!$filterlist) ? ' selected' : '' ?>></option>
-                    <option value="1"<?=($filterlist == 1) ? ' selected' : '' ?>><?=$this->getTrans('list') ?> 1</option>
-                    <option value="2"<?=($filterlist == 2) ? ' selected' : '' ?>><?=$this->getTrans('list') ?> 2</option>
-           </select>
+    <div class="col-xl-6">
+        <div class="row mb-3">
+            <label for="filterlist" class="col-xl-2 col-form-label">
+                <?=$this->getTrans('filter') ?>:
+            </label>
+            <div class="col-xl-4">
+                <select class="chosen-select form-control" id="filterlist" name="filterlist" data-placeholder="<?=$this->getTrans('selectactive_list') ?>">
+                        <option value=""<?=(!$filterlist) ? ' selected' : '' ?>></option>
+                        <option value="1"<?=($filterlist == 1) ? ' selected' : '' ?>><?=$this->getTrans('list') ?> 1</option>
+                        <option value="2"<?=($filterlist == 2) ? ' selected' : '' ?>><?=$this->getTrans('list') ?> 2</option>
+               </select>
+            </div>
         </div>
     </div>
 <?php } elseif (!$list) { ?>
@@ -91,25 +93,25 @@ $listentries = $this->get('listentries');
 </div>
 <div class="row mb-3">
     <ul class="nav nav-tabs">
-        <li class="nav-item <?=(!$suggestion && !$list ? 'active' : '') ?>">
-            <a class="nav-link" href="<?=$this->getUrl(['action' => 'index']) ?>"><?=$this->getTrans('index') ?></a>
+        <li class="nav-item">
+            <a class="nav-link <?=(!$suggestion && !$list ? 'active' : '') ?>" href="<?=$this->getUrl(['action' => 'index']) ?>"><?=$this->getTrans('index') ?></a>
         </li>
-        <li class="nav-item <?=($list ? 'active' : '') ?>">
-            <a class="nav-link" href="<?=$this->getUrl(['action' => 'index', 'list' => $activelist]) ?>"><?=$this->getTrans('list') ?></a>
+        <li class="nav-item">
+            <a class="nav-link <?=($list ? 'active' : '') ?>" href="<?=$this->getUrl(['action' => 'index', 'list' => $activelist]) ?>"><?=$this->getTrans('list') ?></a>
         </li>
-        <li class="nav-item <?=($suggestion ? 'active' : '') ?>">
-            <a class="nav-link" href="<?=$this->getUrl(['action' => 'index', 'suggestion' => 'true']) ?>"><?=$this->getTrans('suggestion') ?> <span class="badge rounded-pill bg-secondary"><?=$badgeSuggestion ?></span></a>
+        <li class="nav-item">
+            <a class="nav-link <?=($suggestion ? 'active' : '') ?>" href="<?=$this->getUrl(['action' => 'index', 'suggestion' => 'true']) ?>"><?=$this->getTrans('suggestion') ?> <span class="badge rounded-pill bg-secondary"><?=$badgeSuggestion ?></span></a>
         </li>
     </ul>
 </div>
 <?php if ($list) { ?>
 <div class="row mb-3">
     <ul class="nav nav-tabs">
-        <li class="nav-item <?=($list == 1 ? 'active' : '') ?>">
-            <a class="nav-link" href="<?=$this->getUrl(['action' => 'index', 'list' => '1']) ?>"><?=$this->getTrans('list') ?> 1</a>
+        <li class="nav-item">
+            <a class="nav-link <?=($list == 1 ? 'active' : '') ?>" href="<?=$this->getUrl(['action' => 'index', 'list' => '1']) ?>"><?=$this->getTrans('list') ?> 1</a>
         </li>
-        <li class="nav-item <?=($list == 2 ? 'active' : '') ?>">
-            <a class="nav-link" href="<?=$this->getUrl(['action' => 'index', 'list' => '2']) ?>"><?=$this->getTrans('list') ?> 2</a>
+        <li class="nav-item">
+            <a class="nav-link <?=($list == 2 ? 'active' : '') ?>" href="<?=$this->getUrl(['action' => 'index', 'list' => '2']) ?>"><?=$this->getTrans('list') ?> 2</a>
         </li>
     </ul>
 </div>
