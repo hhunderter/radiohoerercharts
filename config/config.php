@@ -14,7 +14,7 @@ class Config extends \Ilch\Config\Install
 {
     public $config = [
         'key' => 'radiohoerercharts',
-        'version' => '1.8.3',
+        'version' => '1.9.0',
         'icon_small' => 'fa-solid fa-list-ol',
         'author' => 'Reilard, Dennis alias hhunderter',
         'link' => 'https://github.com/hhunderter/radiohoerercharts',
@@ -29,7 +29,7 @@ class Config extends \Ilch\Config\Install
                 'description' => 'Here you can manage your Listener Charts.',
             ],
         ],
-        'ilchCore' => '2.1.52',
+        'ilchCore' => '2.2.0',
         'phpVersion' => '7.3',
     ];
 
@@ -364,8 +364,9 @@ class Config extends \Ilch\Config\Install
                 */
                 // no break
             case "1.8.3":
-                // update zu 1.?.?
+                // update zu 1.9.0
                 /*
+                 * Anpassungen für Bootstrap 5
                 */
                 // no break
         }
