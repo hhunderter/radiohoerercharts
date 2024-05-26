@@ -12,13 +12,13 @@ $defaultcaptcha = $this->get('defaultcaptcha');
 $googlecaptcha = $this->get('googlecaptcha');
 ?>
 <h1><?=$this->getTrans('add') ?></h1>
-<form id="rhcForm" name="rhcForm" class="form-horizontal" method="POST">
+<form id="rhcForm" name="rhcForm" method="POST">
     <?=$this->getTokenField() ?>
-    <div class="form-group <?=$this->validation()->hasError('interpret') ? 'has-error' : '' ?>">
-        <label for="interpret" class="col-lg-2 control-label">
+    <div class="row mb-3<?=$this->validation()->hasError('interpret') ? ' has-error' : '' ?>">
+        <label for="interpret" class="col-xl-2 col-form-label">
             <?=$this->getTrans('interpret') ?>
         </label>
-        <div class="col-lg-4">
+        <div class="col-xl-4">
             <input class="form-control"
                    type="text"
                    id="interpret"
@@ -26,11 +26,11 @@ $googlecaptcha = $this->get('googlecaptcha');
                    value="<?=$this->escape($this->originalInput('interpret')) ?>" />
         </div>
     </div>
-    <div class="form-group <?=$this->validation()->hasError('songtitel') ? 'has-error' : '' ?>">
-        <label for="songtitel" class="col-lg-2 control-label">
+    <div class="row mb-3<?=$this->validation()->hasError('songtitel') ? ' has-error' : '' ?>">
+        <label for="songtitel" class="col-xl-2 col-form-label">
             <?=$this->getTrans('songtitel') ?>
         </label>
-        <div class="col-lg-4">
+        <div class="col-xl-4">
             <input class="form-control"
                    type="text"
                    id="songtitel"
@@ -42,8 +42,8 @@ $googlecaptcha = $this->get('googlecaptcha');
     <?php if ($captchaNeeded && $this->get('defaultcaptcha')) : ?>
         <?=$defaultcaptcha->getCaptcha($this) ?>
     <?php endif; ?>
-    <div class="form-group">
-        <div class="col-lg-offset-2 col-lg-8">
+    <div class="row mb-3">
+        <div class="offset-xl-2 col-xl-8">
             <?php
             if ($captchaNeeded) {
                 if ($googlecaptcha) {

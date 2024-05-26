@@ -9,13 +9,13 @@ $show_artwork = $this->get('show_artwork');
 $entry = $this->get('entry');
 ?>
 <h1><?=($entry != '') ? $this->getTrans('edit') : $this->getTrans('add') ?></h1>
-<form role="form" class="form-horizontal" method="POST">
+<form role="form" method="POST">
     <?=$this->getTokenField() ?>
-    <div class="form-group">
-        <div class="col-lg-2 control-label">
+    <div class="row mb-3">
+        <div class="col-xl-2 col-form-label">
             <?=$this->getTrans('datecreate') ?>
         </div>
-        <div class="col-lg-4">
+        <div class="col-xl-4">
             <?php
             if ($entry != '') {
                 $datenow = new \Ilch\Date($entry->getDateCreate());
@@ -27,11 +27,11 @@ $entry = $this->get('entry');
         </div>
     </div>
     <?php if (!$this->getRequest()->getParam('suggestion')) { ?>
-    <div class="form-group <?=$this->validation()->hasError('setfree') ? 'has-error' : '' ?>">
-        <div class="col-lg-2 control-label">
+    <div class="row mb-3<?=$this->validation()->hasError('setfree') ? ' has-error' : '' ?>">
+        <div class="col-xl-2 col-form-label">
             <?=$this->getTrans('setfree') ?>
         </div>
-        <div class="col-lg-4">
+        <div class="col-xl-4">
             <div class="flipswitch">
                 <input type="radio" class="flipswitch-input" id="setfree-yes" name="setfree" value="1" <?=($this->originalInput('setfree', ($entry->getSetFree()))) ? 'checked="checked"' : '' ?> />
                 <label for="setfree-yes" class="flipswitch-label flipswitch-label-on"><?=$this->getTrans('on') ?></label>
@@ -42,11 +42,11 @@ $entry = $this->get('entry');
         </div>
     </div>
     <?php } ?>
-    <div class="form-group <?=$this->validation()->hasError('interpret') ? 'has-error' : '' ?>">
-        <label for="interpret" class="col-lg-2 control-label">
+    <div class="row mb-3<?=$this->validation()->hasError('interpret') ? ' has-error' : '' ?>">
+        <label for="interpret" class="col-xl-2 col-form-label">
             <?=$this->getTrans('interpret') ?>
         </label>
-        <div class="col-lg-4">
+        <div class="col-xl-4">
             <input class="form-control"
                    type="text"
                    id="interpret"
@@ -54,11 +54,11 @@ $entry = $this->get('entry');
                    value="<?=$this->escape($this->originalInput('interpret', ($entry->getInterpret()))) ?>" />
         </div>
     </div>
-    <div class="form-group <?=$this->validation()->hasError('songtitel') ? 'has-error' : '' ?>">
-        <label for="songtitel" class="col-lg-2 control-label">
+    <div class="row mb-3<?=$this->validation()->hasError('songtitel') ? ' has-error' : '' ?>">
+        <label for="songtitel" class="col-xl-2 col-form-label">
             <?=$this->getTrans('songtitel') ?>
         </label>
-        <div class="col-lg-4">
+        <div class="col-xl-4">
             <input class="form-control"
                    type="text"
                    id="songtitel"
@@ -67,11 +67,11 @@ $entry = $this->get('entry');
         </div>
     </div>
     <?php if (!$this->getRequest()->getParam('suggestion') && $show_artwork) { ?>
-    <div class="form-group <?=$this->validation()->hasError('artworkUrl') ? 'has-error' : '' ?>">
-        <label for="artworkUrl" class="col-lg-2 control-label">
+    <div class="row mb-3<?=$this->validation()->hasError('artworkUrl') ? ' has-error' : '' ?>">
+        <label for="artworkUrl" class="col-xl-2 col-form-label">
             <?=$this->getTrans('artworkUrl') ?>
         </label>
-        <div class="col-lg-4">
+        <div class="col-xl-4">
             <input class="form-control"
                    type="text"
                    id="artworkUrl"
@@ -79,11 +79,13 @@ $entry = $this->get('entry');
                    value="<?=$this->escape($this->originalInput('artworkUrl', ($entry->getArtworkUrl()))) ?>" />
         </div>
     </div>
-    <div class="form-group <?=$this->validation()->hasError('artworkUrl') ? 'has-error' : '' ?>">
-        <label for="artworkUrl" class="col-lg-2 control-label">
-            <a class="btn btn-large btn-success" id="searchiTunes"><?=$this->getTrans('artworkUrlget') ?> (iTunes)</a>
+    <div class="row mb-3<?=$this->validation()->hasError('artworkUrl') ? ' has-error' : '' ?>">
+        <label for="artworkUrl" class="col-xl-2 col-form-labelcol-form-label">
+            <a class="btn btn-success" id="searchiTunes"><?=$this->getTrans('artworkUrlget') ?> (iTunes)</a>
         </label>
-        <img src="<?=$this->escape($this->originalInput('artworkUrl', ($entry->getArtworkUrl()))) ?>" name="artworkUrlimg" id="artworkUrlimg" class="img-thumbnail" alt="iTunes">
+        <div class="col-xl-4">
+            <img src="<?=$this->escape($this->originalInput('artworkUrl', ($entry->getArtworkUrl()))) ?>" name="artworkUrlimg" id="artworkUrlimg" class="img-thumbnail" alt="iTunes">
+        </div>
     </div>
     <?php } ?>
     <?=($entry->getId()) ? $this->getSaveBar('updateButton') : $this->getSaveBar('addButton') ?>
